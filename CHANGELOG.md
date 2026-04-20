@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0 (2026-04-20)
+
+Full Changelog: [v0.0.2...v0.1.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.0.2...v0.1.0)
+
+### Features
+
+* rename cli command ([8b05561](https://github.com/boltz-bio/boltz-compute-api-go/commit/8b055612f34bb1f4c06c4ba6b3bbf6a38b0b826b))
+
 ## 0.0.2 (2026-04-20)
 
 Full Changelog: [v0.0.1...v0.0.2](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.0.1...v0.0.2)
