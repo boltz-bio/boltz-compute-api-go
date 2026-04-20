@@ -1,0 +1,4441 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+package boltzcomputeapi
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"net/url"
+	"slices"
+	"time"
+
+	"github.com/stainless-sdks/boltz-compute-api-go/internal/apijson"
+	"github.com/stainless-sdks/boltz-compute-api-go/internal/apiquery"
+	"github.com/stainless-sdks/boltz-compute-api-go/internal/requestconfig"
+	"github.com/stainless-sdks/boltz-compute-api-go/option"
+	"github.com/stainless-sdks/boltz-compute-api-go/packages/pagination"
+	"github.com/stainless-sdks/boltz-compute-api-go/packages/param"
+	"github.com/stainless-sdks/boltz-compute-api-go/packages/respjson"
+	"github.com/stainless-sdks/boltz-compute-api-go/shared/constant"
+)
+
+// Screen an existing library of small molecules against a protein target. Results
+// are scored by binding confidence (likelihood of binding, for hit discovery),
+// optimization score (binding strength ranking, for lead optimization), and
+// structure confidence.
+//
+// SmallMoleculeLibraryScreenService contains methods and other services that help
+// with interacting with the boltz-compute API.
+//
+// Note, unlike clients, this service does not read variables from the environment
+// automatically. You should not instantiate this service directly, and instead use
+// the [NewSmallMoleculeLibraryScreenService] method instead.
+type SmallMoleculeLibraryScreenService struct {
+	options []option.RequestOption
+}
+
+// NewSmallMoleculeLibraryScreenService generates a new service that applies the
+// given options to each request. These options are applied after the parent
+// client's options (if there is one), and before any request-specific options.
+func NewSmallMoleculeLibraryScreenService(opts ...option.RequestOption) (r SmallMoleculeLibraryScreenService) {
+	r = SmallMoleculeLibraryScreenService{}
+	r.options = opts
+	return
+}
+
+// Retrieve a library screen by ID, including progress and status
+func (r *SmallMoleculeLibraryScreenService) Get(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenGetParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenGetResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s", url.PathEscape(screenID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
+	return res, err
+}
+
+// List small molecule library screens, optionally filtered by workspace
+func (r *SmallMoleculeLibraryScreenService) List(ctx context.Context, query SmallMoleculeLibraryScreenListParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResponse], err error) {
+	var raw *http.Response
+	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	path := "compute/v1/small-molecule/library-screen"
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// List small molecule library screens, optionally filtered by workspace
+func (r *SmallMoleculeLibraryScreenService) ListAutoPaging(ctx context.Context, query SmallMoleculeLibraryScreenListParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeLibraryScreenListResponse] {
+	return pagination.NewCursorPageAutoPager(r.List(ctx, query, opts...))
+}
+
+// Permanently delete the input, output, and result data associated with this
+// library screen. The library screen record itself is retained with a
+// `data_deleted_at` timestamp. This action is irreversible.
+func (r *SmallMoleculeLibraryScreenService) DeleteData(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenDeleteDataResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/delete-data", url.PathEscape(screenID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// Estimate the cost of a small molecule library screen without creating any
+// resource or consuming GPU.
+func (r *SmallMoleculeLibraryScreenService) EstimateCost(ctx context.Context, body SmallMoleculeLibraryScreenEstimateCostParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenEstimateCostResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	path := "compute/v1/small-molecule/library-screen/estimate-cost"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
+// Retrieve paginated results from a library screen
+func (r *SmallMoleculeLibraryScreenService) ListResults(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResultsResponse], err error) {
+	var raw *http.Response
+	opts = slices.Concat(r.options, opts)
+	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/results", url.PathEscape(screenID))
+	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
+	if err != nil {
+		return nil, err
+	}
+	err = cfg.Execute()
+	if err != nil {
+		return nil, err
+	}
+	res.SetPageConfig(cfg, raw)
+	return res, nil
+}
+
+// Retrieve paginated results from a library screen
+func (r *SmallMoleculeLibraryScreenService) ListResultsAutoPaging(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeLibraryScreenListResultsResponse] {
+	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, screenID, query, opts...))
+}
+
+// Screen a set of small molecule candidates against a protein target
+func (r *SmallMoleculeLibraryScreenService) Start(ctx context.Context, body SmallMoleculeLibraryScreenStartParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStartResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	path := "compute/v1/small-molecule/library-screen"
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
+	return res, err
+}
+
+// Stop an in-progress library screen early
+func (r *SmallMoleculeLibraryScreenService) Stop(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStopResponse, err error) {
+	opts = slices.Concat(r.options, opts)
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/stop", url.PathEscape(screenID))
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// A small molecule library screening engine run
+type SmallMoleculeLibraryScreenGetResponse struct {
+	// Unique SmScreen identifier
+	ID          string    `json:"id" api:"required"`
+	CompletedAt time.Time `json:"completed_at" api:"required" format:"date-time"`
+	CreatedAt   time.Time `json:"created_at" api:"required" format:"date-time"`
+	// When the input, output, and result data was permanently deleted. Null if data
+	// has not been deleted.
+	DataDeletedAt time.Time `json:"data_deleted_at" api:"required" format:"date-time"`
+	// Engine used for small molecule library screen
+	Engine constant.BoltzSmScreen `json:"engine" default:"boltz-sm-screen"`
+	// Engine version used for small molecule library screen
+	EngineVersion string                                     `json:"engine_version" api:"required"`
+	Error         SmallMoleculeLibraryScreenGetResponseError `json:"error" api:"required"`
+	// Pipeline input (null if data deleted)
+	Input SmallMoleculeLibraryScreenGetResponseInput `json:"input" api:"required"`
+	// Whether this resource was created with a live API key.
+	Livemode  bool                                          `json:"livemode" api:"required"`
+	Progress  SmallMoleculeLibraryScreenGetResponseProgress `json:"progress" api:"required"`
+	StartedAt time.Time                                     `json:"started_at" api:"required" format:"date-time"`
+	// Any of "pending", "running", "succeeded", "failed", "stopped".
+	Status    SmallMoleculeLibraryScreenGetResponseStatus `json:"status" api:"required"`
+	StoppedAt time.Time                                   `json:"stopped_at" api:"required" format:"date-time"`
+	// Workspace ID
+	WorkspaceID string `json:"workspace_id" api:"required"`
+	// Client-provided idempotency key
+	IdempotencyKey string `json:"idempotency_key"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID             respjson.Field
+		CompletedAt    respjson.Field
+		CreatedAt      respjson.Field
+		DataDeletedAt  respjson.Field
+		Engine         respjson.Field
+		EngineVersion  respjson.Field
+		Error          respjson.Field
+		Input          respjson.Field
+		Livemode       respjson.Field
+		Progress       respjson.Field
+		StartedAt      respjson.Field
+		Status         respjson.Field
+		StoppedAt      respjson.Field
+		WorkspaceID    respjson.Field
+		IdempotencyKey respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseError struct {
+	// Machine-readable error code
+	Code string `json:"code" api:"required"`
+	// Human-readable error message
+	Message string `json:"message" api:"required"`
+	// Additional error details
+	Details any `json:"details"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Code        respjson.Field
+		Message     respjson.Field
+		Details     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseError) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseError) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Pipeline input (null if data deleted)
+type SmallMoleculeLibraryScreenGetResponseInput struct {
+	Molecules SmallMoleculeLibraryScreenGetResponseInputMolecules `json:"molecules" api:"required"`
+	// Target protein with binding pocket for small molecule design or screening
+	Target SmallMoleculeLibraryScreenGetResponseInputTarget `json:"target" api:"required"`
+	// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+	// and custom filters.
+	MoleculeFilters SmallMoleculeLibraryScreenGetResponseInputMoleculeFilters `json:"molecule_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Molecules       respjson.Field
+		Target          respjson.Field
+		MoleculeFilters respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInput) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseInput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseInputMolecules struct {
+	// URL to download the file
+	URL string `json:"url" api:"required" format:"uri"`
+	// When the presigned URL expires
+	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL          respjson.Field
+		URLExpiresAt respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMolecules) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseInputMolecules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Target protein with binding pocket for small molecule design or screening
+type SmallMoleculeLibraryScreenGetResponseInputTarget struct {
+	// Protein entities defining the target structure. Each entity represents a protein
+	// chain.
+	Entities []SmallMoleculeLibraryScreenGetResponseInputTargetEntity `json:"entities" api:"required"`
+	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
+	// and the value is an array of 0-indexed residue indices that define the binding
+	// pocket on that chain. When provided, these residues guide pocket extraction.
+	// When omitted, the model auto-detects the pocket.
+	PocketResidues map[string][]int64 `json:"pocket_residues"`
+	// Reference ligands as SMILES strings that help the model identify the binding
+	// pocket. When omitted, a set of drug-like default ligands is used for pocket
+	// detection.
+	ReferenceLigands []string `json:"reference_ligands"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Entities         respjson.Field
+		PocketResidues   respjson.Field
+		ReferenceLigands respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputTarget) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseInputTarget) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseInputTargetEntity struct {
+	// Chain IDs for this entity
+	ChainIDs []string `json:"chain_ids" api:"required"`
+	// Post-translational modifications
+	Modifications []SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
+	Type          constant.Protein                                                          `json:"type" default:"protein"`
+	// Amino acid sequence (one-letter codes)
+	Value string `json:"value" api:"required"`
+	// Whether the sequence is cyclic
+	Cyclic bool `json:"cyclic"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainIDs      respjson.Field
+		Modifications respjson.Field
+		Type          respjson.Field
+		Value         respjson.Field
+		Cyclic        respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputTargetEntity) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseInputTargetEntity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion contains
+// all possible properties and values from
+// [SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse],
+// [SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion struct {
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	Value        string `json:"value"`
+	JSON         struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse() (v SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse() (v SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64        `json:"residue_index" api:"required"`
+	Type         constant.Ccd `json:"type" default:"ccd"`
+	// CCD code from RCSB PDB (e.g. 'MSE' for selenomethionine, 'SEP' for
+	// phosphoserine)
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationCcdModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64           `json:"residue_index" api:"required"`
+	Type         constant.Smiles `json:"type" default:"smiles"`
+	// SMILES string for the modification
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+// and custom filters.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFilters struct {
+	// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+	// which removes molecules matching known problematic substructures. 'recommended'
+	// (default): applies a curated set of alerts balancing safety and hit rate.
+	// 'extra': adds additional alerts beyond the recommended set for stricter
+	// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+	// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+	// custom_filters will be applied.
+	//
+	// Any of "recommended", "extra", "aggressive", "disabled".
+	BoltzSmartsCatalogFilterLevel SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel `json:"boltz_smarts_catalog_filter_level"`
+	// Custom filters to apply. Molecules must pass all filters (AND logic).
+	CustomFilters []SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion `json:"custom_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BoltzSmartsCatalogFilterLevel respjson.Field
+		CustomFilters                 respjson.Field
+		ExtraFields                   map[string]respjson.Field
+		raw                           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFilters) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFilters) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+// which removes molecules matching known problematic substructures. 'recommended'
+// (default): applies a curated set of alerts balancing safety and hit rate.
+// 'extra': adds additional alerts beyond the recommended set for stricter
+// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+// custom_filters will be applied.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel string
+
+const (
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "recommended"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelExtra       SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "extra"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelAggressive  SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "aggressive"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelDisabled    SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "disabled"
+)
+
+// SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion
+// contains all possible properties and values from
+// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse],
+// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse],
+// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse],
+// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse],
+// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion struct {
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHba float64 `json:"max_hba"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHbd float64 `json:"max_hbd"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxLogp float64 `json:"max_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxMw float64 `json:"max_mw"`
+	Type  string  `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	FractionCsp3 SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolLogp SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolWt SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumAromaticRings SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHAcceptors SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHDonors SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHeteroatoms SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRings SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRotatableBonds SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	Tpsa     SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	Patterns []string                                                                                               `json:"patterns"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse].
+	Catalog SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog"`
+	JSON    struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		FractionCsp3         respjson.Field
+		MolLogp              respjson.Field
+		MolWt                respjson.Field
+		NumAromaticRings     respjson.Field
+		NumHAcceptors        respjson.Field
+		NumHDonors           respjson.Field
+		NumHeteroatoms       respjson.Field
+		NumRings             respjson.Field
+		NumRotatableBonds    respjson.Field
+		Tpsa                 respjson.Field
+		Patterns             respjson.Field
+		Catalog              respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse() (v SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse() (v SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse() (v SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse() (v SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse() (v SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Lipinski's Rule of Five filter. Rejects molecules that violate drug-likeness
+// criteria based on molecular weight, LogP, hydrogen bond donors, and hydrogen
+// bond acceptors.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse struct {
+	// Maximum number of hydrogen bond acceptors. Lipinski threshold: 10
+	MaxHba float64 `json:"max_hba" api:"required"`
+	// Maximum number of hydrogen bond donors. Lipinski threshold: 5
+	MaxHbd float64 `json:"max_hbd" api:"required"`
+	// Maximum LogP. Lipinski threshold: 5
+	MaxLogp float64 `json:"max_logp" api:"required"`
+	// Maximum molecular weight (Da). Lipinski threshold: 500
+	MaxMw float64                 `json:"max_mw" api:"required"`
+	Type  constant.LipinskiFilter `json:"type" default:"lipinski_filter"`
+	// If true, one rule violation is allowed (classic Rule of Five). Defaults to false
+	// (all rules must pass).
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by RDKit molecular descriptors. Each descriptor is constrained
+// to a min/max range. Only descriptors you provide are checked — omitted
+// descriptors are unconstrained.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse struct {
+	Type constant.RdkitDescriptorFilter `json:"type" default:"rdkit_descriptor_filter"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	FractionCsp3 SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolLogp SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolWt SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumAromaticRings SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHAcceptors SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHDonors SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHeteroatoms SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRings SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRotatableBonds SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	Tpsa SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type              respjson.Field
+		FractionCsp3      respjson.Field
+		MolLogp           respjson.Field
+		MolWt             respjson.Field
+		NumAromaticRings  respjson.Field
+		NumHAcceptors     respjson.Field
+		NumHDonors        respjson.Field
+		NumHeteroatoms    respjson.Field
+		NumRings          respjson.Field
+		NumRotatableBonds respjson.Field
+		Tpsa              respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by custom SMARTS patterns. Molecules matching any pattern are
+// rejected.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse struct {
+	// SMARTS patterns. Molecules matching any pattern are rejected.
+	Patterns []string                    `json:"patterns" api:"required"`
+	Type     constant.SmartsCustomFilter `json:"type" default:"smarts_custom_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules using a predefined SMARTS catalog of structural alerts.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse struct {
+	// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+	// reject known problematic substructures.
+	//
+	// Any of "PAINS", "PAINS_A", "PAINS_B", "PAINS_C", "BRENK", "CHEMBL",
+	// "CHEMBL_BMS", "CHEMBL_Dundee", "CHEMBL_Glaxo", "CHEMBL_Inpharmatica",
+	// "CHEMBL_LINT", "CHEMBL_MLSMR", "CHEMBL_SureChEMBL", "NIH".
+	Catalog SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog" api:"required"`
+	Type    constant.SmartsCatalogFilter                                                                            `json:"type" default:"smarts_catalog_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Catalog     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog string
+
+const (
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPains              SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsA             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsB             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsC             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogBrenk              SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "BRENK"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChembl             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblBms          SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblDundee       SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblGlaxo        SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblInpharmatica SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblLint         SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblMlsmr        SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogNih                SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "NIH"
+)
+
+// Filter molecules by regex patterns on their SMILES representation.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse struct {
+	// Regex patterns applied to SMILES strings. Molecules matching any pattern are
+	// rejected.
+	Patterns []string                   `json:"patterns" api:"required"`
+	Type     constant.SmilesRegexFilter `json:"type" default:"smiles_regex_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog string
+
+const (
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogPains              SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogPainsA             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogPainsB             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogPainsC             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogBrenk              SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "BRENK"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChembl             SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblBms          SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblDundee       SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblGlaxo        SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblInpharmatica SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblLint         SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblMlsmr        SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalogNih                SmallMoleculeLibraryScreenGetResponseInputMoleculeFiltersCustomFilterCatalog = "NIH"
+)
+
+type SmallMoleculeLibraryScreenGetResponseProgress struct {
+	// Number of accepted molecules that reached terminal failure during screening.
+	NumMoleculesFailed int64 `json:"num_molecules_failed" api:"required"`
+	// Number of accepted molecules that produced usable screening results.
+	NumMoleculesScreened int64 `json:"num_molecules_screened" api:"required"`
+	// Total number of molecules accepted into screening after server-side validation
+	// and filtering.
+	TotalMoleculesToScreen int64 `json:"total_molecules_to_screen" api:"required"`
+	// ID of the most recently screened result
+	LatestResultID   string                                                        `json:"latest_result_id"`
+	RejectionSummary SmallMoleculeLibraryScreenGetResponseProgressRejectionSummary `json:"rejection_summary"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		NumMoleculesFailed     respjson.Field
+		NumMoleculesScreened   respjson.Field
+		TotalMoleculesToScreen respjson.Field
+		LatestResultID         respjson.Field
+		RejectionSummary       respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseProgress) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenGetResponseProgress) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseProgressRejectionSummary struct {
+	// Number of submitted molecules removed by server-side filtering rules.
+	FilteredCount int64 `json:"filtered_count" api:"required"`
+	// Number of submitted molecules rejected as invalid input.
+	InvalidCount int64 `json:"invalid_count" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FilteredCount respjson.Field
+		InvalidCount  respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenGetResponseProgressRejectionSummary) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenGetResponseProgressRejectionSummary) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenGetResponseStatus string
+
+const (
+	SmallMoleculeLibraryScreenGetResponseStatusPending   SmallMoleculeLibraryScreenGetResponseStatus = "pending"
+	SmallMoleculeLibraryScreenGetResponseStatusRunning   SmallMoleculeLibraryScreenGetResponseStatus = "running"
+	SmallMoleculeLibraryScreenGetResponseStatusSucceeded SmallMoleculeLibraryScreenGetResponseStatus = "succeeded"
+	SmallMoleculeLibraryScreenGetResponseStatusFailed    SmallMoleculeLibraryScreenGetResponseStatus = "failed"
+	SmallMoleculeLibraryScreenGetResponseStatusStopped   SmallMoleculeLibraryScreenGetResponseStatus = "stopped"
+)
+
+// Summary of a small molecule library screening engine run (excludes input)
+type SmallMoleculeLibraryScreenListResponse struct {
+	// Unique SmScreenSummary identifier
+	ID          string    `json:"id" api:"required"`
+	CompletedAt time.Time `json:"completed_at" api:"required" format:"date-time"`
+	CreatedAt   time.Time `json:"created_at" api:"required" format:"date-time"`
+	// When the input, output, and result data was permanently deleted. Null if data
+	// has not been deleted.
+	DataDeletedAt time.Time `json:"data_deleted_at" api:"required" format:"date-time"`
+	// Engine used for small molecule library screen
+	Engine constant.BoltzSmScreen `json:"engine" default:"boltz-sm-screen"`
+	// Engine version used for small molecule library screen
+	EngineVersion string                                      `json:"engine_version" api:"required"`
+	Error         SmallMoleculeLibraryScreenListResponseError `json:"error" api:"required"`
+	// Whether this resource was created with a live API key.
+	Livemode  bool                                           `json:"livemode" api:"required"`
+	Progress  SmallMoleculeLibraryScreenListResponseProgress `json:"progress" api:"required"`
+	StartedAt time.Time                                      `json:"started_at" api:"required" format:"date-time"`
+	// Any of "pending", "running", "succeeded", "failed", "stopped".
+	Status    SmallMoleculeLibraryScreenListResponseStatus `json:"status" api:"required"`
+	StoppedAt time.Time                                    `json:"stopped_at" api:"required" format:"date-time"`
+	// Workspace ID
+	WorkspaceID string `json:"workspace_id" api:"required"`
+	// Client-provided idempotency key
+	IdempotencyKey string `json:"idempotency_key"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID             respjson.Field
+		CompletedAt    respjson.Field
+		CreatedAt      respjson.Field
+		DataDeletedAt  respjson.Field
+		Engine         respjson.Field
+		EngineVersion  respjson.Field
+		Error          respjson.Field
+		Livemode       respjson.Field
+		Progress       respjson.Field
+		StartedAt      respjson.Field
+		Status         respjson.Field
+		StoppedAt      respjson.Field
+		WorkspaceID    respjson.Field
+		IdempotencyKey respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResponseError struct {
+	// Machine-readable error code
+	Code string `json:"code" api:"required"`
+	// Human-readable error message
+	Message string `json:"message" api:"required"`
+	// Additional error details
+	Details any `json:"details"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Code        respjson.Field
+		Message     respjson.Field
+		Details     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResponseError) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResponseError) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResponseProgress struct {
+	// Number of accepted molecules that reached terminal failure during screening.
+	NumMoleculesFailed int64 `json:"num_molecules_failed" api:"required"`
+	// Number of accepted molecules that produced usable screening results.
+	NumMoleculesScreened int64 `json:"num_molecules_screened" api:"required"`
+	// Total number of molecules accepted into screening after server-side validation
+	// and filtering.
+	TotalMoleculesToScreen int64 `json:"total_molecules_to_screen" api:"required"`
+	// ID of the most recently screened result
+	LatestResultID   string                                                         `json:"latest_result_id"`
+	RejectionSummary SmallMoleculeLibraryScreenListResponseProgressRejectionSummary `json:"rejection_summary"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		NumMoleculesFailed     respjson.Field
+		NumMoleculesScreened   respjson.Field
+		TotalMoleculesToScreen respjson.Field
+		LatestResultID         respjson.Field
+		RejectionSummary       respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResponseProgress) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResponseProgress) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResponseProgressRejectionSummary struct {
+	// Number of submitted molecules removed by server-side filtering rules.
+	FilteredCount int64 `json:"filtered_count" api:"required"`
+	// Number of submitted molecules rejected as invalid input.
+	InvalidCount int64 `json:"invalid_count" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FilteredCount respjson.Field
+		InvalidCount  respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResponseProgressRejectionSummary) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenListResponseProgressRejectionSummary) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResponseStatus string
+
+const (
+	SmallMoleculeLibraryScreenListResponseStatusPending   SmallMoleculeLibraryScreenListResponseStatus = "pending"
+	SmallMoleculeLibraryScreenListResponseStatusRunning   SmallMoleculeLibraryScreenListResponseStatus = "running"
+	SmallMoleculeLibraryScreenListResponseStatusSucceeded SmallMoleculeLibraryScreenListResponseStatus = "succeeded"
+	SmallMoleculeLibraryScreenListResponseStatusFailed    SmallMoleculeLibraryScreenListResponseStatus = "failed"
+	SmallMoleculeLibraryScreenListResponseStatusStopped   SmallMoleculeLibraryScreenListResponseStatus = "stopped"
+)
+
+type SmallMoleculeLibraryScreenDeleteDataResponse struct {
+	// ID of the resource whose data was deleted
+	ID          string `json:"id" api:"required"`
+	DataDeleted bool   `json:"data_deleted" api:"required"`
+	// When the data was deleted
+	DataDeletedAt time.Time `json:"data_deleted_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID            respjson.Field
+		DataDeleted   respjson.Field
+		DataDeletedAt respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenDeleteDataResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenDeleteDataResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Estimate response with monetary values encoded as decimal strings to preserve
+// precision.
+type SmallMoleculeLibraryScreenEstimateCostResponse struct {
+	// Cost breakdown for the billed application.
+	Breakdown  SmallMoleculeLibraryScreenEstimateCostResponseBreakdown `json:"breakdown" api:"required"`
+	Disclaimer string                                                  `json:"disclaimer" api:"required"`
+	// Estimated total cost as a decimal string
+	EstimatedCostUsd string `json:"estimated_cost_usd" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Breakdown        respjson.Field
+		Disclaimer       respjson.Field
+		EstimatedCostUsd respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenEstimateCostResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenEstimateCostResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Cost breakdown for the billed application.
+type SmallMoleculeLibraryScreenEstimateCostResponseBreakdown struct {
+	// Any of "structure_and_binding", "small_molecule_design",
+	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
+	Application SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
+	// Cost per unit as a decimal string
+	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
+	NumUnits       int64  `json:"num_units" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Application    respjson.Field
+		CostPerUnitUsd respjson.Field
+		NumUnits       respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenEstimateCostResponseBreakdown) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication string
+
+const (
+	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationStructureAndBinding        SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "structure_and_binding"
+	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_design"
+	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
+	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationProteinDesign              SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "protein_design"
+	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationProteinLibraryScreen       SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "protein_library_screen"
+)
+
+// Result for a single screened small molecule
+type SmallMoleculeLibraryScreenListResultsResponse struct {
+	// Unique result ID
+	ID        string                                                 `json:"id" api:"required"`
+	Artifacts SmallMoleculeLibraryScreenListResultsResponseArtifacts `json:"artifacts" api:"required"`
+	CreatedAt time.Time                                              `json:"created_at" api:"required" format:"date-time"`
+	// Scoring metrics for a screened small molecule
+	Metrics SmallMoleculeLibraryScreenListResultsResponseMetrics `json:"metrics" api:"required"`
+	// SMILES string of the screened molecule
+	Smiles string `json:"smiles" api:"required"`
+	// Client-provided identifier for this molecule, if provided
+	ExternalID string `json:"external_id"`
+	// Warnings about potential quality issues with this result.
+	Warnings []SmallMoleculeLibraryScreenListResultsResponseWarning `json:"warnings"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID          respjson.Field
+		Artifacts   respjson.Field
+		CreatedAt   respjson.Field
+		Metrics     respjson.Field
+		Smiles      respjson.Field
+		ExternalID  respjson.Field
+		Warnings    respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResultsResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResultsResponseArtifacts struct {
+	Archive   SmallMoleculeLibraryScreenListResultsResponseArtifactsArchive   `json:"archive" api:"required"`
+	Structure SmallMoleculeLibraryScreenListResultsResponseArtifactsStructure `json:"structure" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Archive     respjson.Field
+		Structure   respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponseArtifacts) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResultsResponseArtifacts) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResultsResponseArtifactsArchive struct {
+	// URL to download the file
+	URL string `json:"url" api:"required" format:"uri"`
+	// When the presigned URL expires
+	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL          respjson.Field
+		URLExpiresAt respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponseArtifactsArchive) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenListResultsResponseArtifactsArchive) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResultsResponseArtifactsStructure struct {
+	// URL to download the file
+	URL string `json:"url" api:"required" format:"uri"`
+	// When the presigned URL expires
+	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL          respjson.Field
+		URLExpiresAt respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponseArtifactsStructure) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenListResultsResponseArtifactsStructure) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Scoring metrics for a screened small molecule
+type SmallMoleculeLibraryScreenListResultsResponseMetrics struct {
+	// Confidence that the molecule binds the target (0-1). Primary metric for hit
+	// discovery.
+	BindingConfidence float64 `json:"binding_confidence" api:"required"`
+	// Interface pLDDT for the complex (0-1 float). Confidence at the binding
+	// interface.
+	ComplexIplddt float64 `json:"complex_iplddt" api:"required"`
+	// pLDDT for the full complex (0-1 float).
+	ComplexPlddt float64 `json:"complex_plddt" api:"required"`
+	// Interface predicted TM score (0-1). Confidence in relative positioning of ligand
+	// and protein.
+	Iptm float64 `json:"iptm" api:"required"`
+	// Binding strength ranking score for lead optimization. Higher values indicate
+	// stronger predicted binding.
+	OptimizationScore float64 `json:"optimization_score" api:"required"`
+	// Predicted TM score (0-1). Global structure quality metric.
+	Ptm float64 `json:"ptm" api:"required"`
+	// Confidence in the predicted 3D structure (0-1).
+	StructureConfidence float64 `json:"structure_confidence" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BindingConfidence   respjson.Field
+		ComplexIplddt       respjson.Field
+		ComplexPlddt        respjson.Field
+		Iptm                respjson.Field
+		OptimizationScore   respjson.Field
+		Ptm                 respjson.Field
+		StructureConfidence respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponseMetrics) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResultsResponseMetrics) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// A warning about a potential quality issue with a result
+type SmallMoleculeLibraryScreenListResultsResponseWarning struct {
+	// Machine-readable warning code (e.g. "low_confidence", "unusual_geometry")
+	Code string `json:"code" api:"required"`
+	// Human-readable description of the warning
+	Message string `json:"message" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Code        respjson.Field
+		Message     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenListResultsResponseWarning) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenListResultsResponseWarning) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// A small molecule library screening engine run
+type SmallMoleculeLibraryScreenStartResponse struct {
+	// Unique SmScreen identifier
+	ID          string    `json:"id" api:"required"`
+	CompletedAt time.Time `json:"completed_at" api:"required" format:"date-time"`
+	CreatedAt   time.Time `json:"created_at" api:"required" format:"date-time"`
+	// When the input, output, and result data was permanently deleted. Null if data
+	// has not been deleted.
+	DataDeletedAt time.Time `json:"data_deleted_at" api:"required" format:"date-time"`
+	// Engine used for small molecule library screen
+	Engine constant.BoltzSmScreen `json:"engine" default:"boltz-sm-screen"`
+	// Engine version used for small molecule library screen
+	EngineVersion string                                       `json:"engine_version" api:"required"`
+	Error         SmallMoleculeLibraryScreenStartResponseError `json:"error" api:"required"`
+	// Pipeline input (null if data deleted)
+	Input SmallMoleculeLibraryScreenStartResponseInput `json:"input" api:"required"`
+	// Whether this resource was created with a live API key.
+	Livemode  bool                                            `json:"livemode" api:"required"`
+	Progress  SmallMoleculeLibraryScreenStartResponseProgress `json:"progress" api:"required"`
+	StartedAt time.Time                                       `json:"started_at" api:"required" format:"date-time"`
+	// Any of "pending", "running", "succeeded", "failed", "stopped".
+	Status    SmallMoleculeLibraryScreenStartResponseStatus `json:"status" api:"required"`
+	StoppedAt time.Time                                     `json:"stopped_at" api:"required" format:"date-time"`
+	// Workspace ID
+	WorkspaceID string `json:"workspace_id" api:"required"`
+	// Client-provided idempotency key
+	IdempotencyKey string `json:"idempotency_key"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID             respjson.Field
+		CompletedAt    respjson.Field
+		CreatedAt      respjson.Field
+		DataDeletedAt  respjson.Field
+		Engine         respjson.Field
+		EngineVersion  respjson.Field
+		Error          respjson.Field
+		Input          respjson.Field
+		Livemode       respjson.Field
+		Progress       respjson.Field
+		StartedAt      respjson.Field
+		Status         respjson.Field
+		StoppedAt      respjson.Field
+		WorkspaceID    respjson.Field
+		IdempotencyKey respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseError struct {
+	// Machine-readable error code
+	Code string `json:"code" api:"required"`
+	// Human-readable error message
+	Message string `json:"message" api:"required"`
+	// Additional error details
+	Details any `json:"details"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Code        respjson.Field
+		Message     respjson.Field
+		Details     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseError) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseError) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Pipeline input (null if data deleted)
+type SmallMoleculeLibraryScreenStartResponseInput struct {
+	Molecules SmallMoleculeLibraryScreenStartResponseInputMolecules `json:"molecules" api:"required"`
+	// Target protein with binding pocket for small molecule design or screening
+	Target SmallMoleculeLibraryScreenStartResponseInputTarget `json:"target" api:"required"`
+	// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+	// and custom filters.
+	MoleculeFilters SmallMoleculeLibraryScreenStartResponseInputMoleculeFilters `json:"molecule_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Molecules       respjson.Field
+		Target          respjson.Field
+		MoleculeFilters respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInput) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseInput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseInputMolecules struct {
+	// URL to download the file
+	URL string `json:"url" api:"required" format:"uri"`
+	// When the presigned URL expires
+	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL          respjson.Field
+		URLExpiresAt respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMolecules) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseInputMolecules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Target protein with binding pocket for small molecule design or screening
+type SmallMoleculeLibraryScreenStartResponseInputTarget struct {
+	// Protein entities defining the target structure. Each entity represents a protein
+	// chain.
+	Entities []SmallMoleculeLibraryScreenStartResponseInputTargetEntity `json:"entities" api:"required"`
+	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
+	// and the value is an array of 0-indexed residue indices that define the binding
+	// pocket on that chain. When provided, these residues guide pocket extraction.
+	// When omitted, the model auto-detects the pocket.
+	PocketResidues map[string][]int64 `json:"pocket_residues"`
+	// Reference ligands as SMILES strings that help the model identify the binding
+	// pocket. When omitted, a set of drug-like default ligands is used for pocket
+	// detection.
+	ReferenceLigands []string `json:"reference_ligands"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Entities         respjson.Field
+		PocketResidues   respjson.Field
+		ReferenceLigands respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputTarget) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseInputTarget) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseInputTargetEntity struct {
+	// Chain IDs for this entity
+	ChainIDs []string `json:"chain_ids" api:"required"`
+	// Post-translational modifications
+	Modifications []SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
+	Type          constant.Protein                                                            `json:"type" default:"protein"`
+	// Amino acid sequence (one-letter codes)
+	Value string `json:"value" api:"required"`
+	// Whether the sequence is cyclic
+	Cyclic bool `json:"cyclic"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainIDs      respjson.Field
+		Modifications respjson.Field
+		Type          respjson.Field
+		Value         respjson.Field
+		Cyclic        respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputTargetEntity) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseInputTargetEntity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion
+// contains all possible properties and values from
+// [SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse],
+// [SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion struct {
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	Value        string `json:"value"`
+	JSON         struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse() (v SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse() (v SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64        `json:"residue_index" api:"required"`
+	Type         constant.Ccd `json:"type" default:"ccd"`
+	// CCD code from RCSB PDB (e.g. 'MSE' for selenomethionine, 'SEP' for
+	// phosphoserine)
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationCcdModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64           `json:"residue_index" api:"required"`
+	Type         constant.Smiles `json:"type" default:"smiles"`
+	// SMILES string for the modification
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+// and custom filters.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFilters struct {
+	// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+	// which removes molecules matching known problematic substructures. 'recommended'
+	// (default): applies a curated set of alerts balancing safety and hit rate.
+	// 'extra': adds additional alerts beyond the recommended set for stricter
+	// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+	// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+	// custom_filters will be applied.
+	//
+	// Any of "recommended", "extra", "aggressive", "disabled".
+	BoltzSmartsCatalogFilterLevel SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel `json:"boltz_smarts_catalog_filter_level"`
+	// Custom filters to apply. Molecules must pass all filters (AND logic).
+	CustomFilters []SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion `json:"custom_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BoltzSmartsCatalogFilterLevel respjson.Field
+		CustomFilters                 respjson.Field
+		ExtraFields                   map[string]respjson.Field
+		raw                           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFilters) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFilters) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+// which removes molecules matching known problematic substructures. 'recommended'
+// (default): applies a curated set of alerts balancing safety and hit rate.
+// 'extra': adds additional alerts beyond the recommended set for stricter
+// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+// custom_filters will be applied.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel string
+
+const (
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "recommended"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelExtra       SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "extra"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelAggressive  SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "aggressive"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelDisabled    SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "disabled"
+)
+
+// SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion
+// contains all possible properties and values from
+// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse],
+// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse],
+// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse],
+// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse],
+// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion struct {
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHba float64 `json:"max_hba"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHbd float64 `json:"max_hbd"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxLogp float64 `json:"max_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxMw float64 `json:"max_mw"`
+	Type  string  `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	FractionCsp3 SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolLogp SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolWt SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumAromaticRings SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHAcceptors SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHDonors SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHeteroatoms SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRings SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRotatableBonds SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	Tpsa     SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	Patterns []string                                                                                                 `json:"patterns"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse].
+	Catalog SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog"`
+	JSON    struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		FractionCsp3         respjson.Field
+		MolLogp              respjson.Field
+		MolWt                respjson.Field
+		NumAromaticRings     respjson.Field
+		NumHAcceptors        respjson.Field
+		NumHDonors           respjson.Field
+		NumHeteroatoms       respjson.Field
+		NumRings             respjson.Field
+		NumRotatableBonds    respjson.Field
+		Tpsa                 respjson.Field
+		Patterns             respjson.Field
+		Catalog              respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse() (v SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse() (v SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse() (v SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse() (v SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse() (v SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Lipinski's Rule of Five filter. Rejects molecules that violate drug-likeness
+// criteria based on molecular weight, LogP, hydrogen bond donors, and hydrogen
+// bond acceptors.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse struct {
+	// Maximum number of hydrogen bond acceptors. Lipinski threshold: 10
+	MaxHba float64 `json:"max_hba" api:"required"`
+	// Maximum number of hydrogen bond donors. Lipinski threshold: 5
+	MaxHbd float64 `json:"max_hbd" api:"required"`
+	// Maximum LogP. Lipinski threshold: 5
+	MaxLogp float64 `json:"max_logp" api:"required"`
+	// Maximum molecular weight (Da). Lipinski threshold: 500
+	MaxMw float64                 `json:"max_mw" api:"required"`
+	Type  constant.LipinskiFilter `json:"type" default:"lipinski_filter"`
+	// If true, one rule violation is allowed (classic Rule of Five). Defaults to false
+	// (all rules must pass).
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by RDKit molecular descriptors. Each descriptor is constrained
+// to a min/max range. Only descriptors you provide are checked — omitted
+// descriptors are unconstrained.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse struct {
+	Type constant.RdkitDescriptorFilter `json:"type" default:"rdkit_descriptor_filter"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	FractionCsp3 SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolLogp SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolWt SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumAromaticRings SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHAcceptors SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHDonors SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHeteroatoms SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRings SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRotatableBonds SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	Tpsa SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type              respjson.Field
+		FractionCsp3      respjson.Field
+		MolLogp           respjson.Field
+		MolWt             respjson.Field
+		NumAromaticRings  respjson.Field
+		NumHAcceptors     respjson.Field
+		NumHDonors        respjson.Field
+		NumHeteroatoms    respjson.Field
+		NumRings          respjson.Field
+		NumRotatableBonds respjson.Field
+		Tpsa              respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by custom SMARTS patterns. Molecules matching any pattern are
+// rejected.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse struct {
+	// SMARTS patterns. Molecules matching any pattern are rejected.
+	Patterns []string                    `json:"patterns" api:"required"`
+	Type     constant.SmartsCustomFilter `json:"type" default:"smarts_custom_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules using a predefined SMARTS catalog of structural alerts.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse struct {
+	// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+	// reject known problematic substructures.
+	//
+	// Any of "PAINS", "PAINS_A", "PAINS_B", "PAINS_C", "BRENK", "CHEMBL",
+	// "CHEMBL_BMS", "CHEMBL_Dundee", "CHEMBL_Glaxo", "CHEMBL_Inpharmatica",
+	// "CHEMBL_LINT", "CHEMBL_MLSMR", "CHEMBL_SureChEMBL", "NIH".
+	Catalog SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog" api:"required"`
+	Type    constant.SmartsCatalogFilter                                                                              `json:"type" default:"smarts_catalog_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Catalog     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog string
+
+const (
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPains              SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsA             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsB             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsC             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogBrenk              SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "BRENK"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChembl             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblBms          SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblDundee       SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblGlaxo        SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblInpharmatica SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblLint         SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblMlsmr        SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogNih                SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "NIH"
+)
+
+// Filter molecules by regex patterns on their SMILES representation.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse struct {
+	// Regex patterns applied to SMILES strings. Molecules matching any pattern are
+	// rejected.
+	Patterns []string                   `json:"patterns" api:"required"`
+	Type     constant.SmilesRegexFilter `json:"type" default:"smiles_regex_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog string
+
+const (
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogPains              SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogPainsA             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogPainsB             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogPainsC             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogBrenk              SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "BRENK"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChembl             SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblBms          SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblDundee       SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblGlaxo        SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblInpharmatica SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblLint         SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblMlsmr        SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalogNih                SmallMoleculeLibraryScreenStartResponseInputMoleculeFiltersCustomFilterCatalog = "NIH"
+)
+
+type SmallMoleculeLibraryScreenStartResponseProgress struct {
+	// Number of accepted molecules that reached terminal failure during screening.
+	NumMoleculesFailed int64 `json:"num_molecules_failed" api:"required"`
+	// Number of accepted molecules that produced usable screening results.
+	NumMoleculesScreened int64 `json:"num_molecules_screened" api:"required"`
+	// Total number of molecules accepted into screening after server-side validation
+	// and filtering.
+	TotalMoleculesToScreen int64 `json:"total_molecules_to_screen" api:"required"`
+	// ID of the most recently screened result
+	LatestResultID   string                                                          `json:"latest_result_id"`
+	RejectionSummary SmallMoleculeLibraryScreenStartResponseProgressRejectionSummary `json:"rejection_summary"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		NumMoleculesFailed     respjson.Field
+		NumMoleculesScreened   respjson.Field
+		TotalMoleculesToScreen respjson.Field
+		LatestResultID         respjson.Field
+		RejectionSummary       respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseProgress) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStartResponseProgress) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseProgressRejectionSummary struct {
+	// Number of submitted molecules removed by server-side filtering rules.
+	FilteredCount int64 `json:"filtered_count" api:"required"`
+	// Number of submitted molecules rejected as invalid input.
+	InvalidCount int64 `json:"invalid_count" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FilteredCount respjson.Field
+		InvalidCount  respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStartResponseProgressRejectionSummary) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStartResponseProgressRejectionSummary) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStartResponseStatus string
+
+const (
+	SmallMoleculeLibraryScreenStartResponseStatusPending   SmallMoleculeLibraryScreenStartResponseStatus = "pending"
+	SmallMoleculeLibraryScreenStartResponseStatusRunning   SmallMoleculeLibraryScreenStartResponseStatus = "running"
+	SmallMoleculeLibraryScreenStartResponseStatusSucceeded SmallMoleculeLibraryScreenStartResponseStatus = "succeeded"
+	SmallMoleculeLibraryScreenStartResponseStatusFailed    SmallMoleculeLibraryScreenStartResponseStatus = "failed"
+	SmallMoleculeLibraryScreenStartResponseStatusStopped   SmallMoleculeLibraryScreenStartResponseStatus = "stopped"
+)
+
+// A small molecule library screening engine run
+type SmallMoleculeLibraryScreenStopResponse struct {
+	// Unique SmScreen identifier
+	ID          string    `json:"id" api:"required"`
+	CompletedAt time.Time `json:"completed_at" api:"required" format:"date-time"`
+	CreatedAt   time.Time `json:"created_at" api:"required" format:"date-time"`
+	// When the input, output, and result data was permanently deleted. Null if data
+	// has not been deleted.
+	DataDeletedAt time.Time `json:"data_deleted_at" api:"required" format:"date-time"`
+	// Engine used for small molecule library screen
+	Engine constant.BoltzSmScreen `json:"engine" default:"boltz-sm-screen"`
+	// Engine version used for small molecule library screen
+	EngineVersion string                                      `json:"engine_version" api:"required"`
+	Error         SmallMoleculeLibraryScreenStopResponseError `json:"error" api:"required"`
+	// Pipeline input (null if data deleted)
+	Input SmallMoleculeLibraryScreenStopResponseInput `json:"input" api:"required"`
+	// Whether this resource was created with a live API key.
+	Livemode  bool                                           `json:"livemode" api:"required"`
+	Progress  SmallMoleculeLibraryScreenStopResponseProgress `json:"progress" api:"required"`
+	StartedAt time.Time                                      `json:"started_at" api:"required" format:"date-time"`
+	// Any of "pending", "running", "succeeded", "failed", "stopped".
+	Status    SmallMoleculeLibraryScreenStopResponseStatus `json:"status" api:"required"`
+	StoppedAt time.Time                                    `json:"stopped_at" api:"required" format:"date-time"`
+	// Workspace ID
+	WorkspaceID string `json:"workspace_id" api:"required"`
+	// Client-provided idempotency key
+	IdempotencyKey string `json:"idempotency_key"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ID             respjson.Field
+		CompletedAt    respjson.Field
+		CreatedAt      respjson.Field
+		DataDeletedAt  respjson.Field
+		Engine         respjson.Field
+		EngineVersion  respjson.Field
+		Error          respjson.Field
+		Input          respjson.Field
+		Livemode       respjson.Field
+		Progress       respjson.Field
+		StartedAt      respjson.Field
+		Status         respjson.Field
+		StoppedAt      respjson.Field
+		WorkspaceID    respjson.Field
+		IdempotencyKey respjson.Field
+		ExtraFields    map[string]respjson.Field
+		raw            string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponse) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseError struct {
+	// Machine-readable error code
+	Code string `json:"code" api:"required"`
+	// Human-readable error message
+	Message string `json:"message" api:"required"`
+	// Additional error details
+	Details any `json:"details"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Code        respjson.Field
+		Message     respjson.Field
+		Details     respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseError) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseError) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Pipeline input (null if data deleted)
+type SmallMoleculeLibraryScreenStopResponseInput struct {
+	Molecules SmallMoleculeLibraryScreenStopResponseInputMolecules `json:"molecules" api:"required"`
+	// Target protein with binding pocket for small molecule design or screening
+	Target SmallMoleculeLibraryScreenStopResponseInputTarget `json:"target" api:"required"`
+	// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+	// and custom filters.
+	MoleculeFilters SmallMoleculeLibraryScreenStopResponseInputMoleculeFilters `json:"molecule_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Molecules       respjson.Field
+		Target          respjson.Field
+		MoleculeFilters respjson.Field
+		ExtraFields     map[string]respjson.Field
+		raw             string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInput) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseInput) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseInputMolecules struct {
+	// URL to download the file
+	URL string `json:"url" api:"required" format:"uri"`
+	// When the presigned URL expires
+	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		URL          respjson.Field
+		URLExpiresAt respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMolecules) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseInputMolecules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Target protein with binding pocket for small molecule design or screening
+type SmallMoleculeLibraryScreenStopResponseInputTarget struct {
+	// Protein entities defining the target structure. Each entity represents a protein
+	// chain.
+	Entities []SmallMoleculeLibraryScreenStopResponseInputTargetEntity `json:"entities" api:"required"`
+	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
+	// and the value is an array of 0-indexed residue indices that define the binding
+	// pocket on that chain. When provided, these residues guide pocket extraction.
+	// When omitted, the model auto-detects the pocket.
+	PocketResidues map[string][]int64 `json:"pocket_residues"`
+	// Reference ligands as SMILES strings that help the model identify the binding
+	// pocket. When omitted, a set of drug-like default ligands is used for pocket
+	// detection.
+	ReferenceLigands []string `json:"reference_ligands"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Entities         respjson.Field
+		PocketResidues   respjson.Field
+		ReferenceLigands respjson.Field
+		ExtraFields      map[string]respjson.Field
+		raw              string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputTarget) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseInputTarget) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseInputTargetEntity struct {
+	// Chain IDs for this entity
+	ChainIDs []string `json:"chain_ids" api:"required"`
+	// Post-translational modifications
+	Modifications []SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
+	Type          constant.Protein                                                           `json:"type" default:"protein"`
+	// Amino acid sequence (one-letter codes)
+	Value string `json:"value" api:"required"`
+	// Whether the sequence is cyclic
+	Cyclic bool `json:"cyclic"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainIDs      respjson.Field
+		Modifications respjson.Field
+		Type          respjson.Field
+		Value         respjson.Field
+		Cyclic        respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputTargetEntity) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseInputTargetEntity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion
+// contains all possible properties and values from
+// [SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse],
+// [SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion struct {
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	Value        string `json:"value"`
+	JSON         struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse() (v SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion) AsSmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse() (v SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64        `json:"residue_index" api:"required"`
+	Type         constant.Ccd `json:"type" default:"ccd"`
+	// CCD code from RCSB PDB (e.g. 'MSE' for selenomethionine, 'SEP' for
+	// phosphoserine)
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationCcdModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64           `json:"residue_index" api:"required"`
+	Type         constant.Smiles `json:"type" default:"smiles"`
+	// SMILES string for the modification
+	Value string `json:"value" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		Value        respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+// and custom filters.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFilters struct {
+	// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+	// which removes molecules matching known problematic substructures. 'recommended'
+	// (default): applies a curated set of alerts balancing safety and hit rate.
+	// 'extra': adds additional alerts beyond the recommended set for stricter
+	// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+	// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+	// custom_filters will be applied.
+	//
+	// Any of "recommended", "extra", "aggressive", "disabled".
+	BoltzSmartsCatalogFilterLevel SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel `json:"boltz_smarts_catalog_filter_level"`
+	// Custom filters to apply. Molecules must pass all filters (AND logic).
+	CustomFilters []SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion `json:"custom_filters"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BoltzSmartsCatalogFilterLevel respjson.Field
+		CustomFilters                 respjson.Field
+		ExtraFields                   map[string]respjson.Field
+		raw                           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFilters) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFilters) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+// which removes molecules matching known problematic substructures. 'recommended'
+// (default): applies a curated set of alerts balancing safety and hit rate.
+// 'extra': adds additional alerts beyond the recommended set for stricter
+// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+// custom_filters will be applied.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel string
+
+const (
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "recommended"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelExtra       SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "extra"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelAggressive  SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "aggressive"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevelDisabled    SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersBoltzSmartsCatalogFilterLevel = "disabled"
+)
+
+// SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion
+// contains all possible properties and values from
+// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse],
+// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse],
+// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse],
+// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse],
+// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion struct {
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHba float64 `json:"max_hba"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxHbd float64 `json:"max_hbd"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxLogp float64 `json:"max_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	MaxMw float64 `json:"max_mw"`
+	Type  string  `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse].
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	FractionCsp3 SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolLogp SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	MolWt SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumAromaticRings SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHAcceptors SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHDonors SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumHeteroatoms SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRings SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	NumRotatableBonds SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse].
+	Tpsa     SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	Patterns []string                                                                                                `json:"patterns"`
+	// This field is from variant
+	// [SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse].
+	Catalog SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog"`
+	JSON    struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		FractionCsp3         respjson.Field
+		MolLogp              respjson.Field
+		MolWt                respjson.Field
+		NumAromaticRings     respjson.Field
+		NumHAcceptors        respjson.Field
+		NumHDonors           respjson.Field
+		NumHeteroatoms       respjson.Field
+		NumRings             respjson.Field
+		NumRotatableBonds    respjson.Field
+		Tpsa                 respjson.Field
+		Patterns             respjson.Field
+		Catalog              respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse() (v SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse() (v SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse() (v SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse() (v SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) AsSmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse() (v SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Lipinski's Rule of Five filter. Rejects molecules that violate drug-likeness
+// criteria based on molecular weight, LogP, hydrogen bond donors, and hydrogen
+// bond acceptors.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse struct {
+	// Maximum number of hydrogen bond acceptors. Lipinski threshold: 10
+	MaxHba float64 `json:"max_hba" api:"required"`
+	// Maximum number of hydrogen bond donors. Lipinski threshold: 5
+	MaxHbd float64 `json:"max_hbd" api:"required"`
+	// Maximum LogP. Lipinski threshold: 5
+	MaxLogp float64 `json:"max_logp" api:"required"`
+	// Maximum molecular weight (Da). Lipinski threshold: 500
+	MaxMw float64                 `json:"max_mw" api:"required"`
+	Type  constant.LipinskiFilter `json:"type" default:"lipinski_filter"`
+	// If true, one rule violation is allowed (classic Rule of Five). Defaults to false
+	// (all rules must pass).
+	AllowSingleViolation bool `json:"allow_single_violation"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxHba               respjson.Field
+		MaxHbd               respjson.Field
+		MaxLogp              respjson.Field
+		MaxMw                respjson.Field
+		Type                 respjson.Field
+		AllowSingleViolation respjson.Field
+		ExtraFields          map[string]respjson.Field
+		raw                  string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterLipinskiFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by RDKit molecular descriptors. Each descriptor is constrained
+// to a min/max range. Only descriptors you provide are checked — omitted
+// descriptors are unconstrained.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse struct {
+	Type constant.RdkitDescriptorFilter `json:"type" default:"rdkit_descriptor_filter"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	FractionCsp3 SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 `json:"fraction_csp3"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolLogp SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp `json:"mol_logp"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolWt SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt `json:"mol_wt"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumAromaticRings SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings `json:"num_aromatic_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHAcceptors SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors `json:"num_h_acceptors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHDonors SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors `json:"num_h_donors"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHeteroatoms SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms `json:"num_heteroatoms"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRings SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings `json:"num_rings"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRotatableBonds SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds `json:"num_rotatable_bonds"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	Tpsa SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa `json:"tpsa"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Type              respjson.Field
+		FractionCsp3      respjson.Field
+		MolLogp           respjson.Field
+		MolWt             respjson.Field
+		NumAromaticRings  respjson.Field
+		NumHAcceptors     respjson.Field
+		NumHDonors        respjson.Field
+		NumHeteroatoms    respjson.Field
+		NumRings          respjson.Field
+		NumRotatableBonds respjson.Field
+		Tpsa              respjson.Field
+		ExtraFields       map[string]respjson.Field
+		raw               string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3 struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseFractionCsp3) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolLogp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseMolWt) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumAromaticRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHAcceptors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHDonors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumHeteroatoms) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseNumRotatableBonds) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa struct {
+	// Maximum allowed value (inclusive)
+	Max float64 `json:"max"`
+	// Minimum allowed value (inclusive)
+	Min float64 `json:"min"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Max         respjson.Field
+		Min         respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterRdkitDescriptorFilterResponseTpsa) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by custom SMARTS patterns. Molecules matching any pattern are
+// rejected.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse struct {
+	// SMARTS patterns. Molecules matching any pattern are rejected.
+	Patterns []string                    `json:"patterns" api:"required"`
+	Type     constant.SmartsCustomFilter `json:"type" default:"smarts_custom_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCustomFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules using a predefined SMARTS catalog of structural alerts.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse struct {
+	// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+	// reject known problematic substructures.
+	//
+	// Any of "PAINS", "PAINS_A", "PAINS_B", "PAINS_C", "BRENK", "CHEMBL",
+	// "CHEMBL_BMS", "CHEMBL_Dundee", "CHEMBL_Glaxo", "CHEMBL_Inpharmatica",
+	// "CHEMBL_LINT", "CHEMBL_MLSMR", "CHEMBL_SureChEMBL", "NIH".
+	Catalog SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog `json:"catalog" api:"required"`
+	Type    constant.SmartsCatalogFilter                                                                             `json:"type" default:"smarts_catalog_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Catalog     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog string
+
+const (
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPains              SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsA             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsB             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogPainsC             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogBrenk              SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "BRENK"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChembl             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblBms          SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblDundee       SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblGlaxo        SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblInpharmatica SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblLint         SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblMlsmr        SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalogNih                SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmartsCatalogFilterResponseCatalog = "NIH"
+)
+
+// Filter molecules by regex patterns on their SMILES representation.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse struct {
+	// Regex patterns applied to SMILES strings. Molecules matching any pattern are
+	// rejected.
+	Patterns []string                   `json:"patterns" api:"required"`
+	Type     constant.SmilesRegexFilter `json:"type" default:"smiles_regex_filter"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Patterns    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterSmilesRegexFilterResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog string
+
+const (
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogPains              SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogPainsA             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogPainsB             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogPainsC             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogBrenk              SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "BRENK"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChembl             SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblBms          SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblDundee       SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblGlaxo        SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblInpharmatica SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblLint         SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblMlsmr        SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalogNih                SmallMoleculeLibraryScreenStopResponseInputMoleculeFiltersCustomFilterCatalog = "NIH"
+)
+
+type SmallMoleculeLibraryScreenStopResponseProgress struct {
+	// Number of accepted molecules that reached terminal failure during screening.
+	NumMoleculesFailed int64 `json:"num_molecules_failed" api:"required"`
+	// Number of accepted molecules that produced usable screening results.
+	NumMoleculesScreened int64 `json:"num_molecules_screened" api:"required"`
+	// Total number of molecules accepted into screening after server-side validation
+	// and filtering.
+	TotalMoleculesToScreen int64 `json:"total_molecules_to_screen" api:"required"`
+	// ID of the most recently screened result
+	LatestResultID   string                                                         `json:"latest_result_id"`
+	RejectionSummary SmallMoleculeLibraryScreenStopResponseProgressRejectionSummary `json:"rejection_summary"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		NumMoleculesFailed     respjson.Field
+		NumMoleculesScreened   respjson.Field
+		TotalMoleculesToScreen respjson.Field
+		LatestResultID         respjson.Field
+		RejectionSummary       respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseProgress) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeLibraryScreenStopResponseProgress) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseProgressRejectionSummary struct {
+	// Number of submitted molecules removed by server-side filtering rules.
+	FilteredCount int64 `json:"filtered_count" api:"required"`
+	// Number of submitted molecules rejected as invalid input.
+	InvalidCount int64 `json:"invalid_count" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		FilteredCount respjson.Field
+		InvalidCount  respjson.Field
+		ExtraFields   map[string]respjson.Field
+		raw           string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeLibraryScreenStopResponseProgressRejectionSummary) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeLibraryScreenStopResponseProgressRejectionSummary) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenStopResponseStatus string
+
+const (
+	SmallMoleculeLibraryScreenStopResponseStatusPending   SmallMoleculeLibraryScreenStopResponseStatus = "pending"
+	SmallMoleculeLibraryScreenStopResponseStatusRunning   SmallMoleculeLibraryScreenStopResponseStatus = "running"
+	SmallMoleculeLibraryScreenStopResponseStatusSucceeded SmallMoleculeLibraryScreenStopResponseStatus = "succeeded"
+	SmallMoleculeLibraryScreenStopResponseStatusFailed    SmallMoleculeLibraryScreenStopResponseStatus = "failed"
+	SmallMoleculeLibraryScreenStopResponseStatusStopped   SmallMoleculeLibraryScreenStopResponseStatus = "stopped"
+)
+
+type SmallMoleculeLibraryScreenGetParams struct {
+	// Workspace ID. Only used with admin API keys. Ignored (or validated) for
+	// workspace-scoped keys.
+	WorkspaceID param.Opt[string] `query:"workspace_id,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [SmallMoleculeLibraryScreenGetParams]'s query parameters as
+// `url.Values`.
+func (r SmallMoleculeLibraryScreenGetParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type SmallMoleculeLibraryScreenListParams struct {
+	// Return results after this ID
+	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
+	// Return results before this ID
+	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	// Max items to return. Defaults to 100.
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Filter by workspace ID. Only used with admin API keys. If not provided, defaults
+	// to the workspace associated with the API key, or the default workspace for admin
+	// keys.
+	WorkspaceID param.Opt[string] `query:"workspace_id,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [SmallMoleculeLibraryScreenListParams]'s query parameters as
+// `url.Values`.
+func (r SmallMoleculeLibraryScreenListParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type SmallMoleculeLibraryScreenEstimateCostParams struct {
+	// List of small molecules to screen.
+	Molecules []SmallMoleculeLibraryScreenEstimateCostParamsMolecule `json:"molecules,omitzero" api:"required"`
+	// Target protein with binding pocket for small molecule design or screening
+	Target SmallMoleculeLibraryScreenEstimateCostParamsTarget `json:"target,omitzero" api:"required"`
+	// Client-provided key to prevent duplicate submissions on retries
+	IdempotencyKey param.Opt[string] `json:"idempotency_key,omitzero"`
+	// Target workspace ID (admin keys only; ignored for workspace keys)
+	WorkspaceID param.Opt[string] `json:"workspace_id,omitzero"`
+	// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+	// and custom filters.
+	MoleculeFilters SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters `json:"molecule_filters,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParams) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// A small molecule with SMILES and optional ID
+//
+// The property Smiles is required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMolecule struct {
+	// SMILES string of the molecule
+	Smiles string `json:"smiles" api:"required"`
+	// Optional identifier for this molecule
+	ID param.Opt[string] `json:"id,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMolecule) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMolecule
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMolecule) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Target protein with binding pocket for small molecule design or screening
+//
+// The property Entities is required.
+type SmallMoleculeLibraryScreenEstimateCostParamsTarget struct {
+	// Protein entities defining the target structure. Each entity represents a protein
+	// chain.
+	Entities []SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity `json:"entities,omitzero" api:"required"`
+	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
+	// and the value is an array of 0-indexed residue indices that define the binding
+	// pocket on that chain. When provided, these residues guide pocket extraction.
+	// When omitted, the model auto-detects the pocket.
+	PocketResidues map[string][]int64 `json:"pocket_residues,omitzero"`
+	// Reference ligands as SMILES strings that help the model identify the binding
+	// pocket. When omitted, a set of drug-like default ligands is used for pocket
+	// detection.
+	ReferenceLigands []string `json:"reference_ligands,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsTarget) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsTarget
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsTarget) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ChainIDs, Modifications, Type, Value are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity struct {
+	// Chain IDs for this entity
+	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
+	// Post-translational modifications
+	Modifications []SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
+	// Amino acid sequence (one-letter codes)
+	Value string `json:"value" api:"required"`
+	// Whether the sequence is cyclic
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// This field can be elided, and will marshal its zero value as "protein".
+	Type constant.Protein `json:"type" default:"protein"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion struct {
+	OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationCcdModification    *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification    `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationSmilesModification *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationSmilesModification `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationCcdModification, u.OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationSmilesModification)
+}
+func (u *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ResidueIndex, Type, Value are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// CCD code from RCSB PDB (e.g. 'MSE' for selenomethionine, 'SEP' for
+	// phosphoserine)
+	Value string `json:"value" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ccd".
+	Type constant.Ccd `json:"type" default:"ccd"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ResidueIndex, Type, Value are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationSmilesModification struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// SMILES string for the modification
+	Value string `json:"value" api:"required"`
+	// This field can be elided, and will marshal its zero value as "smiles".
+	Type constant.Smiles `json:"type" default:"smiles"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationSmilesModification) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationSmilesModification
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationSmilesModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+// and custom filters.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters struct {
+	// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+	// which removes molecules matching known problematic substructures. 'recommended'
+	// (default): applies a curated set of alerts balancing safety and hit rate.
+	// 'extra': adds additional alerts beyond the recommended set for stricter
+	// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+	// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+	// custom_filters will be applied.
+	//
+	// Any of "recommended", "extra", "aggressive", "disabled".
+	BoltzSmartsCatalogFilterLevel SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel `json:"boltz_smarts_catalog_filter_level,omitzero"`
+	// Custom filters to apply. Molecules must pass all filters (AND logic).
+	CustomFilters []SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion `json:"custom_filters,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+// which removes molecules matching known problematic substructures. 'recommended'
+// (default): applies a curated set of alerts balancing safety and hit rate.
+// 'extra': adds additional alerts beyond the recommended set for stricter
+// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+// custom_filters will be applied.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel string
+
+const (
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "recommended"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelExtra       SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "extra"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelAggressive  SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "aggressive"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelDisabled    SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "disabled"
+)
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion struct {
+	OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter        *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter        `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterRdkitDescriptorFilter *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmartsCustomFilter    *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCustomFilter    `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmartsCatalogFilter   *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilter   `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmilesRegexFilter     *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmilesRegexFilter     `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter,
+		u.OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterRdkitDescriptorFilter,
+		u.OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmartsCustomFilter,
+		u.OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmartsCatalogFilter,
+		u.OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterSmilesRegexFilter)
+}
+func (u *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Lipinski's Rule of Five filter. Rejects molecules that violate drug-likeness
+// criteria based on molecular weight, LogP, hydrogen bond donors, and hydrogen
+// bond acceptors.
+//
+// The properties MaxHba, MaxHbd, MaxLogp, MaxMw, Type are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter struct {
+	// Maximum number of hydrogen bond acceptors. Lipinski threshold: 10
+	MaxHba float64 `json:"max_hba" api:"required"`
+	// Maximum number of hydrogen bond donors. Lipinski threshold: 5
+	MaxHbd float64 `json:"max_hbd" api:"required"`
+	// Maximum LogP. Lipinski threshold: 5
+	MaxLogp float64 `json:"max_logp" api:"required"`
+	// Maximum molecular weight (Da). Lipinski threshold: 500
+	MaxMw float64 `json:"max_mw" api:"required"`
+	// If true, one rule violation is allowed (classic Rule of Five). Defaults to false
+	// (all rules must pass).
+	AllowSingleViolation param.Opt[bool] `json:"allow_single_violation,omitzero"`
+	// This field can be elided, and will marshal its zero value as "lipinski_filter".
+	Type constant.LipinskiFilter `json:"type" default:"lipinski_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by RDKit molecular descriptors. Each descriptor is constrained
+// to a min/max range. Only descriptors you provide are checked — omitted
+// descriptors are unconstrained.
+//
+// The property Type is required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter struct {
+	// Min/max range constraint for an RDKit molecular descriptor
+	FractionCsp3 SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3 `json:"fraction_csp3,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolLogp SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp `json:"mol_logp,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolWt SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt `json:"mol_wt,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumAromaticRings SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings `json:"num_aromatic_rings,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHAcceptors SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors `json:"num_h_acceptors,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHDonors SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors `json:"num_h_donors,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHeteroatoms SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms `json:"num_heteroatoms,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRings SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings `json:"num_rings,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRotatableBonds SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds `json:"num_rotatable_bonds,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	Tpsa SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa `json:"tpsa,omitzero"`
+	// This field can be elided, and will marshal its zero value as
+	// "rdkit_descriptor_filter".
+	Type constant.RdkitDescriptorFilter `json:"type" default:"rdkit_descriptor_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3 struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by custom SMARTS patterns. Molecules matching any pattern are
+// rejected.
+//
+// The properties Patterns, Type are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCustomFilter struct {
+	// SMARTS patterns. Molecules matching any pattern are rejected.
+	Patterns []string `json:"patterns,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smarts_custom_filter".
+	Type constant.SmartsCustomFilter `json:"type" default:"smarts_custom_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCustomFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCustomFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCustomFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules using a predefined SMARTS catalog of structural alerts.
+//
+// The properties Catalog, Type are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilter struct {
+	// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+	// reject known problematic substructures.
+	//
+	// Any of "PAINS", "PAINS_A", "PAINS_B", "PAINS_C", "BRENK", "CHEMBL",
+	// "CHEMBL_BMS", "CHEMBL_Dundee", "CHEMBL_Glaxo", "CHEMBL_Inpharmatica",
+	// "CHEMBL_LINT", "CHEMBL_MLSMR", "CHEMBL_SureChEMBL", "NIH".
+	Catalog SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog `json:"catalog,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smarts_catalog_filter".
+	Type constant.SmartsCatalogFilter `json:"type" default:"smarts_catalog_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog string
+
+const (
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPains              SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsA             SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsB             SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsC             SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogBrenk              SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "BRENK"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChembl             SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblBms          SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblDundee       SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblGlaxo        SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblInpharmatica SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblLint         SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblMlsmr        SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogNih                SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "NIH"
+)
+
+// Filter molecules by regex patterns on their SMILES representation.
+//
+// The properties Patterns, Type are required.
+type SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmilesRegexFilter struct {
+	// Regex patterns applied to SMILES strings. Molecules matching any pattern are
+	// rejected.
+	Patterns []string `json:"patterns,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smiles_regex_filter".
+	Type constant.SmilesRegexFilter `json:"type" default:"smiles_regex_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmilesRegexFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmilesRegexFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterSmilesRegexFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeLibraryScreenListResultsParams struct {
+	// Return results after this ID
+	AfterID param.Opt[string] `query:"after_id,omitzero" json:"-"`
+	// Return results before this ID
+	BeforeID param.Opt[string] `query:"before_id,omitzero" json:"-"`
+	// Max results to return. Defaults to 100.
+	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
+	// Workspace ID. Only used with admin API keys. Ignored (or validated) for
+	// workspace-scoped keys.
+	WorkspaceID param.Opt[string] `query:"workspace_id,omitzero" json:"-"`
+	paramObj
+}
+
+// URLQuery serializes [SmallMoleculeLibraryScreenListResultsParams]'s query
+// parameters as `url.Values`.
+func (r SmallMoleculeLibraryScreenListResultsParams) URLQuery() (v url.Values, err error) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type SmallMoleculeLibraryScreenStartParams struct {
+	// List of small molecules to screen.
+	Molecules []SmallMoleculeLibraryScreenStartParamsMolecule `json:"molecules,omitzero" api:"required"`
+	// Target protein with binding pocket for small molecule design or screening
+	Target SmallMoleculeLibraryScreenStartParamsTarget `json:"target,omitzero" api:"required"`
+	// Client-provided key to prevent duplicate submissions on retries
+	IdempotencyKey param.Opt[string] `json:"idempotency_key,omitzero"`
+	// Target workspace ID (admin keys only; ignored for workspace keys)
+	WorkspaceID param.Opt[string] `json:"workspace_id,omitzero"`
+	// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+	// and custom filters.
+	MoleculeFilters SmallMoleculeLibraryScreenStartParamsMoleculeFilters `json:"molecule_filters,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParams) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParams
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParams) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// A small molecule with SMILES and optional ID
+//
+// The property Smiles is required.
+type SmallMoleculeLibraryScreenStartParamsMolecule struct {
+	// SMILES string of the molecule
+	Smiles string `json:"smiles" api:"required"`
+	// Optional identifier for this molecule
+	ID param.Opt[string] `json:"id,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMolecule) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMolecule
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMolecule) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Target protein with binding pocket for small molecule design or screening
+//
+// The property Entities is required.
+type SmallMoleculeLibraryScreenStartParamsTarget struct {
+	// Protein entities defining the target structure. Each entity represents a protein
+	// chain.
+	Entities []SmallMoleculeLibraryScreenStartParamsTargetEntity `json:"entities,omitzero" api:"required"`
+	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
+	// and the value is an array of 0-indexed residue indices that define the binding
+	// pocket on that chain. When provided, these residues guide pocket extraction.
+	// When omitted, the model auto-detects the pocket.
+	PocketResidues map[string][]int64 `json:"pocket_residues,omitzero"`
+	// Reference ligands as SMILES strings that help the model identify the binding
+	// pocket. When omitted, a set of drug-like default ligands is used for pocket
+	// detection.
+	ReferenceLigands []string `json:"reference_ligands,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsTarget) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsTarget
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsTarget) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ChainIDs, Modifications, Type, Value are required.
+type SmallMoleculeLibraryScreenStartParamsTargetEntity struct {
+	// Chain IDs for this entity
+	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
+	// Post-translational modifications
+	Modifications []SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
+	// Amino acid sequence (one-letter codes)
+	Value string `json:"value" api:"required"`
+	// Whether the sequence is cyclic
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// This field can be elided, and will marshal its zero value as "protein".
+	Type constant.Protein `json:"type" default:"protein"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsTargetEntity) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsTargetEntity
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsTargetEntity) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion struct {
+	OfSmallMoleculeLibraryScreenStartsTargetEntityModificationCcdModification    *SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification    `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenStartsTargetEntityModificationSmilesModification *SmallMoleculeLibraryScreenStartParamsTargetEntityModificationSmilesModification `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeLibraryScreenStartsTargetEntityModificationCcdModification, u.OfSmallMoleculeLibraryScreenStartsTargetEntityModificationSmilesModification)
+}
+func (u *SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ResidueIndex, Type, Value are required.
+type SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// CCD code from RCSB PDB (e.g. 'MSE' for selenomethionine, 'SEP' for
+	// phosphoserine)
+	Value string `json:"value" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ccd".
+	Type constant.Ccd `json:"type" default:"ccd"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties ResidueIndex, Type, Value are required.
+type SmallMoleculeLibraryScreenStartParamsTargetEntityModificationSmilesModification struct {
+	// 0-based index of the residue to modify
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// SMILES string for the modification
+	Value string `json:"value" api:"required"`
+	// This field can be elided, and will marshal its zero value as "smiles".
+	Type constant.Smiles `json:"type" default:"smiles"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsTargetEntityModificationSmilesModification) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsTargetEntityModificationSmilesModification
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsTargetEntityModificationSmilesModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Molecule filtering configuration. Controls both Boltz built-in SMARTS filtering
+// and custom filters.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFilters struct {
+	// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+	// which removes molecules matching known problematic substructures. 'recommended'
+	// (default): applies a curated set of alerts balancing safety and hit rate.
+	// 'extra': adds additional alerts beyond the recommended set for stricter
+	// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+	// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+	// custom_filters will be applied.
+	//
+	// Any of "recommended", "extra", "aggressive", "disabled".
+	BoltzSmartsCatalogFilterLevel SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel `json:"boltz_smarts_catalog_filter_level,omitzero"`
+	// Custom filters to apply. Molecules must pass all filters (AND logic).
+	CustomFilters []SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion `json:"custom_filters,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFilters) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFilters
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFilters) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Controls the stringency of Boltz's built-in SMARTS structural alert filtering,
+// which removes molecules matching known problematic substructures. 'recommended'
+// (default): applies a curated set of alerts balancing safety and hit rate.
+// 'extra': adds additional alerts beyond the recommended set for stricter
+// filtering. 'aggressive': applies the most comprehensive alert set — may reject
+// viable molecules. 'disabled': turns off Boltz SMARTS filtering entirely; only
+// custom_filters will be applied.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel string
+
+const (
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "recommended"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelExtra       SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "extra"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelAggressive  SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "aggressive"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelDisabled    SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevel = "disabled"
+)
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion struct {
+	OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterLipinskiFilter        *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter        `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterRdkitDescriptorFilter *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmartsCustomFilter    *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCustomFilter    `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmartsCatalogFilter   *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilter   `json:",omitzero,inline"`
+	OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmilesRegexFilter     *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmilesRegexFilter     `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterLipinskiFilter,
+		u.OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterRdkitDescriptorFilter,
+		u.OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmartsCustomFilter,
+		u.OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmartsCatalogFilter,
+		u.OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterSmilesRegexFilter)
+}
+func (u *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Lipinski's Rule of Five filter. Rejects molecules that violate drug-likeness
+// criteria based on molecular weight, LogP, hydrogen bond donors, and hydrogen
+// bond acceptors.
+//
+// The properties MaxHba, MaxHbd, MaxLogp, MaxMw, Type are required.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter struct {
+	// Maximum number of hydrogen bond acceptors. Lipinski threshold: 10
+	MaxHba float64 `json:"max_hba" api:"required"`
+	// Maximum number of hydrogen bond donors. Lipinski threshold: 5
+	MaxHbd float64 `json:"max_hbd" api:"required"`
+	// Maximum LogP. Lipinski threshold: 5
+	MaxLogp float64 `json:"max_logp" api:"required"`
+	// Maximum molecular weight (Da). Lipinski threshold: 500
+	MaxMw float64 `json:"max_mw" api:"required"`
+	// If true, one rule violation is allowed (classic Rule of Five). Defaults to false
+	// (all rules must pass).
+	AllowSingleViolation param.Opt[bool] `json:"allow_single_violation,omitzero"`
+	// This field can be elided, and will marshal its zero value as "lipinski_filter".
+	Type constant.LipinskiFilter `json:"type" default:"lipinski_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by RDKit molecular descriptors. Each descriptor is constrained
+// to a min/max range. Only descriptors you provide are checked — omitted
+// descriptors are unconstrained.
+//
+// The property Type is required.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter struct {
+	// Min/max range constraint for an RDKit molecular descriptor
+	FractionCsp3 SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3 `json:"fraction_csp3,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolLogp SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp `json:"mol_logp,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	MolWt SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt `json:"mol_wt,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumAromaticRings SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings `json:"num_aromatic_rings,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHAcceptors SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors `json:"num_h_acceptors,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHDonors SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors `json:"num_h_donors,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumHeteroatoms SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms `json:"num_heteroatoms,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRings SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings `json:"num_rings,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	NumRotatableBonds SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds `json:"num_rotatable_bonds,omitzero"`
+	// Min/max range constraint for an RDKit molecular descriptor
+	Tpsa SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa `json:"tpsa,omitzero"`
+	// This field can be elided, and will marshal its zero value as
+	// "rdkit_descriptor_filter".
+	Type constant.RdkitDescriptorFilter `json:"type" default:"rdkit_descriptor_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3 struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterFractionCsp3) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolLogp) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterMolWt) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumAromaticRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHAcceptors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHDonors) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumHeteroatoms) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRings) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterNumRotatableBonds) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Min/max range constraint for an RDKit molecular descriptor
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa struct {
+	// Maximum allowed value (inclusive)
+	Max param.Opt[float64] `json:"max,omitzero"`
+	// Minimum allowed value (inclusive)
+	Min param.Opt[float64] `json:"min,omitzero"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterRdkitDescriptorFilterTpsa) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules by custom SMARTS patterns. Molecules matching any pattern are
+// rejected.
+//
+// The properties Patterns, Type are required.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCustomFilter struct {
+	// SMARTS patterns. Molecules matching any pattern are rejected.
+	Patterns []string `json:"patterns,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smarts_custom_filter".
+	Type constant.SmartsCustomFilter `json:"type" default:"smarts_custom_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCustomFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCustomFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCustomFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Filter molecules using a predefined SMARTS catalog of structural alerts.
+//
+// The properties Catalog, Type are required.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilter struct {
+	// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+	// reject known problematic substructures.
+	//
+	// Any of "PAINS", "PAINS_A", "PAINS_B", "PAINS_C", "BRENK", "CHEMBL",
+	// "CHEMBL_BMS", "CHEMBL_Dundee", "CHEMBL_Glaxo", "CHEMBL_Inpharmatica",
+	// "CHEMBL_LINT", "CHEMBL_MLSMR", "CHEMBL_SureChEMBL", "NIH".
+	Catalog SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog `json:"catalog,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smarts_catalog_filter".
+	Type constant.SmartsCatalogFilter `json:"type" default:"smarts_catalog_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Predefined SMARTS catalog to apply. PAINS, BRENK, ChEMBL, and NIH catalogs
+// reject known problematic substructures.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog string
+
+const (
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPains              SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsA             SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_A"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsB             SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_B"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogPainsC             SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "PAINS_C"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogBrenk              SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "BRENK"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChembl             SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblBms          SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_BMS"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblDundee       SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Dundee"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblGlaxo        SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Glaxo"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblInpharmatica SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_Inpharmatica"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblLint         SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_LINT"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblMlsmr        SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_MLSMR"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogChemblSureChEmbl   SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "CHEMBL_SureChEMBL"
+	SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalogNih                SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmartsCatalogFilterCatalog = "NIH"
+)
+
+// Filter molecules by regex patterns on their SMILES representation.
+//
+// The properties Patterns, Type are required.
+type SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmilesRegexFilter struct {
+	// Regex patterns applied to SMILES strings. Molecules matching any pattern are
+	// rejected.
+	Patterns []string `json:"patterns,omitzero" api:"required"`
+	// This field can be elided, and will marshal its zero value as
+	// "smiles_regex_filter".
+	Type constant.SmilesRegexFilter `json:"type" default:"smiles_regex_filter"`
+	paramObj
+}
+
+func (r SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmilesRegexFilter) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmilesRegexFilter
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterSmilesRegexFilter) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
