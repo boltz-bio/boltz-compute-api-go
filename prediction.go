@@ -3,7 +3,7 @@
 package boltzcomputeapi
 
 import (
-	"github.com/stainless-sdks/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-compute-api-go/option"
 )
 
 // Run prediction models on molecular inputs. Each application is available as its

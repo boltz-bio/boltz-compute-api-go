@@ -2,7 +2,7 @@
 package json
 
 import (
-	"github.com/stainless-sdks/boltz-compute-api-go/internal/encoding/json/shims"
+	"github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json/shims"
 	"reflect"
 	"time"
 )

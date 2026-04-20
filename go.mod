@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/boltz-compute-api-go
+module github.com/boltz-bio/boltz-compute-api-go
 
 go 1.22
 

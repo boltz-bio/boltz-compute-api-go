@@ -3,7 +3,7 @@
 package constant
 
 import (
-	shimjson "github.com/stainless-sdks/boltz-compute-api-go/internal/encoding/json"
+	shimjson "github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json"
 )
 
 type Constant[T any] interface {
