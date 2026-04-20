@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -31,7 +31,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewAdminWorkspaceService] method instead.
 type AdminWorkspaceService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewAdminWorkspaceService generates a new service that applies the given options
@@ -39,13 +39,13 @@ type AdminWorkspaceService struct {
 // there is one), and before any request-specific options.
 func NewAdminWorkspaceService(opts ...option.RequestOption) (r AdminWorkspaceService) {
 	r = AdminWorkspaceService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Create a workspace
 func (r *AdminWorkspaceService) New(ctx context.Context, body AdminWorkspaceNewParams, opts ...option.RequestOption) (res *AdminWorkspaceNewResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/admin/workspaces"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -53,7 +53,7 @@ func (r *AdminWorkspaceService) New(ctx context.Context, body AdminWorkspaceNewP
 
 // Get a workspace
 func (r *AdminWorkspaceService) Get(ctx context.Context, workspaceID string, opts ...option.RequestOption) (res *AdminWorkspaceGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if workspaceID == "" {
 		err = errors.New("missing required workspace_id parameter")
 		return nil, err
@@ -65,7 +65,7 @@ func (r *AdminWorkspaceService) Get(ctx context.Context, workspaceID string, opt
 
 // Update a workspace
 func (r *AdminWorkspaceService) Update(ctx context.Context, workspaceID string, body AdminWorkspaceUpdateParams, opts ...option.RequestOption) (res *AdminWorkspaceUpdateResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if workspaceID == "" {
 		err = errors.New("missing required workspace_id parameter")
 		return nil, err
@@ -78,7 +78,7 @@ func (r *AdminWorkspaceService) Update(ctx context.Context, workspaceID string, 
 // List workspaces
 func (r *AdminWorkspaceService) List(ctx context.Context, query AdminWorkspaceListParams, opts ...option.RequestOption) (res *pagination.CursorPage[AdminWorkspaceListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/admin/workspaces"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -101,7 +101,7 @@ func (r *AdminWorkspaceService) ListAutoPaging(ctx context.Context, query AdminW
 // Archives a workspace and deactivates all its API keys. This action is
 // irreversible.
 func (r *AdminWorkspaceService) Archive(ctx context.Context, workspaceID string, opts ...option.RequestOption) (res *AdminWorkspaceArchiveResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if workspaceID == "" {
 		err = errors.New("missing required workspace_id parameter")
 		return nil, err

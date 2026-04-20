@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"github.com/boltz-bio/boltz-compute-api-go/option"
@@ -17,7 +17,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewAdminService] method instead.
 type AdminService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 	// Workspaces provide isolated environments for organizing predictions and engine
 	// runs across teams, projects, or customers. Each workspace has independent data
 	// retention settings and can be associated with workspace API keys.
@@ -41,7 +41,7 @@ type AdminService struct {
 // is one), and before any request-specific options.
 func NewAdminService(opts ...option.RequestOption) (r AdminService) {
 	r = AdminService{}
-	r.options = opts
+	r.Options = opts
 	r.Workspaces = NewAdminWorkspaceService(opts...)
 	r.APIKeys = NewAdminAPIKeyService(opts...)
 	r.Usage = NewAdminUsageService(opts...)

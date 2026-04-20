@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"github.com/boltz-bio/boltz-compute-api-go/option"
@@ -16,7 +16,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewProteinService] method instead.
 type ProteinService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 	// Generate novel protein binders optimized for binding to a target structure.
 	// Results are scored by binding confidence (likelihood of protein-protein
 	// interaction) and structure confidence.
@@ -32,7 +32,7 @@ type ProteinService struct {
 // is one), and before any request-specific options.
 func NewProteinService(opts ...option.RequestOption) (r ProteinService) {
 	r = ProteinService{}
-	r.options = opts
+	r.Options = opts
 	r.Design = NewProteinDesignService(opts...)
 	r.LibraryScreen = NewProteinLibraryScreenService(opts...)
 	return

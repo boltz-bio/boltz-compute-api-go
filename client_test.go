@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -25,7 +25,7 @@ func (t *closureTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 
 func TestUserAgentHeader(t *testing.T) {
 	var userAgent string
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -38,13 +38,13 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	_, _ = client.Predictions.StructureAndBinding.Start(context.Background(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, _ = client.Predictions.StructureAndBinding.Start(context.Background(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -62,7 +62,7 @@ func TestUserAgentHeader(t *testing.T) {
 
 func TestRetryAfter(t *testing.T) {
 	retryCountHeaders := make([]string, 0)
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -78,13 +78,13 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -112,7 +112,7 @@ func TestRetryAfter(t *testing.T) {
 
 func TestDeleteRetryCountHeader(t *testing.T) {
 	retryCountHeaders := make([]string, 0)
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -129,13 +129,13 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -158,7 +158,7 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 
 func TestOverwriteRetryCountHeader(t *testing.T) {
 	retryCountHeaders := make([]string, 0)
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -175,13 +175,13 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -204,7 +204,7 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 
 func TestRetryAfterMs(t *testing.T) {
 	attempts := 0
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -220,13 +220,13 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.Background(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -246,7 +246,7 @@ func TestRetryAfterMs(t *testing.T) {
 }
 
 func TestContextCancel(t *testing.T) {
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -259,13 +259,13 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := client.Predictions.StructureAndBinding.Start(cancelCtx, boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(cancelCtx, githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -282,7 +282,7 @@ func TestContextCancel(t *testing.T) {
 }
 
 func TestContextCancelDelay(t *testing.T) {
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithAPIKey("My API Key"),
 		option.WithHTTPClient(&http.Client{
 			Transport: &closureTransport{
@@ -295,13 +295,13 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	_, err := client.Predictions.StructureAndBinding.Start(cancelCtx, boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(cancelCtx, githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
@@ -326,7 +326,7 @@ func TestContextDeadline(t *testing.T) {
 	defer cancel()
 
 	go func() {
-		client := boltzcomputeapi.NewClient(
+		client := githubcomboltzbioboltzcomputeapigo.NewClient(
 			option.WithAPIKey("My API Key"),
 			option.WithHTTPClient(&http.Client{
 				Transport: &closureTransport{
@@ -337,13 +337,13 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		_, err := client.Predictions.StructureAndBinding.Start(deadlineCtx, boltzcomputeapi.PredictionStructureAndBindingStartParams{
-			Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-				Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-					OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+		_, err := client.Predictions.StructureAndBinding.Start(deadlineCtx, githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+			Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+				Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+					OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 						ChainIDs: []string{"string"},
-						Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-							OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+						Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+							OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 								ResidueIndex: 0,
 								Value:        "value",
 							},

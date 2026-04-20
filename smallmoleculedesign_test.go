@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestSmallMoleculeDesignGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.Get(
 		context.TODO(),
 		"run_id",
-		boltzcomputeapi.SmallMoleculeDesignGetParams{
-			WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignGetParams{
+			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestSmallMoleculeDesignListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.List(context.TODO(), boltzcomputeapi.SmallMoleculeDesignListParams{
-		AfterID:     boltzcomputeapi.String("after_id"),
-		BeforeID:    boltzcomputeapi.String("before_id"),
-		Limit:       boltzcomputeapi.Int(1),
-		WorkspaceID: boltzcomputeapi.String("workspace_id"),
+	_, err := client.SmallMolecule.Design.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignListParams{
+		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
+		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
+		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
+		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestSmallMoleculeDesignDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.DeleteData(context.TODO(), "run_id")
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,47 +102,47 @@ func TestSmallMoleculeDesignEstimateCostWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.EstimateCost(context.TODO(), boltzcomputeapi.SmallMoleculeDesignEstimateCostParams{
+	_, err := client.SmallMolecule.Design.EstimateCost(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParams{
 		NumMolecules: 10,
-		Target: boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsTarget{
-			Entities: []boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsTargetEntity{{
+		Target: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsTarget{
+			Entities: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsTargetEntity{{
 				ChainIDs: []string{"string"},
-				Modifications: []boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeDesignEstimateCostsTargetEntityModificationCcdModification: &boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationCcdModification{
+				Modifications: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeDesignEstimateCostsTargetEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 				Value:  "value",
-				Cyclic: boltzcomputeapi.Bool(true),
+				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
 			}},
 			PocketResidues: map[string][]int64{
 				"A": {42, 43, 44, 67, 68, 69},
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		ChemicalSpace:  boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsChemicalSpaceEnamineReal,
-		IdempotencyKey: boltzcomputeapi.String("idempotency_key"),
-		MoleculeFilters: boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeDesignEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcomputeapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		ChemicalSpace:  githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsChemicalSpaceEnamineReal,
+		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
+		MoleculeFilters: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeDesignEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: boltzcomputeapi.Bool(true),
+					AllowSingleViolation: githubcomboltzbioboltzcomputeapigo.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -159,22 +159,22 @@ func TestSmallMoleculeDesignListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.ListResults(
 		context.TODO(),
 		"run_id",
-		boltzcomputeapi.SmallMoleculeDesignListResultsParams{
-			AfterID:     boltzcomputeapi.String("after_id"),
-			BeforeID:    boltzcomputeapi.String("before_id"),
-			Limit:       boltzcomputeapi.Int(1),
-			WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignListResultsParams{
+			AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
+			BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
+			Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
+			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -191,47 +191,47 @@ func TestSmallMoleculeDesignStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.Start(context.TODO(), boltzcomputeapi.SmallMoleculeDesignStartParams{
+	_, err := client.SmallMolecule.Design.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParams{
 		NumMolecules: 10,
-		Target: boltzcomputeapi.SmallMoleculeDesignStartParamsTarget{
-			Entities: []boltzcomputeapi.SmallMoleculeDesignStartParamsTargetEntity{{
+		Target: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsTarget{
+			Entities: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsTargetEntity{{
 				ChainIDs: []string{"string"},
-				Modifications: []boltzcomputeapi.SmallMoleculeDesignStartParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeDesignStartsTargetEntityModificationCcdModification: &boltzcomputeapi.SmallMoleculeDesignStartParamsTargetEntityModificationCcdModification{
+				Modifications: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeDesignStartsTargetEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 				Value:  "value",
-				Cyclic: boltzcomputeapi.Bool(true),
+				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
 			}},
 			PocketResidues: map[string][]int64{
 				"A": {42, 43, 44, 67, 68, 69},
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		ChemicalSpace:  boltzcomputeapi.SmallMoleculeDesignStartParamsChemicalSpaceEnamineReal,
-		IdempotencyKey: boltzcomputeapi.String("idempotency_key"),
-		MoleculeFilters: boltzcomputeapi.SmallMoleculeDesignStartParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: boltzcomputeapi.SmallMoleculeDesignStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []boltzcomputeapi.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeDesignStartsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcomputeapi.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		ChemicalSpace:  githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsChemicalSpaceEnamineReal,
+		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
+		MoleculeFilters: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeDesignStartsMoleculeFiltersCustomFilterLipinskiFilter: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: boltzcomputeapi.Bool(true),
+					AllowSingleViolation: githubcomboltzbioboltzcomputeapigo.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -248,13 +248,13 @@ func TestSmallMoleculeDesignStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.Stop(context.TODO(), "run_id")
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
