@@ -1,8 +1,8 @@
 package paramutil
 
 import (
-	"github.com/stainless-sdks/boltz-compute-api-go/packages/param"
-	"github.com/stainless-sdks/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
+	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
 )
 
 func AddrIfPresent[T comparable](v param.Opt[T]) *T {
