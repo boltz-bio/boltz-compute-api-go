@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"github.com/boltz-bio/boltz-compute-api-go/option"
@@ -17,7 +17,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewSmallMoleculeService] method instead.
 type SmallMoleculeService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 	// Generate novel small molecules optimized for binding to a protein target.
 	// Results are scored by binding confidence (likelihood of binding, for hit
 	// discovery), optimization score (binding strength ranking, for lead
@@ -35,7 +35,7 @@ type SmallMoleculeService struct {
 // there is one), and before any request-specific options.
 func NewSmallMoleculeService(opts ...option.RequestOption) (r SmallMoleculeService) {
 	r = SmallMoleculeService{}
-	r.options = opts
+	r.Options = opts
 	r.Design = NewSmallMoleculeDesignService(opts...)
 	r.LibraryScreen = NewSmallMoleculeLibraryScreenService(opts...)
 	return

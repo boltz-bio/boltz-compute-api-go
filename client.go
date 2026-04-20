@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 // interacting with the boltz-compute API. You should not instantiate this client
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 	// Run prediction models on molecular inputs. Each application is available as its
 	// own endpoint with application-specific inputs and outputs.
 	Predictions PredictionService
@@ -53,7 +53,7 @@ func DefaultClientOptions() []option.RequestOption {
 func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 
-	r = Client{options: opts}
+	r = Client{Options: opts}
 
 	r.Predictions = NewPredictionService(opts...)
 	r.SmallMolecule = NewSmallMoleculeService(opts...)
@@ -95,7 +95,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 // For even greater flexibility, see [option.WithResponseInto] and
 // [option.WithResponseBodyInto].
 func (r *Client) Execute(ctx context.Context, method string, path string, params any, res any, opts ...option.RequestOption) error {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	return requestconfig.ExecuteNewRequest(ctx, method, path, params, res, opts...)
 }
 

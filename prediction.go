@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"github.com/boltz-bio/boltz-compute-api-go/option"
@@ -16,7 +16,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPredictionService] method instead.
 type PredictionService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 	// Predict 3D structure coordinates, per-residue confidence scores, and binding
 	// metrics for a molecular complex.
 	StructureAndBinding PredictionStructureAndBindingService
@@ -27,7 +27,7 @@ type PredictionService struct {
 // there is one), and before any request-specific options.
 func NewPredictionService(opts ...option.RequestOption) (r PredictionService) {
 	r = PredictionService{}
-	r.options = opts
+	r.Options = opts
 	r.StructureAndBinding = NewPredictionStructureAndBindingService(opts...)
 	return
 }

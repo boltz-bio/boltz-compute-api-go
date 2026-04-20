@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestAdminAPIKeyNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.APIKeys.New(context.TODO(), boltzcomputeapi.AdminAPIKeyNewParams{
+	_, err := client.Admin.APIKeys.New(context.TODO(), githubcomboltzbioboltzcomputeapigo.AdminAPIKeyNewParams{
 		Name:          "x",
 		AllowedIPs:    []string{"string"},
-		ExpiresInDays: boltzcomputeapi.Int(1),
-		Mode:          boltzcomputeapi.AdminAPIKeyNewParamsModeLive,
-		WorkspaceID:   boltzcomputeapi.String("workspace_id"),
+		ExpiresInDays: githubcomboltzbioboltzcomputeapigo.Int(1),
+		Mode:          githubcomboltzbioboltzcomputeapigo.AdminAPIKeyNewParamsModeLive,
+		WorkspaceID:   githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestAdminAPIKeyListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.APIKeys.List(context.TODO(), boltzcomputeapi.AdminAPIKeyListParams{
-		AfterID:     boltzcomputeapi.String("after_id"),
-		BeforeID:    boltzcomputeapi.String("before_id"),
-		Limit:       boltzcomputeapi.Int(1),
-		WorkspaceID: boltzcomputeapi.String("workspace_id"),
+	_, err := client.Admin.APIKeys.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.AdminAPIKeyListParams{
+		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
+		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
+		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
+		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestAdminAPIKeyRevoke(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.APIKeys.Revoke(context.TODO(), "api_key_id")
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

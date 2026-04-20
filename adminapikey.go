@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -36,7 +36,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewAdminAPIKeyService] method instead.
 type AdminAPIKeyService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewAdminAPIKeyService generates a new service that applies the given options to
@@ -44,13 +44,13 @@ type AdminAPIKeyService struct {
 // there is one), and before any request-specific options.
 func NewAdminAPIKeyService(opts ...option.RequestOption) (r AdminAPIKeyService) {
 	r = AdminAPIKeyService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Create a workspace API key
 func (r *AdminAPIKeyService) New(ctx context.Context, body AdminAPIKeyNewParams, opts ...option.RequestOption) (res *AdminAPIKeyNewResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/admin/api-keys"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -59,7 +59,7 @@ func (r *AdminAPIKeyService) New(ctx context.Context, body AdminAPIKeyNewParams,
 // List API keys
 func (r *AdminAPIKeyService) List(ctx context.Context, query AdminAPIKeyListParams, opts ...option.RequestOption) (res *pagination.CursorPage[AdminAPIKeyListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/admin/api-keys"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -81,7 +81,7 @@ func (r *AdminAPIKeyService) ListAutoPaging(ctx context.Context, query AdminAPIK
 
 // Revoke an API key
 func (r *AdminAPIKeyService) Revoke(ctx context.Context, apiKeyID string, opts ...option.RequestOption) (res *AdminAPIKeyRevokeResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if apiKeyID == "" {
 		err = errors.New("missing required api_key_id parameter")
 		return nil, err
