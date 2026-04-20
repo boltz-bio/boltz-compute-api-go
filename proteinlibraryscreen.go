@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -33,7 +33,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewProteinLibraryScreenService] method instead.
 type ProteinLibraryScreenService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewProteinLibraryScreenService generates a new service that applies the given
@@ -41,13 +41,13 @@ type ProteinLibraryScreenService struct {
 // options (if there is one), and before any request-specific options.
 func NewProteinLibraryScreenService(opts ...option.RequestOption) (r ProteinLibraryScreenService) {
 	r = ProteinLibraryScreenService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Retrieve a library screen by ID, including progress and status
 func (r *ProteinLibraryScreenService) Get(ctx context.Context, screenID string, query ProteinLibraryScreenGetParams, opts ...option.RequestOption) (res *ProteinLibraryScreenGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err
@@ -60,7 +60,7 @@ func (r *ProteinLibraryScreenService) Get(ctx context.Context, screenID string, 
 // List protein library screens, optionally filtered by workspace
 func (r *ProteinLibraryScreenService) List(ctx context.Context, query ProteinLibraryScreenListParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinLibraryScreenListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/protein/library-screen"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -84,7 +84,7 @@ func (r *ProteinLibraryScreenService) ListAutoPaging(ctx context.Context, query 
 // library screen. The library screen record itself is retained with a
 // `data_deleted_at` timestamp. This action is irreversible.
 func (r *ProteinLibraryScreenService) DeleteData(ctx context.Context, screenID string, opts ...option.RequestOption) (res *ProteinLibraryScreenDeleteDataResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err
@@ -97,7 +97,7 @@ func (r *ProteinLibraryScreenService) DeleteData(ctx context.Context, screenID s
 // Estimate the cost of a protein library screen without creating any resource or
 // consuming GPU.
 func (r *ProteinLibraryScreenService) EstimateCost(ctx context.Context, body ProteinLibraryScreenEstimateCostParams, opts ...option.RequestOption) (res *ProteinLibraryScreenEstimateCostResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/protein/library-screen/estimate-cost"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -106,7 +106,7 @@ func (r *ProteinLibraryScreenService) EstimateCost(ctx context.Context, body Pro
 // Retrieve paginated results from a protein library screen
 func (r *ProteinLibraryScreenService) ListResults(ctx context.Context, screenID string, query ProteinLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinLibraryScreenListResultsResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
@@ -132,7 +132,7 @@ func (r *ProteinLibraryScreenService) ListResultsAutoPaging(ctx context.Context,
 
 // Screen a set of protein candidates against a target
 func (r *ProteinLibraryScreenService) Start(ctx context.Context, body ProteinLibraryScreenStartParams, opts ...option.RequestOption) (res *ProteinLibraryScreenStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/protein/library-screen"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -140,7 +140,7 @@ func (r *ProteinLibraryScreenService) Start(ctx context.Context, body ProteinLib
 
 // Stop an in-progress protein library screen early
 func (r *ProteinLibraryScreenService) Stop(ctx context.Context, screenID string, opts ...option.RequestOption) (res *ProteinLibraryScreenStopResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err

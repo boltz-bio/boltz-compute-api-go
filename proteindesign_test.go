@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestProteinDesignGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.Design.Get(
 		context.TODO(),
 		"run_id",
-		boltzcomputeapi.ProteinDesignGetParams{
-			WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		githubcomboltzbioboltzcomputeapigo.ProteinDesignGetParams{
+			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestProteinDesignListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.Design.List(context.TODO(), boltzcomputeapi.ProteinDesignListParams{
-		AfterID:     boltzcomputeapi.String("after_id"),
-		BeforeID:    boltzcomputeapi.String("before_id"),
-		Limit:       boltzcomputeapi.Int(1),
-		WorkspaceID: boltzcomputeapi.String("workspace_id"),
+	_, err := client.Protein.Design.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinDesignListParams{
+		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
+		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
+		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
+		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestProteinDesignDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.Design.DeleteData(context.TODO(), "run_id")
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,22 +102,22 @@ func TestProteinDesignEstimateCostWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.Design.EstimateCost(context.TODO(), boltzcomputeapi.ProteinDesignEstimateCostParams{
-		BinderSpecification: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationUnion{
-			OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpec: &boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpec{
-				ChainSelection: map[string]boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion{
+	_, err := client.Protein.Design.EstimateCost(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParams{
+		BinderSpecification: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationUnion{
+			OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpec{
+				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion{
 					"B": {
-						OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec: &boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec{
-							CropResidues: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion{
+						OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec{
+							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
 							},
-							DesignMotifs: []boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion{{
-								OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif: &boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif{
-									DesignLengthRange: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotifDesignLengthRange{
+							DesignMotifs: []githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion{{
+								OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif{
+									DesignLengthRange: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotifDesignLengthRange{
 										Max: 8,
 										Min: 4,
 									},
@@ -128,26 +128,26 @@ func TestProteinDesignEstimateCostWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Modality: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecModalityPeptide,
-				Structure: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecStructureUnion{
-					OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecStructureURLSource: &boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecStructureURLSource{
+				Modality: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecModalityPeptide,
+				Structure: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecStructureUnion{
+					OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpecStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
-				Rules: boltzcomputeapi.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecRules{
+				Rules: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecRules{
 					ExcludedAminoAcids:     []string{"x"},
 					ExcludedSequenceMotifs: []string{"string"},
-					MaxHydrophobicFraction: boltzcomputeapi.Float(0),
+					MaxHydrophobicFraction: githubcomboltzbioboltzcomputeapigo.Float(0),
 				},
 			},
 		},
 		NumProteins: 10,
-		Target: boltzcomputeapi.ProteinDesignEstimateCostParamsTargetUnion{
-			OfProteinDesignEstimateCostsTargetStructureTemplateTarget: &boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetUnion{
+			OfProteinDesignEstimateCostsTargetStructureTemplateTarget: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinDesignEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinDesignEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -155,18 +155,18 @@ func TestProteinDesignEstimateCostWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinDesignEstimateCostsTargetStructureTemplateTargetStructureURLSource: &boltzcomputeapi.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinDesignEstimateCostsTargetStructureTemplateTargetStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinDesignEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: boltzcomputeapi.String("idempotency_key"),
-		WorkspaceID:    boltzcomputeapi.String("workspace_id"),
+		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
+		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -183,22 +183,22 @@ func TestProteinDesignListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.Design.ListResults(
 		context.TODO(),
 		"run_id",
-		boltzcomputeapi.ProteinDesignListResultsParams{
-			AfterID:     boltzcomputeapi.String("after_id"),
-			BeforeID:    boltzcomputeapi.String("before_id"),
-			Limit:       boltzcomputeapi.Int(1),
-			WorkspaceID: boltzcomputeapi.String("workspace_id"),
+		githubcomboltzbioboltzcomputeapigo.ProteinDesignListResultsParams{
+			AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
+			BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
+			Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
+			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -215,22 +215,22 @@ func TestProteinDesignStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.Design.Start(context.TODO(), boltzcomputeapi.ProteinDesignStartParams{
-		BinderSpecification: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationUnion{
-			OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpec: &boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpec{
-				ChainSelection: map[string]boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion{
+	_, err := client.Protein.Design.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParams{
+		BinderSpecification: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationUnion{
+			OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpec{
+				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion{
 					"B": {
-						OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec: &boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec{
-							CropResidues: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion{
+						OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec{
+							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
 							},
-							DesignMotifs: []boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion{{
-								OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif: &boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif{
-									DesignLengthRange: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotifDesignLengthRange{
+							DesignMotifs: []githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion{{
+								OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotif{
+									DesignLengthRange: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifReplacementMotifDesignLengthRange{
 										Max: 8,
 										Min: 4,
 									},
@@ -241,26 +241,26 @@ func TestProteinDesignStartWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Modality: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecModalityPeptide,
-				Structure: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecStructureUnion{
-					OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecStructureURLSource: &boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecStructureURLSource{
+				Modality: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecModalityPeptide,
+				Structure: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecStructureUnion{
+					OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpecStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
-				Rules: boltzcomputeapi.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecRules{
+				Rules: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecRules{
 					ExcludedAminoAcids:     []string{"x"},
 					ExcludedSequenceMotifs: []string{"string"},
-					MaxHydrophobicFraction: boltzcomputeapi.Float(0),
+					MaxHydrophobicFraction: githubcomboltzbioboltzcomputeapigo.Float(0),
 				},
 			},
 		},
 		NumProteins: 10,
-		Target: boltzcomputeapi.ProteinDesignStartParamsTargetUnion{
-			OfProteinDesignStartsTargetStructureTemplateTarget: &boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetUnion{
+			OfProteinDesignStartsTargetStructureTemplateTarget: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinDesignStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinDesignStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -268,18 +268,18 @@ func TestProteinDesignStartWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinDesignStartsTargetStructureTemplateTargetStructureURLSource: &boltzcomputeapi.ProteinDesignStartParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinDesignStartsTargetStructureTemplateTargetStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinDesignStartParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: boltzcomputeapi.String("idempotency_key"),
-		WorkspaceID:    boltzcomputeapi.String("workspace_id"),
+		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
+		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -296,13 +296,13 @@ func TestProteinDesignStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.Design.Stop(context.TODO(), "run_id")
 	if err != nil {
-		var apierr *boltzcomputeapi.Error
+		var apierr *githubcomboltzbioboltzcomputeapigo.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

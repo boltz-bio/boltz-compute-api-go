@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -34,7 +34,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewSmallMoleculeLibraryScreenService] method instead.
 type SmallMoleculeLibraryScreenService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewSmallMoleculeLibraryScreenService generates a new service that applies the
@@ -42,13 +42,13 @@ type SmallMoleculeLibraryScreenService struct {
 // client's options (if there is one), and before any request-specific options.
 func NewSmallMoleculeLibraryScreenService(opts ...option.RequestOption) (r SmallMoleculeLibraryScreenService) {
 	r = SmallMoleculeLibraryScreenService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Retrieve a library screen by ID, including progress and status
 func (r *SmallMoleculeLibraryScreenService) Get(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenGetParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err
@@ -61,7 +61,7 @@ func (r *SmallMoleculeLibraryScreenService) Get(ctx context.Context, screenID st
 // List small molecule library screens, optionally filtered by workspace
 func (r *SmallMoleculeLibraryScreenService) List(ctx context.Context, query SmallMoleculeLibraryScreenListParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/small-molecule/library-screen"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -85,7 +85,7 @@ func (r *SmallMoleculeLibraryScreenService) ListAutoPaging(ctx context.Context, 
 // library screen. The library screen record itself is retained with a
 // `data_deleted_at` timestamp. This action is irreversible.
 func (r *SmallMoleculeLibraryScreenService) DeleteData(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenDeleteDataResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err
@@ -98,7 +98,7 @@ func (r *SmallMoleculeLibraryScreenService) DeleteData(ctx context.Context, scre
 // Estimate the cost of a small molecule library screen without creating any
 // resource or consuming GPU.
 func (r *SmallMoleculeLibraryScreenService) EstimateCost(ctx context.Context, body SmallMoleculeLibraryScreenEstimateCostParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenEstimateCostResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/small-molecule/library-screen/estimate-cost"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -107,7 +107,7 @@ func (r *SmallMoleculeLibraryScreenService) EstimateCost(ctx context.Context, bo
 // Retrieve paginated results from a library screen
 func (r *SmallMoleculeLibraryScreenService) ListResults(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResultsResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
@@ -133,7 +133,7 @@ func (r *SmallMoleculeLibraryScreenService) ListResultsAutoPaging(ctx context.Co
 
 // Screen a set of small molecule candidates against a protein target
 func (r *SmallMoleculeLibraryScreenService) Start(ctx context.Context, body SmallMoleculeLibraryScreenStartParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/small-molecule/library-screen"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -141,7 +141,7 @@ func (r *SmallMoleculeLibraryScreenService) Start(ctx context.Context, body Smal
 
 // Stop an in-progress library screen early
 func (r *SmallMoleculeLibraryScreenService) Stop(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStopResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if screenID == "" {
 		err = errors.New("missing required screen_id parameter")
 		return nil, err

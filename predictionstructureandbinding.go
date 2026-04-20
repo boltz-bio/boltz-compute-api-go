@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -32,7 +32,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPredictionStructureAndBindingService] method instead.
 type PredictionStructureAndBindingService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewPredictionStructureAndBindingService generates a new service that applies the
@@ -40,13 +40,13 @@ type PredictionStructureAndBindingService struct {
 // client's options (if there is one), and before any request-specific options.
 func NewPredictionStructureAndBindingService(opts ...option.RequestOption) (r PredictionStructureAndBindingService) {
 	r = PredictionStructureAndBindingService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Retrieve a prediction by ID, including its status and results.
 func (r *PredictionStructureAndBindingService) Get(ctx context.Context, id string, query PredictionStructureAndBindingGetParams, opts ...option.RequestOption) (res *PredictionStructureAndBindingGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
@@ -59,7 +59,7 @@ func (r *PredictionStructureAndBindingService) Get(ctx context.Context, id strin
 // List structure and binding predictions, optionally filtered by workspace
 func (r *PredictionStructureAndBindingService) List(ctx context.Context, query PredictionStructureAndBindingListParams, opts ...option.RequestOption) (res *pagination.CursorPage[PredictionStructureAndBindingListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/predictions/structure-and-binding"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -83,7 +83,7 @@ func (r *PredictionStructureAndBindingService) ListAutoPaging(ctx context.Contex
 // prediction. The prediction record itself is retained with a `data_deleted_at`
 // timestamp. This action is irreversible.
 func (r *PredictionStructureAndBindingService) DeleteData(ctx context.Context, id string, opts ...option.RequestOption) (res *PredictionStructureAndBindingDeleteDataResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if id == "" {
 		err = errors.New("missing required id parameter")
 		return nil, err
@@ -96,7 +96,7 @@ func (r *PredictionStructureAndBindingService) DeleteData(ctx context.Context, i
 // Estimate the cost of a prediction without creating any resource or consuming
 // GPU.
 func (r *PredictionStructureAndBindingService) EstimateCost(ctx context.Context, body PredictionStructureAndBindingEstimateCostParams, opts ...option.RequestOption) (res *PredictionStructureAndBindingEstimateCostResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/predictions/structure-and-binding/estimate-cost"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -105,7 +105,7 @@ func (r *PredictionStructureAndBindingService) EstimateCost(ctx context.Context,
 // Submit a prediction job that produces 3D structure coordinates and confidence
 // scores for the input molecular complex, with optional binding metrics.
 func (r *PredictionStructureAndBindingService) Start(ctx context.Context, body PredictionStructureAndBindingStartParams, opts ...option.RequestOption) (res *PredictionStructureAndBindingStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/predictions/structure-and-binding"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err

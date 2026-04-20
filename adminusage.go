@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -29,7 +29,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewAdminUsageService] method instead.
 type AdminUsageService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewAdminUsageService generates a new service that applies the given options to
@@ -37,7 +37,7 @@ type AdminUsageService struct {
 // there is one), and before any request-specific options.
 func NewAdminUsageService(opts ...option.RequestOption) (r AdminUsageService) {
 	r = AdminUsageService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
@@ -45,7 +45,7 @@ func NewAdminUsageService(opts ...option.RequestOption) (r AdminUsageService) {
 // workspace and/or application.
 func (r *AdminUsageService) List(ctx context.Context, query AdminUsageListParams, opts ...option.RequestOption) (res *pagination.OpaqueCursorPage[AdminUsageListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/admin/usage"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

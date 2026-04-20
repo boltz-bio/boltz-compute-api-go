@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -33,7 +33,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewProteinDesignService] method instead.
 type ProteinDesignService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewProteinDesignService generates a new service that applies the given options
@@ -41,13 +41,13 @@ type ProteinDesignService struct {
 // there is one), and before any request-specific options.
 func NewProteinDesignService(opts ...option.RequestOption) (r ProteinDesignService) {
 	r = ProteinDesignService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Retrieve a design run by ID, including progress and status
 func (r *ProteinDesignService) Get(ctx context.Context, runID string, query ProteinDesignGetParams, opts ...option.RequestOption) (res *ProteinDesignGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err
@@ -60,7 +60,7 @@ func (r *ProteinDesignService) Get(ctx context.Context, runID string, query Prot
 // List protein design runs, optionally filtered by workspace
 func (r *ProteinDesignService) List(ctx context.Context, query ProteinDesignListParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinDesignListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/protein/design"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -84,7 +84,7 @@ func (r *ProteinDesignService) ListAutoPaging(ctx context.Context, query Protein
 // design run. The design run record itself is retained with a `data_deleted_at`
 // timestamp. This action is irreversible.
 func (r *ProteinDesignService) DeleteData(ctx context.Context, runID string, opts ...option.RequestOption) (res *ProteinDesignDeleteDataResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err
@@ -97,7 +97,7 @@ func (r *ProteinDesignService) DeleteData(ctx context.Context, runID string, opt
 // Estimate the cost of a protein design run without creating any resource or
 // consuming GPU.
 func (r *ProteinDesignService) EstimateCost(ctx context.Context, body ProteinDesignEstimateCostParams, opts ...option.RequestOption) (res *ProteinDesignEstimateCostResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/protein/design/estimate-cost"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -106,7 +106,7 @@ func (r *ProteinDesignService) EstimateCost(ctx context.Context, body ProteinDes
 // Retrieve paginated results from a protein design run
 func (r *ProteinDesignService) ListResults(ctx context.Context, runID string, query ProteinDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinDesignListResultsResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
@@ -132,7 +132,7 @@ func (r *ProteinDesignService) ListResultsAutoPaging(ctx context.Context, runID 
 
 // Create a new design run that generates novel protein binder candidates
 func (r *ProteinDesignService) Start(ctx context.Context, body ProteinDesignStartParams, opts ...option.RequestOption) (res *ProteinDesignStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/protein/design"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -140,7 +140,7 @@ func (r *ProteinDesignService) Start(ctx context.Context, body ProteinDesignStar
 
 // Stop an in-progress protein design run early
 func (r *ProteinDesignService) Stop(ctx context.Context, runID string, opts ...option.RequestOption) (res *ProteinDesignStopResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err

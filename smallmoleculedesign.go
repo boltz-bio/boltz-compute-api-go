@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi
+package githubcomboltzbioboltzcomputeapigo
 
 import (
 	"context"
@@ -34,7 +34,7 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewSmallMoleculeDesignService] method instead.
 type SmallMoleculeDesignService struct {
-	options []option.RequestOption
+	Options []option.RequestOption
 }
 
 // NewSmallMoleculeDesignService generates a new service that applies the given
@@ -42,13 +42,13 @@ type SmallMoleculeDesignService struct {
 // options (if there is one), and before any request-specific options.
 func NewSmallMoleculeDesignService(opts ...option.RequestOption) (r SmallMoleculeDesignService) {
 	r = SmallMoleculeDesignService{}
-	r.options = opts
+	r.Options = opts
 	return
 }
 
 // Retrieve a design run by ID, including progress and status
 func (r *SmallMoleculeDesignService) Get(ctx context.Context, runID string, query SmallMoleculeDesignGetParams, opts ...option.RequestOption) (res *SmallMoleculeDesignGetResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err
@@ -61,7 +61,7 @@ func (r *SmallMoleculeDesignService) Get(ctx context.Context, runID string, quer
 // List small molecule design runs, optionally filtered by workspace
 func (r *SmallMoleculeDesignService) List(ctx context.Context, query SmallMoleculeDesignListParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeDesignListResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "compute/v1/small-molecule/design"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -85,7 +85,7 @@ func (r *SmallMoleculeDesignService) ListAutoPaging(ctx context.Context, query S
 // design run. The design run record itself is retained with a `data_deleted_at`
 // timestamp. This action is irreversible.
 func (r *SmallMoleculeDesignService) DeleteData(ctx context.Context, runID string, opts ...option.RequestOption) (res *SmallMoleculeDesignDeleteDataResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err
@@ -98,7 +98,7 @@ func (r *SmallMoleculeDesignService) DeleteData(ctx context.Context, runID strin
 // Estimate the cost of a small molecule design run without creating any resource
 // or consuming GPU.
 func (r *SmallMoleculeDesignService) EstimateCost(ctx context.Context, body SmallMoleculeDesignEstimateCostParams, opts ...option.RequestOption) (res *SmallMoleculeDesignEstimateCostResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/small-molecule/design/estimate-cost"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -107,7 +107,7 @@ func (r *SmallMoleculeDesignService) EstimateCost(ctx context.Context, body Smal
 // Retrieve paginated results from a design run
 func (r *SmallMoleculeDesignService) ListResults(ctx context.Context, runID string, query SmallMoleculeDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeDesignListResultsResponse], err error) {
 	var raw *http.Response
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
@@ -134,7 +134,7 @@ func (r *SmallMoleculeDesignService) ListResultsAutoPaging(ctx context.Context, 
 // Create a new design run that generates novel small molecule candidates for a
 // protein target
 func (r *SmallMoleculeDesignService) Start(ctx context.Context, body SmallMoleculeDesignStartParams, opts ...option.RequestOption) (res *SmallMoleculeDesignStartResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/small-molecule/design"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return res, err
@@ -142,7 +142,7 @@ func (r *SmallMoleculeDesignService) Start(ctx context.Context, body SmallMolecu
 
 // Stop an in-progress design run early
 func (r *SmallMoleculeDesignService) Stop(ctx context.Context, runID string, opts ...option.RequestOption) (res *SmallMoleculeDesignStopResponse, err error) {
-	opts = slices.Concat(r.options, opts)
+	opts = slices.Concat(r.Options, opts)
 	if runID == "" {
 		err = errors.New("missing required run_id parameter")
 		return nil, err

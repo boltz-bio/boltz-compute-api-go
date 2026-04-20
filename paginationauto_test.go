@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -21,11 +21,11 @@ func TestAutoPagination(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	iter := client.Predictions.StructureAndBinding.ListAutoPaging(context.TODO(), boltzcomputeapi.PredictionStructureAndBindingListParams{})
+	iter := client.Predictions.StructureAndBinding.ListAutoPaging(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingListParams{})
 	// The mock server isn't going to give us real pagination
 	for i := 0; i < 3 && iter.Next(); i++ {
 		structureAndBinding := iter.Current()

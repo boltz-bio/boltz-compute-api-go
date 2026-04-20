@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcomputeapi_test
+package githubcomboltzbioboltzcomputeapigo_test
 
 import (
 	"context"
@@ -21,17 +21,17 @@ func TestUsage(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcomputeapi.NewClient(
+	client := githubcomboltzbioboltzcomputeapigo.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	response, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzcomputeapi.PredictionStructureAndBindingStartParams{
-		Input: boltzcomputeapi.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	response, err := client.Predictions.StructureAndBinding.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
+		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
+			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcomputeapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
