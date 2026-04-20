@@ -5,11 +5,11 @@ package pagination
 import (
 	"net/http"
 
-	"github.com/stainless-sdks/boltz-compute-api-go/internal/apijson"
-	"github.com/stainless-sdks/boltz-compute-api-go/internal/requestconfig"
-	"github.com/stainless-sdks/boltz-compute-api-go/option"
-	"github.com/stainless-sdks/boltz-compute-api-go/packages/param"
-	"github.com/stainless-sdks/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
+	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
 )
 
 // aliased to make [param.APIUnion] private when embedding

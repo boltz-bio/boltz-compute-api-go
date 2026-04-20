@@ -2,7 +2,7 @@ package param
 
 import (
 	"encoding/json"
-	"github.com/stainless-sdks/boltz-compute-api-go/internal/encoding/json/sentinel"
+	"github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json/sentinel"
 	"reflect"
 )
 

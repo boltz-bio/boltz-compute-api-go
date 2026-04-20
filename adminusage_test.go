@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/boltz-compute-api-go"
-	"github.com/stainless-sdks/boltz-compute-api-go/internal/testutil"
-	"github.com/stainless-sdks/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-compute-api-go"
+	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-compute-api-go/option"
 )
 
 func TestAdminUsageListWithOptionalParams(t *testing.T) {

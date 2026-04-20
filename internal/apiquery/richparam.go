@@ -1,7 +1,7 @@
 package apiquery
 
 import (
-	"github.com/stainless-sdks/boltz-compute-api-go/packages/param"
+	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
 	"reflect"
 )
 

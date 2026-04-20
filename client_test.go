@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stainless-sdks/boltz-compute-api-go"
-	"github.com/stainless-sdks/boltz-compute-api-go/internal"
-	"github.com/stainless-sdks/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-compute-api-go"
+	"github.com/boltz-bio/boltz-compute-api-go/internal"
+	"github.com/boltz-bio/boltz-compute-api-go/option"
 )
 
 type closureTransport struct {
