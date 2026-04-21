@@ -1772,7 +1772,7 @@ func (r *ProteinLibraryScreenEstimateCostResponse) UnmarshalJSON(data []byte) er
 type ProteinLibraryScreenEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
-	Application ProteinLibraryScreenEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
+	Application string `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
 	NumUnits       int64  `json:"num_units" api:"required"`
@@ -1791,16 +1791,6 @@ func (r ProteinLibraryScreenEstimateCostResponseBreakdown) RawJSON() string { re
 func (r *ProteinLibraryScreenEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-type ProteinLibraryScreenEstimateCostResponseBreakdownApplication string
-
-const (
-	ProteinLibraryScreenEstimateCostResponseBreakdownApplicationStructureAndBinding        ProteinLibraryScreenEstimateCostResponseBreakdownApplication = "structure_and_binding"
-	ProteinLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        ProteinLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_design"
-	ProteinLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen ProteinLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
-	ProteinLibraryScreenEstimateCostResponseBreakdownApplicationProteinDesign              ProteinLibraryScreenEstimateCostResponseBreakdownApplication = "protein_design"
-	ProteinLibraryScreenEstimateCostResponseBreakdownApplicationProteinLibraryScreen       ProteinLibraryScreenEstimateCostResponseBreakdownApplication = "protein_library_screen"
-)
 
 // Result for a single screened protein
 type ProteinLibraryScreenListResultsResponse struct {
