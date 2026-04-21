@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2026-04-21)
+
+Full Changelog: [v0.1.1...v0.2.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.1.1...v0.2.0)
+
+### Features
+
+* **billing:** attribute usage by product category ([687d333](https://github.com/boltz-bio/boltz-compute-api-go/commit/687d333495b081984bf70549db8b5bd06238e437))
+
 ## 0.1.1 (2026-04-21)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.1.0...v0.1.1)
