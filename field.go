@@ -1,4 +1,4 @@
-package githubcomboltzbioboltzcomputeapigo
+package boltzcompute
 
 import (
 	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
