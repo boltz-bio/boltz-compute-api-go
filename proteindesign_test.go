@@ -28,7 +28,7 @@ func TestProteinDesignGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Protein.Design.Get(
 		context.TODO(),
-		"run_id",
+		"id",
 		boltzcompute.ProteinDesignGetParams{
 			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
@@ -83,7 +83,7 @@ func TestProteinDesignDeleteData(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.Design.DeleteData(context.TODO(), "run_id")
+	_, err := client.Protein.Design.DeleteData(context.TODO(), "id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
@@ -189,7 +189,7 @@ func TestProteinDesignListResultsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Protein.Design.ListResults(
 		context.TODO(),
-		"run_id",
+		"id",
 		boltzcompute.ProteinDesignListResultsParams{
 			AfterID:     boltzcompute.String("after_id"),
 			BeforeID:    boltzcompute.String("before_id"),
@@ -300,7 +300,7 @@ func TestProteinDesignStop(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.Design.Stop(context.TODO(), "run_id")
+	_, err := client.Protein.Design.Stop(context.TODO(), "id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
