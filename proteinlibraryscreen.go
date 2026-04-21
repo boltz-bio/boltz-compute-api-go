@@ -46,13 +46,13 @@ func NewProteinLibraryScreenService(opts ...option.RequestOption) (r ProteinLibr
 }
 
 // Retrieve a library screen by ID, including progress and status
-func (r *ProteinLibraryScreenService) Get(ctx context.Context, id string, query ProteinLibraryScreenGetParams, opts ...option.RequestOption) (res *ProteinLibraryScreenGetResponse, err error) {
+func (r *ProteinLibraryScreenService) Get(ctx context.Context, screenID string, query ProteinLibraryScreenGetParams, opts ...option.RequestOption) (res *ProteinLibraryScreenGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/library-screen/%s", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/library-screen/%s", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return res, err
 }
@@ -83,13 +83,13 @@ func (r *ProteinLibraryScreenService) ListAutoPaging(ctx context.Context, query 
 // Permanently delete the input, output, and result data associated with this
 // library screen. The library screen record itself is retained with a
 // `data_deleted_at` timestamp. This action is irreversible.
-func (r *ProteinLibraryScreenService) DeleteData(ctx context.Context, id string, opts ...option.RequestOption) (res *ProteinLibraryScreenDeleteDataResponse, err error) {
+func (r *ProteinLibraryScreenService) DeleteData(ctx context.Context, screenID string, opts ...option.RequestOption) (res *ProteinLibraryScreenDeleteDataResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/delete-data", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/delete-data", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
@@ -104,15 +104,15 @@ func (r *ProteinLibraryScreenService) EstimateCost(ctx context.Context, body Pro
 }
 
 // Retrieve paginated results from a protein library screen
-func (r *ProteinLibraryScreenService) ListResults(ctx context.Context, id string, query ProteinLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinLibraryScreenListResultsResponse], err error) {
+func (r *ProteinLibraryScreenService) ListResults(ctx context.Context, screenID string, query ProteinLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinLibraryScreenListResultsResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/results", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/results", url.PathEscape(screenID))
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
 		return nil, err
@@ -126,8 +126,8 @@ func (r *ProteinLibraryScreenService) ListResults(ctx context.Context, id string
 }
 
 // Retrieve paginated results from a protein library screen
-func (r *ProteinLibraryScreenService) ListResultsAutoPaging(ctx context.Context, id string, query ProteinLibraryScreenListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[ProteinLibraryScreenListResultsResponse] {
-	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, id, query, opts...))
+func (r *ProteinLibraryScreenService) ListResultsAutoPaging(ctx context.Context, screenID string, query ProteinLibraryScreenListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[ProteinLibraryScreenListResultsResponse] {
+	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, screenID, query, opts...))
 }
 
 // Screen a set of protein candidates against a target
@@ -139,13 +139,13 @@ func (r *ProteinLibraryScreenService) Start(ctx context.Context, body ProteinLib
 }
 
 // Stop an in-progress protein library screen early
-func (r *ProteinLibraryScreenService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *ProteinLibraryScreenStopResponse, err error) {
+func (r *ProteinLibraryScreenService) Stop(ctx context.Context, screenID string, opts ...option.RequestOption) (res *ProteinLibraryScreenStopResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/stop", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/library-screen/%s/stop", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }

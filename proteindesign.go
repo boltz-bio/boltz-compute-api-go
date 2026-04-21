@@ -46,13 +46,13 @@ func NewProteinDesignService(opts ...option.RequestOption) (r ProteinDesignServi
 }
 
 // Retrieve a design run by ID, including progress and status
-func (r *ProteinDesignService) Get(ctx context.Context, id string, query ProteinDesignGetParams, opts ...option.RequestOption) (res *ProteinDesignGetResponse, err error) {
+func (r *ProteinDesignService) Get(ctx context.Context, runID string, query ProteinDesignGetParams, opts ...option.RequestOption) (res *ProteinDesignGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/design/%s", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/design/%s", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return res, err
 }
@@ -83,13 +83,13 @@ func (r *ProteinDesignService) ListAutoPaging(ctx context.Context, query Protein
 // Permanently delete the input, output, and result data associated with this
 // design run. The design run record itself is retained with a `data_deleted_at`
 // timestamp. This action is irreversible.
-func (r *ProteinDesignService) DeleteData(ctx context.Context, id string, opts ...option.RequestOption) (res *ProteinDesignDeleteDataResponse, err error) {
+func (r *ProteinDesignService) DeleteData(ctx context.Context, runID string, opts ...option.RequestOption) (res *ProteinDesignDeleteDataResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/design/%s/delete-data", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/design/%s/delete-data", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
@@ -104,15 +104,15 @@ func (r *ProteinDesignService) EstimateCost(ctx context.Context, body ProteinDes
 }
 
 // Retrieve paginated results from a protein design run
-func (r *ProteinDesignService) ListResults(ctx context.Context, id string, query ProteinDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinDesignListResultsResponse], err error) {
+func (r *ProteinDesignService) ListResults(ctx context.Context, runID string, query ProteinDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[ProteinDesignListResultsResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/design/%s/results", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/design/%s/results", url.PathEscape(runID))
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
 		return nil, err
@@ -126,8 +126,8 @@ func (r *ProteinDesignService) ListResults(ctx context.Context, id string, query
 }
 
 // Retrieve paginated results from a protein design run
-func (r *ProteinDesignService) ListResultsAutoPaging(ctx context.Context, id string, query ProteinDesignListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[ProteinDesignListResultsResponse] {
-	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, id, query, opts...))
+func (r *ProteinDesignService) ListResultsAutoPaging(ctx context.Context, runID string, query ProteinDesignListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[ProteinDesignListResultsResponse] {
+	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, runID, query, opts...))
 }
 
 // Create a new design run that generates novel protein binder candidates
@@ -139,13 +139,13 @@ func (r *ProteinDesignService) Start(ctx context.Context, body ProteinDesignStar
 }
 
 // Stop an in-progress protein design run early
-func (r *ProteinDesignService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *ProteinDesignStopResponse, err error) {
+func (r *ProteinDesignService) Stop(ctx context.Context, runID string, opts ...option.RequestOption) (res *ProteinDesignStopResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/protein/design/%s/stop", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/protein/design/%s/stop", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }

@@ -28,7 +28,7 @@ func TestProteinLibraryScreenGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Protein.LibraryScreen.Get(
 		context.TODO(),
-		"id",
+		"screen_id",
 		boltzcompute.ProteinLibraryScreenGetParams{
 			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
@@ -83,7 +83,7 @@ func TestProteinLibraryScreenDeleteData(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.DeleteData(context.TODO(), "id")
+	_, err := client.Protein.LibraryScreen.DeleteData(context.TODO(), "screen_id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
@@ -170,7 +170,7 @@ func TestProteinLibraryScreenListResultsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Protein.LibraryScreen.ListResults(
 		context.TODO(),
-		"id",
+		"screen_id",
 		boltzcompute.ProteinLibraryScreenListResultsParams{
 			AfterID:     boltzcompute.String("after_id"),
 			BeforeID:    boltzcompute.String("before_id"),
@@ -262,7 +262,7 @@ func TestProteinLibraryScreenStop(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.Stop(context.TODO(), "id")
+	_, err := client.Protein.LibraryScreen.Stop(context.TODO(), "screen_id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
