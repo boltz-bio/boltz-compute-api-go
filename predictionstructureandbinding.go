@@ -198,9 +198,11 @@ type PredictionStructureAndBindingGetResponseInput struct {
 	// determines chain assignment.
 	Entities []PredictionStructureAndBindingGetResponseInputEntityUnion `json:"entities" api:"required"`
 	Binding  PredictionStructureAndBindingGetResponseInputBindingUnion  `json:"binding"`
-	// Bond constraints between atoms
+	// Bond constraints between atoms. Atom-level ligand references currently support
+	// ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []PredictionStructureAndBindingGetResponseInputBond `json:"bonds"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints  []PredictionStructureAndBindingGetResponseInputConstraintUnion `json:"constraints"`
 	ModelOptions PredictionStructureAndBindingGetResponseInputModelOptions      `json:"model_options"`
 	// Number of structure samples to generate
@@ -803,8 +805,14 @@ func (r *PredictionStructureAndBindingGetResponseInputBindingProteinProteinBindi
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 PredictionStructureAndBindingGetResponseInputBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 PredictionStructureAndBindingGetResponseInputBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -862,8 +870,11 @@ func (r *PredictionStructureAndBindingGetResponseInputBondAtom1Union) UnmarshalJ
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -954,8 +965,11 @@ func (r *PredictionStructureAndBindingGetResponseInputBondAtom2Union) UnmarshalJ
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -1092,12 +1106,18 @@ func (r *PredictionStructureAndBindingGetResponseInputConstraintPocketConstraint
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponse struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                     `json:"max_distance_angstrom" api:"required"`
-	Token1              PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
-	Token2              PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
-	Type                constant.Contact                                                                            `json:"type" default:"contact"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                            `json:"type" default:"contact"`
 	// Whether to force the constraint
 	Force bool `json:"force"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -1187,8 +1207,11 @@ func (r *PredictionStructureAndBindingGetResponseInputConstraintContactConstrain
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -1278,8 +1301,11 @@ func (r *PredictionStructureAndBindingGetResponseInputConstraintContactConstrain
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingGetResponseInputConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -1887,9 +1913,11 @@ type PredictionStructureAndBindingStartResponseInput struct {
 	// determines chain assignment.
 	Entities []PredictionStructureAndBindingStartResponseInputEntityUnion `json:"entities" api:"required"`
 	Binding  PredictionStructureAndBindingStartResponseInputBindingUnion  `json:"binding"`
-	// Bond constraints between atoms
+	// Bond constraints between atoms. Atom-level ligand references currently support
+	// ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []PredictionStructureAndBindingStartResponseInputBond `json:"bonds"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints  []PredictionStructureAndBindingStartResponseInputConstraintUnion `json:"constraints"`
 	ModelOptions PredictionStructureAndBindingStartResponseInputModelOptions      `json:"model_options"`
 	// Number of structure samples to generate
@@ -2495,8 +2523,14 @@ func (r *PredictionStructureAndBindingStartResponseInputBindingProteinProteinBin
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 PredictionStructureAndBindingStartResponseInputBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 PredictionStructureAndBindingStartResponseInputBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -2554,8 +2588,11 @@ func (r *PredictionStructureAndBindingStartResponseInputBondAtom1Union) Unmarsha
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -2646,8 +2683,11 @@ func (r *PredictionStructureAndBindingStartResponseInputBondAtom2Union) Unmarsha
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -2784,12 +2824,18 @@ func (r *PredictionStructureAndBindingStartResponseInputConstraintPocketConstrai
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponse struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                       `json:"max_distance_angstrom" api:"required"`
-	Token1              PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
-	Token2              PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
-	Type                constant.Contact                                                                              `json:"type" default:"contact"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                              `json:"type" default:"contact"`
 	// Whether to force the constraint
 	Force bool `json:"force"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -2879,8 +2925,11 @@ func (r *PredictionStructureAndBindingStartResponseInputConstraintContactConstra
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -2970,8 +3019,11 @@ func (r *PredictionStructureAndBindingStartResponseInputConstraintContactConstra
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type PredictionStructureAndBindingStartResponseInputConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -3396,9 +3448,11 @@ type PredictionStructureAndBindingEstimateCostParamsInput struct {
 	// Number of structure samples to generate
 	NumSamples param.Opt[int64]                                                 `json:"num_samples,omitzero"`
 	Binding    PredictionStructureAndBindingEstimateCostParamsInputBindingUnion `json:"binding,omitzero"`
-	// Bond constraints between atoms
+	// Bond constraints between atoms. Atom-level ligand references currently support
+	// ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []PredictionStructureAndBindingEstimateCostParamsInputBond `json:"bonds,omitzero"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints  []PredictionStructureAndBindingEstimateCostParamsInputConstraintUnion `json:"constraints,omitzero"`
 	ModelOptions PredictionStructureAndBindingEstimateCostParamsInputModelOptions      `json:"model_options,omitzero"`
 	paramObj
@@ -3760,9 +3814,16 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputBindingProteinProte
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type PredictionStructureAndBindingEstimateCostParamsInputBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -3791,9 +3852,13 @@ func (u *PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union) Unm
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingEstimateCostParamsInputBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -3847,9 +3912,13 @@ func (u *PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union) Unm
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingEstimateCostParamsInputBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -3932,12 +4001,19 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputConstraintPocketCon
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
 type PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraint struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                    `json:"max_distance_angstrom" api:"required"`
-	Token1              PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
-	Token2              PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
 	// Whether to force the constraint
 	Force param.Opt[bool] `json:"force,omitzero"`
 	// This field can be elided, and will marshal its zero value as "contact".
@@ -3988,9 +4064,13 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputConstraintContactCo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken1LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -4042,9 +4122,13 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputConstraintContactCo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingEstimateCostParamsInputConstraintContactConstraintToken2LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -4109,9 +4193,11 @@ type PredictionStructureAndBindingStartParamsInput struct {
 	// Number of structure samples to generate
 	NumSamples param.Opt[int64]                                          `json:"num_samples,omitzero"`
 	Binding    PredictionStructureAndBindingStartParamsInputBindingUnion `json:"binding,omitzero"`
-	// Bond constraints between atoms
+	// Bond constraints between atoms. Atom-level ligand references currently support
+	// ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []PredictionStructureAndBindingStartParamsInputBond `json:"bonds,omitzero"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints  []PredictionStructureAndBindingStartParamsInputConstraintUnion `json:"constraints,omitzero"`
 	ModelOptions PredictionStructureAndBindingStartParamsInputModelOptions      `json:"model_options,omitzero"`
 	paramObj
@@ -4473,9 +4559,16 @@ func (r *PredictionStructureAndBindingStartParamsInputBindingProteinProteinBindi
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type PredictionStructureAndBindingStartParamsInputBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 PredictionStructureAndBindingStartParamsInputBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 PredictionStructureAndBindingStartParamsInputBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -4504,9 +4597,13 @@ func (u *PredictionStructureAndBindingStartParamsInputBondAtom1Union) UnmarshalJ
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingStartParamsInputBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -4560,9 +4657,13 @@ func (u *PredictionStructureAndBindingStartParamsInputBondAtom2Union) UnmarshalJ
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingStartParamsInputBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -4645,12 +4746,19 @@ func (r *PredictionStructureAndBindingStartParamsInputConstraintPocketConstraint
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
 type PredictionStructureAndBindingStartParamsInputConstraintContactConstraint struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                             `json:"max_distance_angstrom" api:"required"`
-	Token1              PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
-	Token2              PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
 	// Whether to force the constraint
 	Force param.Opt[bool] `json:"force,omitzero"`
 	// This field can be elided, and will marshal its zero value as "contact".
@@ -4701,9 +4809,13 @@ func (r *PredictionStructureAndBindingStartParamsInputConstraintContactConstrain
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken1LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -4755,9 +4867,13 @@ func (r *PredictionStructureAndBindingStartParamsInputConstraintContactConstrain
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type PredictionStructureAndBindingStartParamsInputConstraintContactConstraintToken2LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`

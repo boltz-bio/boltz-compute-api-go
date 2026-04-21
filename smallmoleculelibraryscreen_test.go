@@ -123,6 +123,30 @@ func TestSmallMoleculeLibraryScreenEstimateCostWithOptionalParams(t *testing.T) 
 				Value:  "value",
 				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
 			}},
+			Bonds: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBond{{
+				Atom1: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1Union{
+					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1LigandAtom{
+						AtomName: "atom_name",
+						ChainID:  "chain_id",
+					},
+				},
+				Atom2: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2Union{
+					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2LigandAtom{
+						AtomName: "atom_name",
+						ChainID:  "chain_id",
+					},
+				},
+			}},
+			Constraints: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintUnion{{
+				OfSmallMoleculeLibraryScreenEstimateCostsTargetConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintPocketConstraint{
+					BinderChainID: "binder_chain_id",
+					ContactResidues: map[string][]int64{
+						"A": {42, 43, 44, 67, 68, 69},
+					},
+					MaxDistanceAngstrom: 0,
+					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+				},
+			}},
 			PocketResidues: map[string][]int64{
 				"A": {42, 43, 44, 67, 68, 69},
 			},
@@ -213,6 +237,30 @@ func TestSmallMoleculeLibraryScreenStartWithOptionalParams(t *testing.T) {
 				}},
 				Value:  "value",
 				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+			}},
+			Bonds: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBond{{
+				Atom1: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1Union{
+					OfSmallMoleculeLibraryScreenStartsTargetBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1LigandAtom{
+						AtomName: "atom_name",
+						ChainID:  "chain_id",
+					},
+				},
+				Atom2: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2Union{
+					OfSmallMoleculeLibraryScreenStartsTargetBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2LigandAtom{
+						AtomName: "atom_name",
+						ChainID:  "chain_id",
+					},
+				},
+			}},
+			Constraints: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetConstraintUnion{{
+				OfSmallMoleculeLibraryScreenStartsTargetConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetConstraintPocketConstraint{
+					BinderChainID: "binder_chain_id",
+					ContactResidues: map[string][]int64{
+						"A": {42, 43, 44, 67, 68, 69},
+					},
+					MaxDistanceAngstrom: 0,
+					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+				},
 			}},
 			PocketResidues: map[string][]int64{
 				"A": {42, 43, 44, 67, 68, 69},
