@@ -95,8 +95,9 @@ func (r *SmallMoleculeDesignService) DeleteData(ctx context.Context, runID strin
 	return res, err
 }
 
-// Estimate the cost of a small molecule design run without creating any resource
-// or consuming GPU.
+// Estimate the billed cost of a small molecule design run without creating any
+// resource or consuming GPU. Includes the SynFlowNet generation charges implied by
+// the scheduler iteration cap plus Boltz2 scoring for each requested molecule.
 func (r *SmallMoleculeDesignService) EstimateCost(ctx context.Context, body SmallMoleculeDesignEstimateCostParams, opts ...option.RequestOption) (res *SmallMoleculeDesignEstimateCostResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "compute/v1/small-molecule/design/estimate-cost"
@@ -1726,7 +1727,7 @@ func (r *SmallMoleculeDesignEstimateCostResponse) UnmarshalJSON(data []byte) err
 type SmallMoleculeDesignEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
-	Application SmallMoleculeDesignEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
+	Application string `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
 	NumUnits       int64  `json:"num_units" api:"required"`
@@ -1745,16 +1746,6 @@ func (r SmallMoleculeDesignEstimateCostResponseBreakdown) RawJSON() string { ret
 func (r *SmallMoleculeDesignEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-type SmallMoleculeDesignEstimateCostResponseBreakdownApplication string
-
-const (
-	SmallMoleculeDesignEstimateCostResponseBreakdownApplicationStructureAndBinding        SmallMoleculeDesignEstimateCostResponseBreakdownApplication = "structure_and_binding"
-	SmallMoleculeDesignEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        SmallMoleculeDesignEstimateCostResponseBreakdownApplication = "small_molecule_design"
-	SmallMoleculeDesignEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen SmallMoleculeDesignEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
-	SmallMoleculeDesignEstimateCostResponseBreakdownApplicationProteinDesign              SmallMoleculeDesignEstimateCostResponseBreakdownApplication = "protein_design"
-	SmallMoleculeDesignEstimateCostResponseBreakdownApplicationProteinLibraryScreen       SmallMoleculeDesignEstimateCostResponseBreakdownApplication = "protein_library_screen"
-)
 
 // A single designed small molecule result
 type SmallMoleculeDesignListResultsResponse struct {

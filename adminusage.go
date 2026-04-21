@@ -67,9 +67,10 @@ func (r *AdminUsageService) ListAutoPaging(ctx context.Context, query AdminUsage
 }
 
 type AdminUsageListResponse struct {
-	EndTime     time.Time `json:"end_time" api:"required" format:"date-time"`
-	NumRequests int64     `json:"num_requests" api:"required"`
-	StartTime   time.Time `json:"start_time" api:"required" format:"date-time"`
+	EndTime time.Time `json:"end_time" api:"required" format:"date-time"`
+	// Aggregated billed quantity for this bucket
+	Quantity  int64     `json:"quantity" api:"required"`
+	StartTime time.Time `json:"start_time" api:"required" format:"date-time"`
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
 	Application AdminUsageListResponseApplication `json:"application"`
@@ -78,7 +79,7 @@ type AdminUsageListResponse struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		EndTime     respjson.Field
-		NumRequests respjson.Field
+		Quantity    respjson.Field
 		StartTime   respjson.Field
 		Application respjson.Field
 		WorkspaceID respjson.Field
@@ -110,6 +111,9 @@ type AdminUsageListParams struct {
 	// Start of the time range as an ISO 8601 date-time with timezone, for example
 	// 2026-04-08T18:56:46Z
 	StartingAt time.Time `query:"starting_at" api:"required" format:"date-time" json:"-"`
+	// Time window size. HOUR supports up to 31 days per query; DAY supports up to 365
+	// days per query.
+	//
 	// Any of "HOUR", "DAY".
 	WindowSize AdminUsageListParamsWindowSize `query:"window_size,omitzero" api:"required" json:"-"`
 	// Maximum number of buckets to return
@@ -133,6 +137,8 @@ func (r AdminUsageListParams) URLQuery() (v url.Values, err error) {
 	})
 }
 
+// Time window size. HOUR supports up to 31 days per query; DAY supports up to 365
+// days per query.
 type AdminUsageListParamsWindowSize string
 
 const (
@@ -144,31 +150,20 @@ const (
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type AdminUsageListParamsApplicationsUnion struct {
-	// Check if union is this variant with
-	// !param.IsOmitted(union.OfAdminUsageListsApplicationsString)
-	OfAdminUsageListsApplicationsString         param.Opt[AdminUsageListParamsApplicationsString] `query:",omitzero,inline"`
-	OfAdminUsageListsApplicationsArrayItemArray []AdminUsageListParamsApplicationsArrayItem       `query:",omitzero,inline"`
+	// Check if union is this variant with !param.IsOmitted(union.OfApplication)
+	OfApplication                               param.Opt[string] `query:",omitzero,inline"`
+	OfAdminUsageListsApplicationsArrayItemArray []string          `query:",omitzero,inline"`
 	paramUnion
 }
 
-type AdminUsageListParamsApplicationsString string
+type AdminUsageListParamsApplicationsApplication string
 
 const (
-	AdminUsageListParamsApplicationsStringStructureAndBinding        AdminUsageListParamsApplicationsString = "structure_and_binding"
-	AdminUsageListParamsApplicationsStringSmallMoleculeDesign        AdminUsageListParamsApplicationsString = "small_molecule_design"
-	AdminUsageListParamsApplicationsStringSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsString = "small_molecule_library_screen"
-	AdminUsageListParamsApplicationsStringProteinDesign              AdminUsageListParamsApplicationsString = "protein_design"
-	AdminUsageListParamsApplicationsStringProteinLibraryScreen       AdminUsageListParamsApplicationsString = "protein_library_screen"
-)
-
-type AdminUsageListParamsApplicationsArrayItem string
-
-const (
-	AdminUsageListParamsApplicationsArrayItemStructureAndBinding        AdminUsageListParamsApplicationsArrayItem = "structure_and_binding"
-	AdminUsageListParamsApplicationsArrayItemSmallMoleculeDesign        AdminUsageListParamsApplicationsArrayItem = "small_molecule_design"
-	AdminUsageListParamsApplicationsArrayItemSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsArrayItem = "small_molecule_library_screen"
-	AdminUsageListParamsApplicationsArrayItemProteinDesign              AdminUsageListParamsApplicationsArrayItem = "protein_design"
-	AdminUsageListParamsApplicationsArrayItemProteinLibraryScreen       AdminUsageListParamsApplicationsArrayItem = "protein_library_screen"
+	AdminUsageListParamsApplicationsApplicationStructureAndBinding        AdminUsageListParamsApplicationsApplication = "structure_and_binding"
+	AdminUsageListParamsApplicationsApplicationSmallMoleculeDesign        AdminUsageListParamsApplicationsApplication = "small_molecule_design"
+	AdminUsageListParamsApplicationsApplicationSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsApplication = "small_molecule_library_screen"
+	AdminUsageListParamsApplicationsApplicationProteinDesign              AdminUsageListParamsApplicationsApplication = "protein_design"
+	AdminUsageListParamsApplicationsApplicationProteinLibraryScreen       AdminUsageListParamsApplicationsApplication = "protein_library_screen"
 )
 
 // Only one field can be non-zero.

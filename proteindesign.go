@@ -3168,7 +3168,7 @@ func (r *ProteinDesignEstimateCostResponse) UnmarshalJSON(data []byte) error {
 type ProteinDesignEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
-	Application ProteinDesignEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
+	Application string `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
 	NumUnits       int64  `json:"num_units" api:"required"`
@@ -3187,16 +3187,6 @@ func (r ProteinDesignEstimateCostResponseBreakdown) RawJSON() string { return r.
 func (r *ProteinDesignEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-type ProteinDesignEstimateCostResponseBreakdownApplication string
-
-const (
-	ProteinDesignEstimateCostResponseBreakdownApplicationStructureAndBinding        ProteinDesignEstimateCostResponseBreakdownApplication = "structure_and_binding"
-	ProteinDesignEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        ProteinDesignEstimateCostResponseBreakdownApplication = "small_molecule_design"
-	ProteinDesignEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen ProteinDesignEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
-	ProteinDesignEstimateCostResponseBreakdownApplicationProteinDesign              ProteinDesignEstimateCostResponseBreakdownApplication = "protein_design"
-	ProteinDesignEstimateCostResponseBreakdownApplicationProteinLibraryScreen       ProteinDesignEstimateCostResponseBreakdownApplication = "protein_library_screen"
-)
 
 // A single generated protein design
 type ProteinDesignListResultsResponse struct {
