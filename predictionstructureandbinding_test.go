@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestPredictionStructureAndBindingGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Predictions.StructureAndBinding.Get(
 		context.TODO(),
 		"id",
-		githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingGetParams{
-			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		boltzcompute.PredictionStructureAndBindingGetParams{
+			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestPredictionStructureAndBindingListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingListParams{
-		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
-		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
-		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
-		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+	_, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzcompute.PredictionStructureAndBindingListParams{
+		AfterID:     boltzcompute.String("after_id"),
+		BeforeID:    boltzcompute.String("before_id"),
+		Limit:       boltzcompute.Int(1),
+		WorkspaceID: boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestPredictionStructureAndBindingDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Predictions.StructureAndBinding.DeleteData(context.TODO(), "id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,67 +102,67 @@ func TestPredictionStructureAndBindingEstimateCostWithOptionalParams(t *testing.
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.EstimateCost(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParams{
-		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInput{
-			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.EstimateCost(context.TODO(), boltzcompute.PredictionStructureAndBindingEstimateCostParams{
+		Input: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInput{
+			Entities: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 					Value:  "value",
-					Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
-			Binding: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBindingUnion{
-				OfPredictionStructureAndBindingEstimateCostsInputBindingLigandProteinBinding: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBindingLigandProteinBinding{
+			Binding: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBindingUnion{
+				OfPredictionStructureAndBindingEstimateCostsInputBindingLigandProteinBinding: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBindingLigandProteinBinding{
 					BinderChainID: "binder_chain_id",
 				},
 			},
-			Bonds: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBond{{
-				Atom1: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union{
-					OfPredictionStructureAndBindingEstimateCostsInputBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1LigandAtom{
+			Bonds: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBond{{
+				Atom1: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union{
+					OfPredictionStructureAndBindingEstimateCostsInputBondAtom1LigandAtom: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union{
-					OfPredictionStructureAndBindingEstimateCostsInputBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2LigandAtom{
+				Atom2: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union{
+					OfPredictionStructureAndBindingEstimateCostsInputBondAtom2LigandAtom: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputConstraintUnion{{
-				OfPredictionStructureAndBindingEstimateCostsInputConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputConstraintPocketConstraint{
+			Constraints: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputConstraintUnion{{
+				OfPredictionStructureAndBindingEstimateCostsInputConstraintPocketConstraint: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Force:               boltzcompute.Bool(true),
 				},
 			}},
-			ModelOptions: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingEstimateCostParamsInputModelOptions{
-				RecyclingSteps: githubcomboltzbioboltzcomputeapigo.Int(1),
-				SamplingSteps:  githubcomboltzbioboltzcomputeapigo.Int(1),
-				StepScale:      githubcomboltzbioboltzcomputeapigo.Float(1.3),
+			ModelOptions: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputModelOptions{
+				RecyclingSteps: boltzcompute.Int(1),
+				SamplingSteps:  boltzcompute.Int(1),
+				StepScale:      boltzcompute.Float(1.3),
 			},
-			NumSamples: githubcomboltzbioboltzcomputeapigo.Int(1),
+			NumSamples: boltzcompute.Int(1),
 		},
 		Model:          "boltz-2.1",
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		WorkspaceID:    boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -179,67 +179,67 @@ func TestPredictionStructureAndBindingStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParams{
-		Input: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInput{
-			Entities: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzcompute.PredictionStructureAndBindingStartParams{
+		Input: boltzcompute.PredictionStructureAndBindingStartParamsInput{
+			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 					Value:  "value",
-					Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
-			Binding: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBindingUnion{
-				OfPredictionStructureAndBindingStartsInputBindingLigandProteinBinding: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBindingLigandProteinBinding{
+			Binding: boltzcompute.PredictionStructureAndBindingStartParamsInputBindingUnion{
+				OfPredictionStructureAndBindingStartsInputBindingLigandProteinBinding: &boltzcompute.PredictionStructureAndBindingStartParamsInputBindingLigandProteinBinding{
 					BinderChainID: "binder_chain_id",
 				},
 			},
-			Bonds: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBond{{
-				Atom1: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBondAtom1Union{
-					OfPredictionStructureAndBindingStartsInputBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBondAtom1LigandAtom{
+			Bonds: []boltzcompute.PredictionStructureAndBindingStartParamsInputBond{{
+				Atom1: boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom1Union{
+					OfPredictionStructureAndBindingStartsInputBondAtom1LigandAtom: &boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBondAtom2Union{
-					OfPredictionStructureAndBindingStartsInputBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputBondAtom2LigandAtom{
+				Atom2: boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom2Union{
+					OfPredictionStructureAndBindingStartsInputBondAtom2LigandAtom: &boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputConstraintUnion{{
-				OfPredictionStructureAndBindingStartsInputConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputConstraintPocketConstraint{
+			Constraints: []boltzcompute.PredictionStructureAndBindingStartParamsInputConstraintUnion{{
+				OfPredictionStructureAndBindingStartsInputConstraintPocketConstraint: &boltzcompute.PredictionStructureAndBindingStartParamsInputConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Force:               boltzcompute.Bool(true),
 				},
 			}},
-			ModelOptions: githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingStartParamsInputModelOptions{
-				RecyclingSteps: githubcomboltzbioboltzcomputeapigo.Int(1),
-				SamplingSteps:  githubcomboltzbioboltzcomputeapigo.Int(1),
-				StepScale:      githubcomboltzbioboltzcomputeapigo.Float(1.3),
+			ModelOptions: boltzcompute.PredictionStructureAndBindingStartParamsInputModelOptions{
+				RecyclingSteps: boltzcompute.Int(1),
+				SamplingSteps:  boltzcompute.Int(1),
+				StepScale:      boltzcompute.Float(1.3),
 			},
-			NumSamples: githubcomboltzbioboltzcomputeapigo.Int(1),
+			NumSamples: boltzcompute.Int(1),
 		},
 		Model:          "boltz-2.1",
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		WorkspaceID:    boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

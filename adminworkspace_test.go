@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestAdminWorkspaceNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Workspaces.New(context.TODO(), githubcomboltzbioboltzcomputeapigo.AdminWorkspaceNewParams{
-		DataRetention: githubcomboltzbioboltzcomputeapigo.AdminWorkspaceNewParamsDataRetention{
-			Unit:  githubcomboltzbioboltzcomputeapigo.AdminWorkspaceNewParamsDataRetentionUnitHours,
+	_, err := client.Admin.Workspaces.New(context.TODO(), boltzcompute.AdminWorkspaceNewParams{
+		DataRetention: boltzcompute.AdminWorkspaceNewParamsDataRetention{
+			Unit:  boltzcompute.AdminWorkspaceNewParamsDataRetentionUnitHours,
 			Value: 1,
 		},
-		Name: githubcomboltzbioboltzcomputeapigo.String("x"),
+		Name: boltzcompute.String("x"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,13 +51,13 @@ func TestAdminWorkspaceGet(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Get(context.TODO(), "workspace_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -74,23 +74,23 @@ func TestAdminWorkspaceUpdateWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Update(
 		context.TODO(),
 		"workspace_id",
-		githubcomboltzbioboltzcomputeapigo.AdminWorkspaceUpdateParams{
-			DataRetention: githubcomboltzbioboltzcomputeapigo.AdminWorkspaceUpdateParamsDataRetention{
-				Unit:  githubcomboltzbioboltzcomputeapigo.AdminWorkspaceUpdateParamsDataRetentionUnitHours,
+		boltzcompute.AdminWorkspaceUpdateParams{
+			DataRetention: boltzcompute.AdminWorkspaceUpdateParamsDataRetention{
+				Unit:  boltzcompute.AdminWorkspaceUpdateParamsDataRetentionUnitHours,
 				Value: 1,
 			},
-			Name: githubcomboltzbioboltzcomputeapigo.String("x"),
+			Name: boltzcompute.String("x"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -107,17 +107,17 @@ func TestAdminWorkspaceListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Workspaces.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.AdminWorkspaceListParams{
-		AfterID:  githubcomboltzbioboltzcomputeapigo.String("after_id"),
-		BeforeID: githubcomboltzbioboltzcomputeapigo.String("before_id"),
-		Limit:    githubcomboltzbioboltzcomputeapigo.Int(1),
+	_, err := client.Admin.Workspaces.List(context.TODO(), boltzcompute.AdminWorkspaceListParams{
+		AfterID:  boltzcompute.String("after_id"),
+		BeforeID: boltzcompute.String("before_id"),
+		Limit:    boltzcompute.Int(1),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -134,13 +134,13 @@ func TestAdminWorkspaceArchive(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Archive(context.TODO(), "workspace_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

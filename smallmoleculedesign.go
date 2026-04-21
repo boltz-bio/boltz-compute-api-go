@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo
+package boltzcompute
 
 import (
 	"context"
@@ -273,10 +273,18 @@ type SmallMoleculeDesignGetResponseInputTarget struct {
 	// Protein entities defining the target structure. Each entity represents a protein
 	// chain.
 	Entities []SmallMoleculeDesignGetResponseInputTargetEntity `json:"entities" api:"required"`
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
+	Bonds []SmallMoleculeDesignGetResponseInputTargetBond `json:"bonds"`
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
+	Constraints []SmallMoleculeDesignGetResponseInputTargetConstraintUnion `json:"constraints"`
 	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
 	// and the value is an array of 0-indexed residue indices that define the binding
-	// pocket on that chain. When provided, these residues guide pocket extraction.
-	// When omitted, the model auto-detects the pocket.
+	// pocket on that chain. When provided, these residues guide pocket extraction and
+	// add a derived pocket constraint during affinity predictions. That derived
+	// constraint remains separate from any explicit pocket constraints in
+	// target.constraints. When omitted, the model auto-detects the pocket.
 	PocketResidues map[string][]int64 `json:"pocket_residues"`
 	// Reference ligands as SMILES strings that help the model identify the binding
 	// pocket. When omitted, a set of drug-like default ligands is used for pocket
@@ -285,6 +293,8 @@ type SmallMoleculeDesignGetResponseInputTarget struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Entities         respjson.Field
+		Bonds            respjson.Field
+		Constraints      respjson.Field
 		PocketResidues   respjson.Field
 		ReferenceLigands respjson.Field
 		ExtraFields      map[string]respjson.Field
@@ -409,6 +419,523 @@ func (r SmallMoleculeDesignGetResponseInputTargetEntityModificationSmilesModific
 	return r.JSON.raw
 }
 func (r *SmallMoleculeDesignGetResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom1 SmallMoleculeDesignGetResponseInputTargetBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom2 SmallMoleculeDesignGetResponseInputTargetBondAtom2Union `json:"atom2" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Atom1       respjson.Field
+		Atom2       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetBond) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeDesignGetResponseInputTargetBond) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignGetResponseInputTargetBondAtom1Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse],
+// [SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignGetResponseInputTargetBondAtom1Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse() (v SmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse() (v SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom1Union) RawJSON() string { return u.JSON.raw }
+
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom1LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom1PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignGetResponseInputTargetBondAtom2Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse],
+// [SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignGetResponseInputTargetBondAtom2Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse() (v SmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse() (v SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignGetResponseInputTargetBondAtom2Union) RawJSON() string { return u.JSON.raw }
+
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom2LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetBondAtom2PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignGetResponseInputTargetConstraintUnion contains all possible
+// properties and values from
+// [SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse],
+// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignGetResponseInputTargetConstraintUnion struct {
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse].
+	BinderChainID string `json:"binder_chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse].
+	ContactResidues     map[string][]int64 `json:"contact_residues"`
+	MaxDistanceAngstrom float64            `json:"max_distance_angstrom"`
+	Type                string             `json:"type"`
+	Force               bool               `json:"force"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse].
+	Token1 SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse].
+	Token2 SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2"`
+	JSON   struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintUnion) AsSmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintUnion) AsSmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintUnion) RawJSON() string { return u.JSON.raw }
+
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Constrains the binder to interact with specific pocket residues on the target.
+type SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse struct {
+	// Chain ID of the binder molecule
+	BinderChainID string `json:"binder_chain_id" api:"required"`
+	// Binding pocket residues keyed by chain ID. Each key is a chain ID (e.g. "A") and
+	// the value is an array of 0-indexed residue indices that define the pocket on
+	// that chain.
+	ContactResidues map[string][]int64 `json:"contact_residues" api:"required"`
+	// Maximum allowed distance in Angstroms between binder and pocket residues.
+	// Typical range: 4-8 A.
+	MaxDistanceAngstrom float64         `json:"max_distance_angstrom" api:"required"`
+	Type                constant.Pocket `json:"type" default:"pocket"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintPocketConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse struct {
+	// Maximum distance in Angstroms
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                        `json:"type" default:"contact"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxDistanceAngstrom respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse],
+// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse],
+// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse() (v SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignGetResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -1500,10 +2027,18 @@ type SmallMoleculeDesignStartResponseInputTarget struct {
 	// Protein entities defining the target structure. Each entity represents a protein
 	// chain.
 	Entities []SmallMoleculeDesignStartResponseInputTargetEntity `json:"entities" api:"required"`
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
+	Bonds []SmallMoleculeDesignStartResponseInputTargetBond `json:"bonds"`
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
+	Constraints []SmallMoleculeDesignStartResponseInputTargetConstraintUnion `json:"constraints"`
 	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
 	// and the value is an array of 0-indexed residue indices that define the binding
-	// pocket on that chain. When provided, these residues guide pocket extraction.
-	// When omitted, the model auto-detects the pocket.
+	// pocket on that chain. When provided, these residues guide pocket extraction and
+	// add a derived pocket constraint during affinity predictions. That derived
+	// constraint remains separate from any explicit pocket constraints in
+	// target.constraints. When omitted, the model auto-detects the pocket.
 	PocketResidues map[string][]int64 `json:"pocket_residues"`
 	// Reference ligands as SMILES strings that help the model identify the binding
 	// pocket. When omitted, a set of drug-like default ligands is used for pocket
@@ -1512,6 +2047,8 @@ type SmallMoleculeDesignStartResponseInputTarget struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Entities         respjson.Field
+		Bonds            respjson.Field
+		Constraints      respjson.Field
 		PocketResidues   respjson.Field
 		ReferenceLigands respjson.Field
 		ExtraFields      map[string]respjson.Field
@@ -1636,6 +2173,529 @@ func (r SmallMoleculeDesignStartResponseInputTargetEntityModificationSmilesModif
 	return r.JSON.raw
 }
 func (r *SmallMoleculeDesignStartResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom1 SmallMoleculeDesignStartResponseInputTargetBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom2 SmallMoleculeDesignStartResponseInputTargetBondAtom2Union `json:"atom2" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Atom1       respjson.Field
+		Atom2       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetBond) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeDesignStartResponseInputTargetBond) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStartResponseInputTargetBondAtom1Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse],
+// [SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStartResponseInputTargetBondAtom1Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse() (v SmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse() (v SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom1Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom1LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom1PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStartResponseInputTargetBondAtom2Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse],
+// [SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStartResponseInputTargetBondAtom2Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse() (v SmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse() (v SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStartResponseInputTargetBondAtom2Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom2LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetBondAtom2PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStartResponseInputTargetConstraintUnion contains all possible
+// properties and values from
+// [SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse],
+// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStartResponseInputTargetConstraintUnion struct {
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse].
+	BinderChainID string `json:"binder_chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse].
+	ContactResidues     map[string][]int64 `json:"contact_residues"`
+	MaxDistanceAngstrom float64            `json:"max_distance_angstrom"`
+	Type                string             `json:"type"`
+	Force               bool               `json:"force"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse].
+	Token1 SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse].
+	Token2 SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2"`
+	JSON   struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintUnion) AsSmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintUnion) AsSmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Constrains the binder to interact with specific pocket residues on the target.
+type SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse struct {
+	// Chain ID of the binder molecule
+	BinderChainID string `json:"binder_chain_id" api:"required"`
+	// Binding pocket residues keyed by chain ID. Each key is a chain ID (e.g. "A") and
+	// the value is an array of 0-indexed residue indices that define the pocket on
+	// that chain.
+	ContactResidues map[string][]int64 `json:"contact_residues" api:"required"`
+	// Maximum allowed distance in Angstroms between binder and pocket residues.
+	// Typical range: 4-8 A.
+	MaxDistanceAngstrom float64         `json:"max_distance_angstrom" api:"required"`
+	Type                constant.Pocket `json:"type" default:"pocket"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintPocketConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse struct {
+	// Maximum distance in Angstroms
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                          `json:"type" default:"contact"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxDistanceAngstrom respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse],
+// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse],
+// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse() (v SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStartResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -2389,10 +3449,18 @@ type SmallMoleculeDesignStopResponseInputTarget struct {
 	// Protein entities defining the target structure. Each entity represents a protein
 	// chain.
 	Entities []SmallMoleculeDesignStopResponseInputTargetEntity `json:"entities" api:"required"`
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
+	Bonds []SmallMoleculeDesignStopResponseInputTargetBond `json:"bonds"`
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
+	Constraints []SmallMoleculeDesignStopResponseInputTargetConstraintUnion `json:"constraints"`
 	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
 	// and the value is an array of 0-indexed residue indices that define the binding
-	// pocket on that chain. When provided, these residues guide pocket extraction.
-	// When omitted, the model auto-detects the pocket.
+	// pocket on that chain. When provided, these residues guide pocket extraction and
+	// add a derived pocket constraint during affinity predictions. That derived
+	// constraint remains separate from any explicit pocket constraints in
+	// target.constraints. When omitted, the model auto-detects the pocket.
 	PocketResidues map[string][]int64 `json:"pocket_residues"`
 	// Reference ligands as SMILES strings that help the model identify the binding
 	// pocket. When omitted, a set of drug-like default ligands is used for pocket
@@ -2401,6 +3469,8 @@ type SmallMoleculeDesignStopResponseInputTarget struct {
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Entities         respjson.Field
+		Bonds            respjson.Field
+		Constraints      respjson.Field
 		PocketResidues   respjson.Field
 		ReferenceLigands respjson.Field
 		ExtraFields      map[string]respjson.Field
@@ -2525,6 +3595,525 @@ func (r SmallMoleculeDesignStopResponseInputTargetEntityModificationSmilesModifi
 	return r.JSON.raw
 }
 func (r *SmallMoleculeDesignStopResponseInputTargetEntityModificationSmilesModificationResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom1 SmallMoleculeDesignStopResponseInputTargetBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom2 SmallMoleculeDesignStopResponseInputTargetBondAtom2Union `json:"atom2" api:"required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Atom1       respjson.Field
+		Atom2       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetBond) RawJSON() string { return r.JSON.raw }
+func (r *SmallMoleculeDesignStopResponseInputTargetBond) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStopResponseInputTargetBondAtom1Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse],
+// [SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStopResponseInputTargetBondAtom1Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse() (v SmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom1Union) AsSmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse() (v SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom1Union) RawJSON() string { return u.JSON.raw }
+
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom1LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom1PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStopResponseInputTargetBondAtom2Union contains all possible
+// properties and values from
+// [SmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse],
+// [SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStopResponseInputTargetBondAtom2Union struct {
+	AtomName string `json:"atom_name"`
+	ChainID  string `json:"chain_id"`
+	Type     string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse].
+	ResidueIndex int64 `json:"residue_index"`
+	JSON         struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		Type         respjson.Field
+		ResidueIndex respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse() (v SmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom2Union) AsSmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse() (v SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStopResponseInputTargetBondAtom2Union) RawJSON() string { return u.JSON.raw }
+
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string              `json:"chain_id" api:"required"`
+	Type    constant.LigandAtom `json:"type" default:"ligand_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom2LigandAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                `json:"residue_index" api:"required"`
+	Type         constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName     respjson.Field
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetBondAtom2PolymerAtomResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStopResponseInputTargetConstraintUnion contains all possible
+// properties and values from
+// [SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse],
+// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStopResponseInputTargetConstraintUnion struct {
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse].
+	BinderChainID string `json:"binder_chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse].
+	ContactResidues     map[string][]int64 `json:"contact_residues"`
+	MaxDistanceAngstrom float64            `json:"max_distance_angstrom"`
+	Type                string             `json:"type"`
+	Force               bool               `json:"force"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse].
+	Token1 SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse].
+	Token2 SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2"`
+	JSON   struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintUnion) AsSmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintUnion) AsSmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintUnion) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Constrains the binder to interact with specific pocket residues on the target.
+type SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse struct {
+	// Chain ID of the binder molecule
+	BinderChainID string `json:"binder_chain_id" api:"required"`
+	// Binding pocket residues keyed by chain ID. Each key is a chain ID (e.g. "A") and
+	// the value is an array of 0-indexed residue indices that define the pocket on
+	// that chain.
+	ContactResidues map[string][]int64 `json:"contact_residues" api:"required"`
+	// Maximum allowed distance in Angstroms between binder and pocket residues.
+	// Typical range: 4-8 A.
+	MaxDistanceAngstrom float64         `json:"max_distance_angstrom" api:"required"`
+	Type                constant.Pocket `json:"type" default:"pocket"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		BinderChainID       respjson.Field
+		ContactResidues     respjson.Field
+		MaxDistanceAngstrom respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintPocketConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse struct {
+	// Maximum distance in Angstroms
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                         `json:"type" default:"contact"`
+	// Whether to force the constraint
+	Force bool `json:"force"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		MaxDistanceAngstrom respjson.Field
+		Token1              respjson.Field
+		Token2              respjson.Field
+		Type                respjson.Field
+		Force               respjson.Field
+		ExtraFields         map[string]respjson.Field
+		raw                 string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse],
+// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union) AsSmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken1LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union
+// contains all possible properties and values from
+// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse],
+// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+//
+// Use the methods beginning with 'As' to cast the union to one of its variants.
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union struct {
+	ChainID string `json:"chain_id"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse].
+	ResidueIndex int64  `json:"residue_index"`
+	Type         string `json:"type"`
+	// This field is from variant
+	// [SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse].
+	AtomName string `json:"atom_name"`
+	JSON     struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		AtomName     respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union) AsSmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse() (v SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+// Returns the unmodified JSON received from the API
+func (u SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union) RawJSON() string {
+	return u.JSON.raw
+}
+
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64                   `json:"residue_index" api:"required"`
+	Type         constant.PolymerContact `json:"type" default:"polymer_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ChainID      respjson.Field
+		ResidueIndex respjson.Field
+		Type         respjson.Field
+		ExtraFields  map[string]respjson.Field
+		raw          string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2PolymerContactTokenResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+type SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string                 `json:"chain_id" api:"required"`
+	Type    constant.LigandContact `json:"type" default:"ligand_contact"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		AtomName    respjson.Field
+		ChainID     respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *SmallMoleculeDesignStopResponseInputTargetConstraintContactConstraintResponseToken2LigandContactTokenResponse) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -3232,10 +4821,18 @@ type SmallMoleculeDesignEstimateCostParamsTarget struct {
 	// Protein entities defining the target structure. Each entity represents a protein
 	// chain.
 	Entities []SmallMoleculeDesignEstimateCostParamsTargetEntity `json:"entities,omitzero" api:"required"`
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
+	Bonds []SmallMoleculeDesignEstimateCostParamsTargetBond `json:"bonds,omitzero"`
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
+	Constraints []SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion `json:"constraints,omitzero"`
 	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
 	// and the value is an array of 0-indexed residue indices that define the binding
-	// pocket on that chain. When provided, these residues guide pocket extraction.
-	// When omitted, the model auto-detects the pocket.
+	// pocket on that chain. When provided, these residues guide pocket extraction and
+	// add a derived pocket constraint during affinity predictions. That derived
+	// constraint remains separate from any explicit pocket constraints in
+	// target.constraints. When omitted, the model auto-detects the pocket.
 	PocketResidues map[string][]int64 `json:"pocket_residues,omitzero"`
 	// Reference ligands as SMILES strings that help the model identify the binding
 	// pocket. When omitted, a set of drug-like default ligands is used for pocket
@@ -3327,6 +4924,337 @@ func (r SmallMoleculeDesignEstimateCostParamsTargetEntityModificationSmilesModif
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *SmallMoleculeDesignEstimateCostParamsTargetEntityModificationSmilesModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
+// The properties Atom1, Atom2 are required.
+type SmallMoleculeDesignEstimateCostParamsTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom1 SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom2 SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union `json:"atom2,omitzero" api:"required"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetBond) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetBond
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetBond) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union struct {
+	OfSmallMoleculeDesignEstimateCostsTargetBondAtom1LigandAtom  *SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignEstimateCostsTargetBondAtom1PolymerAtom *SmallMoleculeDesignEstimateCostParamsTargetBondAtom1PolymerAtom `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignEstimateCostsTargetBondAtom1LigandAtom, u.OfSmallMoleculeDesignEstimateCostsTargetBondAtom1PolymerAtom)
+}
+func (u *SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_atom".
+	Type constant.LigandAtom `json:"type" default:"ligand_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties AtomName, ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom1PolymerAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_atom".
+	Type constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetBondAtom1PolymerAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetBondAtom1PolymerAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetBondAtom1PolymerAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union struct {
+	OfSmallMoleculeDesignEstimateCostsTargetBondAtom2LigandAtom  *SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignEstimateCostsTargetBondAtom2PolymerAtom *SmallMoleculeDesignEstimateCostParamsTargetBondAtom2PolymerAtom `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignEstimateCostsTargetBondAtom2LigandAtom, u.OfSmallMoleculeDesignEstimateCostsTargetBondAtom2PolymerAtom)
+}
+func (u *SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_atom".
+	Type constant.LigandAtom `json:"type" default:"ligand_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties AtomName, ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetBondAtom2PolymerAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_atom".
+	Type constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetBondAtom2PolymerAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetBondAtom2PolymerAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetBondAtom2PolymerAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion struct {
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintPocketConstraint  *SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraint *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraint `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintPocketConstraint, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraint)
+}
+func (u *SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Constrains the binder to interact with specific pocket residues on the target.
+//
+// The properties BinderChainID, ContactResidues, MaxDistanceAngstrom, Type are
+// required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint struct {
+	// Chain ID of the binder molecule
+	BinderChainID string `json:"binder_chain_id" api:"required"`
+	// Binding pocket residues keyed by chain ID. Each key is a chain ID (e.g. "A") and
+	// the value is an array of 0-indexed residue indices that define the pocket on
+	// that chain.
+	ContactResidues map[string][]int64 `json:"contact_residues,omitzero" api:"required"`
+	// Maximum allowed distance in Angstroms between binder and pocket residues.
+	// Typical range: 4-8 A.
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Whether to force the constraint
+	Force param.Opt[bool] `json:"force,omitzero"`
+	// This field can be elided, and will marshal its zero value as "pocket".
+	Type constant.Pocket `json:"type" default:"pocket"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
+// The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraint struct {
+	// Maximum distance in Angstroms
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	// Whether to force the constraint
+	Force param.Opt[bool] `json:"force,omitzero"`
+	// This field can be elided, and will marshal its zero value as "contact".
+	Type constant.Contact `json:"type" default:"contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraint) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraint
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1Union struct {
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken1PolymerContactToken *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1PolymerContactToken `json:",omitzero,inline"`
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken1LigandContactToken  *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1LigandContactToken  `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken1PolymerContactToken, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken1LigandContactToken)
+}
+func (u *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1PolymerContactToken struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_contact".
+	Type constant.PolymerContact `json:"type" default:"polymer_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1PolymerContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1PolymerContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1PolymerContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1LigandContactToken struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_contact".
+	Type constant.LigandContact `json:"type" default:"ligand_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1LigandContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1LigandContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken1LigandContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2Union struct {
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken2PolymerContactToken *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2PolymerContactToken `json:",omitzero,inline"`
+	OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken2LigandContactToken  *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2LigandContactToken  `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken2PolymerContactToken, u.OfSmallMoleculeDesignEstimateCostsTargetConstraintContactConstraintToken2LigandContactToken)
+}
+func (u *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2PolymerContactToken struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_contact".
+	Type constant.PolymerContact `json:"type" default:"polymer_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2PolymerContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2PolymerContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2PolymerContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2LigandContactToken struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_contact".
+	Type constant.LigandContact `json:"type" default:"ligand_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2LigandContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2LigandContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignEstimateCostParamsTargetConstraintContactConstraintToken2LigandContactToken) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -3790,10 +5718,18 @@ type SmallMoleculeDesignStartParamsTarget struct {
 	// Protein entities defining the target structure. Each entity represents a protein
 	// chain.
 	Entities []SmallMoleculeDesignStartParamsTargetEntity `json:"entities,omitzero" api:"required"`
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
+	Bonds []SmallMoleculeDesignStartParamsTargetBond `json:"bonds,omitzero"`
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
+	Constraints []SmallMoleculeDesignStartParamsTargetConstraintUnion `json:"constraints,omitzero"`
 	// Binding pocket residues, keyed by chain ID. Each key is a chain ID (e.g. "A")
 	// and the value is an array of 0-indexed residue indices that define the binding
-	// pocket on that chain. When provided, these residues guide pocket extraction.
-	// When omitted, the model auto-detects the pocket.
+	// pocket on that chain. When provided, these residues guide pocket extraction and
+	// add a derived pocket constraint during affinity predictions. That derived
+	// constraint remains separate from any explicit pocket constraints in
+	// target.constraints. When omitted, the model auto-detects the pocket.
 	PocketResidues map[string][]int64 `json:"pocket_residues,omitzero"`
 	// Reference ligands as SMILES strings that help the model identify the binding
 	// pocket. When omitted, a set of drug-like default ligands is used for pocket
@@ -3885,6 +5821,337 @@ func (r SmallMoleculeDesignStartParamsTargetEntityModificationSmilesModification
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *SmallMoleculeDesignStartParamsTargetEntityModificationSmilesModification) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
+// The properties Atom1, Atom2 are required.
+type SmallMoleculeDesignStartParamsTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom1 SmallMoleculeDesignStartParamsTargetBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Atom2 SmallMoleculeDesignStartParamsTargetBondAtom2Union `json:"atom2,omitzero" api:"required"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetBond) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetBond
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetBond) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignStartParamsTargetBondAtom1Union struct {
+	OfSmallMoleculeDesignStartsTargetBondAtom1LigandAtom  *SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignStartsTargetBondAtom1PolymerAtom *SmallMoleculeDesignStartParamsTargetBondAtom1PolymerAtom `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignStartParamsTargetBondAtom1Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignStartsTargetBondAtom1LigandAtom, u.OfSmallMoleculeDesignStartsTargetBondAtom1PolymerAtom)
+}
+func (u *SmallMoleculeDesignStartParamsTargetBondAtom1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_atom".
+	Type constant.LigandAtom `json:"type" default:"ligand_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties AtomName, ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignStartParamsTargetBondAtom1PolymerAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_atom".
+	Type constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetBondAtom1PolymerAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetBondAtom1PolymerAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetBondAtom1PolymerAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignStartParamsTargetBondAtom2Union struct {
+	OfSmallMoleculeDesignStartsTargetBondAtom2LigandAtom  *SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignStartsTargetBondAtom2PolymerAtom *SmallMoleculeDesignStartParamsTargetBondAtom2PolymerAtom `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignStartParamsTargetBondAtom2Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignStartsTargetBondAtom2LigandAtom, u.OfSmallMoleculeDesignStartsTargetBondAtom2PolymerAtom)
+}
+func (u *SmallMoleculeDesignStartParamsTargetBondAtom2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_atom".
+	Type constant.LigandAtom `json:"type" default:"ligand_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// The properties AtomName, ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignStartParamsTargetBondAtom2PolymerAtom struct {
+	// Standardized atom name (verifiable in CIF file on RCSB)
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID containing the atom
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_atom".
+	Type constant.PolymerAtom `json:"type" default:"polymer_atom"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetBondAtom2PolymerAtom) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetBondAtom2PolymerAtom
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetBondAtom2PolymerAtom) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignStartParamsTargetConstraintUnion struct {
+	OfSmallMoleculeDesignStartsTargetConstraintPocketConstraint  *SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint  `json:",omitzero,inline"`
+	OfSmallMoleculeDesignStartsTargetConstraintContactConstraint *SmallMoleculeDesignStartParamsTargetConstraintContactConstraint `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignStartParamsTargetConstraintUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignStartsTargetConstraintPocketConstraint, u.OfSmallMoleculeDesignStartsTargetConstraintContactConstraint)
+}
+func (u *SmallMoleculeDesignStartParamsTargetConstraintUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// Constrains the binder to interact with specific pocket residues on the target.
+//
+// The properties BinderChainID, ContactResidues, MaxDistanceAngstrom, Type are
+// required.
+type SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint struct {
+	// Chain ID of the binder molecule
+	BinderChainID string `json:"binder_chain_id" api:"required"`
+	// Binding pocket residues keyed by chain ID. Each key is a chain ID (e.g. "A") and
+	// the value is an array of 0-indexed residue indices that define the pocket on
+	// that chain.
+	ContactResidues map[string][]int64 `json:"contact_residues,omitzero" api:"required"`
+	// Maximum allowed distance in Angstroms between binder and pocket residues.
+	// Typical range: 4-8 A.
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Whether to force the constraint
+	Force param.Opt[bool] `json:"force,omitzero"`
+	// This field can be elided, and will marshal its zero value as "pocket".
+	Type constant.Pocket `json:"type" default:"pocket"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
+// The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraint struct {
+	// Maximum distance in Angstroms
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	// Whether to force the constraint
+	Force param.Opt[bool] `json:"force,omitzero"`
+	// This field can be elided, and will marshal its zero value as "contact".
+	Type constant.Contact `json:"type" default:"contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintContactConstraint) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintContactConstraint
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintContactConstraint) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1Union struct {
+	OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken1PolymerContactToken *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1PolymerContactToken `json:",omitzero,inline"`
+	OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken1LigandContactToken  *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1LigandContactToken  `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken1PolymerContactToken, u.OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken1LigandContactToken)
+}
+func (u *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1PolymerContactToken struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_contact".
+	Type constant.PolymerContact `json:"type" default:"polymer_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1PolymerContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1PolymerContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1PolymerContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1LigandContactToken struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_contact".
+	Type constant.LigandContact `json:"type" default:"ligand_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1LigandContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1LigandContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken1LigandContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2Union struct {
+	OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken2PolymerContactToken *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2PolymerContactToken `json:",omitzero,inline"`
+	OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken2LigandContactToken  *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2LigandContactToken  `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2Union) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken2PolymerContactToken, u.OfSmallMoleculeDesignStartsTargetConstraintContactConstraintToken2LigandContactToken)
+}
+func (u *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2Union) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+// The properties ChainID, ResidueIndex, Type are required.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2PolymerContactToken struct {
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// 0-based residue index
+	ResidueIndex int64 `json:"residue_index" api:"required"`
+	// This field can be elided, and will marshal its zero value as "polymer_contact".
+	Type constant.PolymerContact `json:"type" default:"polymer_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2PolymerContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2PolymerContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2PolymerContactToken) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
+// The properties AtomName, ChainID, Type are required.
+type SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2LigandContactToken struct {
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
+	AtomName string `json:"atom_name" api:"required"`
+	// Chain ID
+	ChainID string `json:"chain_id" api:"required"`
+	// This field can be elided, and will marshal its zero value as "ligand_contact".
+	Type constant.LigandContact `json:"type" default:"ligand_contact"`
+	paramObj
+}
+
+func (r SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2LigandContactToken) MarshalJSON() (data []byte, err error) {
+	type shadow SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2LigandContactToken
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *SmallMoleculeDesignStartParamsTargetConstraintContactConstraintToken2LigandContactToken) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo
+package boltzcompute
 
 import (
 	"context"
@@ -1414,8 +1414,14 @@ const (
 	ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseModalityCustomProtein ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseModality = "custom_protein"
 )
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1475,8 +1481,11 @@ func (r *ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRes
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -1567,8 +1576,11 @@ func (r *ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRes
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -1908,9 +1920,11 @@ type ProteinDesignGetResponseInputTargetNoTemplateTargetResponse struct {
 	// Entities (proteins, RNA, DNA, ligands) defining the target complex.
 	Entities []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityUnion `json:"entities" api:"required"`
 	Type     constant.NoTemplate                                                      `json:"type" default:"no_template"`
-	// Covalent bond constraints between atoms in the target complex.
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBond `json:"bonds"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintUnion `json:"constraints"`
 	// Chain IDs of ligand entities that are part of the binding epitope. Ligands are
 	// marked as epitope in full (no residue-level selection).
@@ -2438,8 +2452,14 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityLigand
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -2499,8 +2519,11 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom1Uni
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -2591,8 +2614,11 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom2Uni
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -2729,12 +2755,18 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintPo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponse struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                                   `json:"max_distance_angstrom" api:"required"`
-	Token1              ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
-	Token2              ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
-	Type                constant.Contact                                                                                          `json:"type" default:"contact"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                                          `json:"type" default:"contact"`
 	// Whether to force the constraint
 	Force bool `json:"force"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -2824,8 +2856,11 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintCo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -2915,8 +2950,11 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintCo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -5057,8 +5095,14 @@ const (
 	ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseModalityCustomProtein ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseModality = "custom_protein"
 )
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -5118,8 +5162,11 @@ func (r *ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecR
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -5210,8 +5257,11 @@ func (r *ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecR
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -5551,9 +5601,11 @@ type ProteinDesignStartResponseInputTargetNoTemplateTargetResponse struct {
 	// Entities (proteins, RNA, DNA, ligands) defining the target complex.
 	Entities []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityUnion `json:"entities" api:"required"`
 	Type     constant.NoTemplate                                                        `json:"type" default:"no_template"`
-	// Covalent bond constraints between atoms in the target complex.
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBond `json:"bonds"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintUnion `json:"constraints"`
 	// Chain IDs of ligand entities that are part of the binding epitope. Ligands are
 	// marked as epitope in full (no residue-level selection).
@@ -6081,8 +6133,14 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityLiga
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -6142,8 +6200,11 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom1U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -6234,8 +6295,11 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom2U
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -6372,12 +6436,18 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraint
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponse struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                                     `json:"max_distance_angstrom" api:"required"`
-	Token1              ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
-	Token2              ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
-	Type                constant.Contact                                                                                            `json:"type" default:"contact"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                                            `json:"type" default:"contact"`
 	// Whether to force the constraint
 	Force bool `json:"force"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -6467,8 +6537,11 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraint
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -6558,8 +6631,11 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraint
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -7879,8 +7955,14 @@ const (
 	ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseModalityCustomProtein ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseModality = "custom_protein"
 )
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -7940,8 +8022,11 @@ func (r *ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRe
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -8032,8 +8117,11 @@ func (r *ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRe
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -8373,9 +8461,11 @@ type ProteinDesignStopResponseInputTargetNoTemplateTargetResponse struct {
 	// Entities (proteins, RNA, DNA, ligands) defining the target complex.
 	Entities []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityUnion `json:"entities" api:"required"`
 	Type     constant.NoTemplate                                                       `json:"type" default:"no_template"`
-	// Covalent bond constraints between atoms in the target complex.
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBond `json:"bonds"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintUnion `json:"constraints"`
 	// Chain IDs of ligand entities that are part of the binding epitope. Ligands are
 	// marked as epitope in full (no residue-level selection).
@@ -8903,8 +8993,14 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityLigan
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom1Union `json:"atom1" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom2Union `json:"atom2" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -8964,8 +9060,11 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom1Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom1LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -9056,8 +9155,11 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom2Un
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseBondAtom2LigandAtomResponse struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string              `json:"chain_id" api:"required"`
@@ -9194,12 +9296,18 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintP
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponse struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                                    `json:"max_distance_angstrom" api:"required"`
-	Token1              ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
-	Token2              ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
-	Type                constant.Contact                                                                                           `json:"type" default:"contact"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1Union `json:"token1" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2Union `json:"token2" api:"required"`
+	Type   constant.Contact                                                                                           `json:"type" default:"contact"`
 	// Whether to force the constraint
 	Force bool `json:"force"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -9289,8 +9397,11 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintC
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken1LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -9380,8 +9491,11 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintC
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseConstraintContactConstraintResponseToken2LigandContactTokenResponse struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string                 `json:"chain_id" api:"required"`
@@ -10237,9 +10351,16 @@ const (
 	ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecModalityCustomProtein ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecModality = "custom_protein"
 )
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -10268,9 +10389,13 @@ func (u *ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecB
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -10324,9 +10449,13 @@ func (u *ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecB
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -10574,9 +10703,11 @@ func (r *ProteinDesignEstimateCostParamsTargetStructureTemplateTargetStructureCi
 type ProteinDesignEstimateCostParamsTargetNoTemplateTarget struct {
 	// Entities (proteins, RNA, DNA, ligands) defining the target complex.
 	Entities []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityUnion `json:"entities,omitzero" api:"required"`
-	// Covalent bond constraints between atoms in the target complex.
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []ProteinDesignEstimateCostParamsTargetNoTemplateTargetBond `json:"bonds,omitzero"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints []ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintUnion `json:"constraints,omitzero"`
 	// Chain IDs of ligand entities that are part of the binding epitope. Ligands are
 	// marked as epitope in full (no residue-level selection).
@@ -10893,9 +11024,16 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityLigandSmiles
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -10924,9 +11062,13 @@ func (u *ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom1Union) Un
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -10980,9 +11122,13 @@ func (u *ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom2Union) Un
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -11065,12 +11211,19 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintPocketCo
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraint struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                                     `json:"max_distance_angstrom" api:"required"`
-	Token1              ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
-	Token2              ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
 	// Whether to force the constraint
 	Force param.Opt[bool] `json:"force,omitzero"`
 	// This field can be elided, and will marshal its zero value as "contact".
@@ -11121,9 +11274,13 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactC
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken1LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -11175,9 +11332,13 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactC
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetConstraintContactConstraintToken2LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -11978,9 +12139,16 @@ const (
 	ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecModalityCustomProtein ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecModality = "custom_protein"
 )
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -12009,9 +12177,13 @@ func (u *ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -12065,9 +12237,13 @@ func (u *ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -12315,9 +12491,11 @@ func (r *ProteinDesignStartParamsTargetStructureTemplateTargetStructureCifBase64
 type ProteinDesignStartParamsTargetNoTemplateTarget struct {
 	// Entities (proteins, RNA, DNA, ligands) defining the target complex.
 	Entities []ProteinDesignStartParamsTargetNoTemplateTargetEntityUnion `json:"entities,omitzero" api:"required"`
-	// Covalent bond constraints between atoms in the target complex.
+	// Covalent bond constraints between atoms in the target complex. Atom-level ligand
+	// references currently support ligand_ccd only; ligand_smiles is unsupported.
 	Bonds []ProteinDesignStartParamsTargetNoTemplateTargetBond `json:"bonds,omitzero"`
-	// Structural constraints (pocket and contact)
+	// Structural constraints (pocket and contact). Atom-level ligand references
+	// currently support ligand_ccd only; ligand_smiles is unsupported.
 	Constraints []ProteinDesignStartParamsTargetNoTemplateTargetConstraintUnion `json:"constraints,omitzero"`
 	// Chain IDs of ligand entities that are part of the binding epitope. Ligands are
 	// marked as epitope in full (no residue-level selection).
@@ -12634,9 +12812,16 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetEntityLigandSmilesEntity)
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Bond between two atoms. Atom-level ligand references currently support
+// ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties Atom1, Atom2 are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetBond struct {
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom1 ProteinDesignStartParamsTargetNoTemplateTargetBondAtom1Union `json:"atom1,omitzero" api:"required"`
+	// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
 	Atom2 ProteinDesignStartParamsTargetNoTemplateTargetBondAtom2Union `json:"atom2,omitzero" api:"required"`
 	paramObj
 }
@@ -12665,9 +12850,13 @@ func (u *ProteinDesignStartParamsTargetNoTemplateTargetBondAtom1Union) Unmarshal
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetBondAtom1LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -12721,9 +12910,13 @@ func (u *ProteinDesignStartParamsTargetNoTemplateTargetBondAtom2Union) Unmarshal
 	return apijson.UnmarshalRoot(data, u)
 }
 
+// Ligand atom reference. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetBondAtom2LigandAtom struct {
-	// Standardized atom name (verifiable in CIF file on RCSB)
+	// Standardized atom name (verifiable in CIF file on RCSB). Atom-level references
+	// to ligand_smiles entities are currently unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID containing the atom
 	ChainID string `json:"chain_id" api:"required"`
@@ -12806,12 +12999,19 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetConstraintPocketConstrain
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Contact constraint between two tokens. Atom-level ligand references currently
+// support ligand_ccd entities only; ligand_smiles is unsupported.
+//
 // The properties MaxDistanceAngstrom, Token1, Token2, Type are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraint struct {
 	// Maximum distance in Angstroms
-	MaxDistanceAngstrom float64                                                                              `json:"max_distance_angstrom" api:"required"`
-	Token1              ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
-	Token2              ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
+	MaxDistanceAngstrom float64 `json:"max_distance_angstrom" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token1 ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken1Union `json:"token1,omitzero" api:"required"`
+	// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+	// entities only; ligand_smiles is unsupported.
+	Token2 ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken2Union `json:"token2,omitzero" api:"required"`
 	// Whether to force the constraint
 	Force param.Opt[bool] `json:"force,omitzero"`
 	// This field can be elided, and will marshal its zero value as "contact".
@@ -12862,9 +13062,13 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstrai
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken1LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
@@ -12916,9 +13120,13 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstrai
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Ligand contact token. Atom-level ligand references currently support ligand_ccd
+// entities only; ligand_smiles is unsupported.
+//
 // The properties AtomName, ChainID, Type are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetConstraintContactConstraintToken2LigandContactToken struct {
-	// Atom name
+	// Atom name. Atom-level references to ligand_smiles entities are currently
+	// unsupported; use ligand_ccd instead.
 	AtomName string `json:"atom_name" api:"required"`
 	// Chain ID
 	ChainID string `json:"chain_id" api:"required"`
