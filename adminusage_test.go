@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -23,28 +23,28 @@ func TestAdminUsageListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Usage.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.AdminUsageListParams{
+	_, err := client.Admin.Usage.List(context.TODO(), boltzcompute.AdminUsageListParams{
 		EndingAt:   time.Now(),
 		StartingAt: time.Now(),
-		WindowSize: githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsWindowSizeHour,
-		Applications: githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsApplicationsUnion{
-			OfAdminUsageListsApplicationsString: githubcomboltzbioboltzcomputeapigo.Opt(githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsApplicationsStringStructureAndBinding),
+		WindowSize: boltzcompute.AdminUsageListParamsWindowSizeHour,
+		Applications: boltzcompute.AdminUsageListParamsApplicationsUnion{
+			OfAdminUsageListsApplicationsString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsApplicationsStringStructureAndBinding),
 		},
-		GroupBy: githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsGroupByUnion{
-			OfAdminUsageListsGroupByString: githubcomboltzbioboltzcomputeapigo.Opt(githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsGroupByStringWorkspaceID),
+		GroupBy: boltzcompute.AdminUsageListParamsGroupByUnion{
+			OfAdminUsageListsGroupByString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsGroupByStringWorkspaceID),
 		},
-		Limit: githubcomboltzbioboltzcomputeapigo.Int(1),
-		Page:  githubcomboltzbioboltzcomputeapigo.String("page"),
-		WorkspaceIDs: githubcomboltzbioboltzcomputeapigo.AdminUsageListParamsWorkspaceIDsUnion{
-			OfString: githubcomboltzbioboltzcomputeapigo.String("string"),
+		Limit: boltzcompute.Int(1),
+		Page:  boltzcompute.String("page"),
+		WorkspaceIDs: boltzcompute.AdminUsageListParamsWorkspaceIDsUnion{
+			OfString: boltzcompute.String("string"),
 		},
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

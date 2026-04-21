@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestSmallMoleculeLibraryScreenGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.LibraryScreen.Get(
 		context.TODO(),
 		"screen_id",
-		githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenGetParams{
-			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		boltzcompute.SmallMoleculeLibraryScreenGetParams{
+			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestSmallMoleculeLibraryScreenListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.LibraryScreen.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenListParams{
-		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
-		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
-		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
-		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+	_, err := client.SmallMolecule.LibraryScreen.List(context.TODO(), boltzcompute.SmallMoleculeLibraryScreenListParams{
+		AfterID:     boltzcompute.String("after_id"),
+		BeforeID:    boltzcompute.String("before_id"),
+		Limit:       boltzcompute.Int(1),
+		WorkspaceID: boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestSmallMoleculeLibraryScreenDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.LibraryScreen.DeleteData(context.TODO(), "screen_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,49 +102,49 @@ func TestSmallMoleculeLibraryScreenEstimateCostWithOptionalParams(t *testing.T) 
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.LibraryScreen.EstimateCost(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParams{
-		Molecules: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsMolecule{{
+	_, err := client.SmallMolecule.LibraryScreen.EstimateCost(context.TODO(), boltzcompute.SmallMoleculeLibraryScreenEstimateCostParams{
+		Molecules: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsMolecule{{
 			Smiles: "smiles",
-			ID:     githubcomboltzbioboltzcomputeapigo.String("id"),
+			ID:     boltzcompute.String("id"),
 		}},
-		Target: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTarget{
-			Entities: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity{{
+		Target: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTarget{
+			Entities: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity{{
 				ChainIDs: []string{"string"},
-				Modifications: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification{
+				Modifications: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 				Value:  "value",
-				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+				Cyclic: boltzcompute.Bool(true),
 			}},
-			Bonds: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBond{{
-				Atom1: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1Union{
-					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1LigandAtom{
+			Bonds: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBond{{
+				Atom1: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1Union{
+					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom1LigandAtom: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2Union{
-					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2LigandAtom{
+				Atom2: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2Union{
+					OfSmallMoleculeLibraryScreenEstimateCostsTargetBondAtom2LigandAtom: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintUnion{{
-				OfSmallMoleculeLibraryScreenEstimateCostsTargetConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintPocketConstraint{
+			Constraints: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintUnion{{
+				OfSmallMoleculeLibraryScreenEstimateCostsTargetConstraintPocketConstraint: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Force:               boltzcompute.Bool(true),
 				},
 			}},
 			PocketResidues: map[string][]int64{
@@ -152,23 +152,23 @@ func TestSmallMoleculeLibraryScreenEstimateCostWithOptionalParams(t *testing.T) 
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		MoleculeFilters: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		MoleculeFilters: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeLibraryScreenEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					AllowSingleViolation: boltzcompute.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		WorkspaceID: boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -185,22 +185,22 @@ func TestSmallMoleculeLibraryScreenListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.LibraryScreen.ListResults(
 		context.TODO(),
 		"screen_id",
-		githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenListResultsParams{
-			AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
-			BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
-			Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
-			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		boltzcompute.SmallMoleculeLibraryScreenListResultsParams{
+			AfterID:     boltzcompute.String("after_id"),
+			BeforeID:    boltzcompute.String("before_id"),
+			Limit:       boltzcompute.Int(1),
+			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -217,49 +217,49 @@ func TestSmallMoleculeLibraryScreenStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.LibraryScreen.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParams{
-		Molecules: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsMolecule{{
+	_, err := client.SmallMolecule.LibraryScreen.Start(context.TODO(), boltzcompute.SmallMoleculeLibraryScreenStartParams{
+		Molecules: []boltzcompute.SmallMoleculeLibraryScreenStartParamsMolecule{{
 			Smiles: "smiles",
-			ID:     githubcomboltzbioboltzcomputeapigo.String("id"),
+			ID:     boltzcompute.String("id"),
 		}},
-		Target: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTarget{
-			Entities: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetEntity{{
+		Target: boltzcompute.SmallMoleculeLibraryScreenStartParamsTarget{
+			Entities: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntity{{
 				ChainIDs: []string{"string"},
-				Modifications: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeLibraryScreenStartsTargetEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification{
+				Modifications: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeLibraryScreenStartsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 				Value:  "value",
-				Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+				Cyclic: boltzcompute.Bool(true),
 			}},
-			Bonds: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBond{{
-				Atom1: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1Union{
-					OfSmallMoleculeLibraryScreenStartsTargetBondAtom1LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1LigandAtom{
+			Bonds: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBond{{
+				Atom1: boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1Union{
+					OfSmallMoleculeLibraryScreenStartsTargetBondAtom1LigandAtom: &boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2Union{
-					OfSmallMoleculeLibraryScreenStartsTargetBondAtom2LigandAtom: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2LigandAtom{
+				Atom2: boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2Union{
+					OfSmallMoleculeLibraryScreenStartsTargetBondAtom2LigandAtom: &boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetConstraintUnion{{
-				OfSmallMoleculeLibraryScreenStartsTargetConstraintPocketConstraint: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsTargetConstraintPocketConstraint{
+			Constraints: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetConstraintUnion{{
+				OfSmallMoleculeLibraryScreenStartsTargetConstraintPocketConstraint: &boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Force:               boltzcompute.Bool(true),
 				},
 			}},
 			PocketResidues: map[string][]int64{
@@ -267,23 +267,23 @@ func TestSmallMoleculeLibraryScreenStartWithOptionalParams(t *testing.T) {
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		MoleculeFilters: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterLipinskiFilter: &githubcomboltzbioboltzcomputeapigo.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		MoleculeFilters: boltzcompute.SmallMoleculeLibraryScreenStartParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: boltzcompute.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []boltzcompute.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeLibraryScreenStartsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcompute.SmallMoleculeLibraryScreenStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					AllowSingleViolation: boltzcompute.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		WorkspaceID: boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -300,13 +300,13 @@ func TestSmallMoleculeLibraryScreenStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.LibraryScreen.Stop(context.TODO(), "screen_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

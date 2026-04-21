@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestProteinLibraryScreenGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.Get(
 		context.TODO(),
 		"screen_id",
-		githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenGetParams{
-			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		boltzcompute.ProteinLibraryScreenGetParams{
+			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestProteinLibraryScreenListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenListParams{
-		AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
-		BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
-		Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
-		WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+	_, err := client.Protein.LibraryScreen.List(context.TODO(), boltzcompute.ProteinLibraryScreenListParams{
+		AfterID:     boltzcompute.String("after_id"),
+		BeforeID:    boltzcompute.String("before_id"),
+		Limit:       boltzcompute.Int(1),
+		WorkspaceID: boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestProteinLibraryScreenDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.DeleteData(context.TODO(), "screen_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,33 +102,33 @@ func TestProteinLibraryScreenEstimateCostWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.EstimateCost(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParams{
-		Proteins: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsProtein{{
-			Entities: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsProteinEntityUnion{{
-				OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntity{
+	_, err := client.Protein.LibraryScreen.EstimateCost(context.TODO(), boltzcompute.ProteinLibraryScreenEstimateCostParams{
+		Proteins: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProtein{{
+			Entities: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityUnion{{
+				OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationUnion{{
-						OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationCcdModification{
+					Modifications: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationUnion{{
+						OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 					Value:  "value",
-					Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
-			ID: githubcomboltzbioboltzcomputeapigo.String("id"),
+			ID: boltzcompute.String("id"),
 		}},
-		Target: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetUnion{
-			OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTarget: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetUnion{
+			OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTarget: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -136,18 +136,18 @@ func TestProteinLibraryScreenEstimateCostWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetStructureURLSource: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		WorkspaceID:    boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -164,22 +164,22 @@ func TestProteinLibraryScreenListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.ListResults(
 		context.TODO(),
 		"screen_id",
-		githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenListResultsParams{
-			AfterID:     githubcomboltzbioboltzcomputeapigo.String("after_id"),
-			BeforeID:    githubcomboltzbioboltzcomputeapigo.String("before_id"),
-			Limit:       githubcomboltzbioboltzcomputeapigo.Int(1),
-			WorkspaceID: githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		boltzcompute.ProteinLibraryScreenListResultsParams{
+			AfterID:     boltzcompute.String("after_id"),
+			BeforeID:    boltzcompute.String("before_id"),
+			Limit:       boltzcompute.Int(1),
+			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -196,33 +196,33 @@ func TestProteinLibraryScreenStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.Start(context.TODO(), githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParams{
-		Proteins: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsProtein{{
-			Entities: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsProteinEntityUnion{{
-				OfProteinLibraryScreenStartsProteinEntityProteinEntity: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsProteinEntityProteinEntity{
+	_, err := client.Protein.LibraryScreen.Start(context.TODO(), boltzcompute.ProteinLibraryScreenStartParams{
+		Proteins: []boltzcompute.ProteinLibraryScreenStartParamsProtein{{
+			Entities: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityUnion{{
+				OfProteinLibraryScreenStartsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationUnion{{
-						OfProteinLibraryScreenStartsProteinEntityProteinEntityModificationCcdModification: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationCcdModification{
+					Modifications: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationUnion{{
+						OfProteinLibraryScreenStartsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 					Value:  "value",
-					Cyclic: githubcomboltzbioboltzcomputeapigo.Bool(true),
+					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
-			ID: githubcomboltzbioboltzcomputeapigo.String("id"),
+			ID: boltzcompute.String("id"),
 		}},
-		Target: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetUnion{
-			OfProteinLibraryScreenStartsTargetStructureTemplateTarget: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: boltzcompute.ProteinLibraryScreenStartParamsTargetUnion{
+			OfProteinLibraryScreenStartsTargetStructureTemplateTarget: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinLibraryScreenStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinLibraryScreenStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -230,18 +230,18 @@ func TestProteinLibraryScreenStartWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinLibraryScreenStartsTargetStructureTemplateTargetStructureURLSource: &githubcomboltzbioboltzcomputeapigo.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinLibraryScreenStartsTargetStructureTemplateTargetStructureURLSource: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: githubcomboltzbioboltzcomputeapigo.String("idempotency_key"),
-		WorkspaceID:    githubcomboltzbioboltzcomputeapigo.String("workspace_id"),
+		IdempotencyKey: boltzcompute.String("idempotency_key"),
+		WorkspaceID:    boltzcompute.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -258,13 +258,13 @@ func TestProteinLibraryScreenStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.Stop(context.TODO(), "screen_id")
 	if err != nil {
-		var apierr *githubcomboltzbioboltzcomputeapigo.Error
+		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

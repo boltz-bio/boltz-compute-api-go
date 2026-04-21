@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package githubcomboltzbioboltzcomputeapigo_test
+package boltzcompute_test
 
 import (
 	"context"
@@ -21,11 +21,11 @@ func TestManualPagination(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := githubcomboltzbioboltzcomputeapigo.NewClient(
+	client := boltzcompute.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	page, err := client.Predictions.StructureAndBinding.List(context.TODO(), githubcomboltzbioboltzcomputeapigo.PredictionStructureAndBindingListParams{})
+	page, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzcompute.PredictionStructureAndBindingListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
