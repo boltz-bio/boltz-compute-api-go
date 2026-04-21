@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0 (2026-04-21)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.2.0...v0.3.0)
+
+### ⚠ BREAKING CHANGES
+
+* **compute-api:** rename pipeline route params to id
+
+### Features
+
+* **compute:** accept user OAuth bearer tokens ([c0f9879](https://github.com/boltz-bio/boltz-compute-api-go/commit/c0f9879e1cf319e3e51f69a665880258266625fa))
+
+
+### Refactors
+
+* **compute-api:** rename pipeline route params to id ([f10b31e](https://github.com/boltz-bio/boltz-compute-api-go/commit/f10b31ea983f2b50804ce84e1d1a1c04dbe789cd))
+
 ## 0.2.0 (2026-04-21)
 
 Full Changelog: [v0.1.1...v0.2.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.1.1...v0.2.0)
