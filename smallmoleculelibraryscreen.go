@@ -1795,7 +1795,7 @@ func (r *SmallMoleculeLibraryScreenEstimateCostResponse) UnmarshalJSON(data []by
 type SmallMoleculeLibraryScreenEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
-	Application SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
+	Application string `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
 	NumUnits       int64  `json:"num_units" api:"required"`
@@ -1814,16 +1814,6 @@ func (r SmallMoleculeLibraryScreenEstimateCostResponseBreakdown) RawJSON() strin
 func (r *SmallMoleculeLibraryScreenEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
-
-type SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication string
-
-const (
-	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationStructureAndBinding        SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "structure_and_binding"
-	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_design"
-	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
-	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationProteinDesign              SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "protein_design"
-	SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplicationProteinLibraryScreen       SmallMoleculeLibraryScreenEstimateCostResponseBreakdownApplication = "protein_library_screen"
-)
 
 // Result for a single screened small molecule
 type SmallMoleculeLibraryScreenListResultsResponse struct {
