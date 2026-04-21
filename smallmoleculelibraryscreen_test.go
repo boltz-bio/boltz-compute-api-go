@@ -28,7 +28,7 @@ func TestSmallMoleculeLibraryScreenGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.SmallMolecule.LibraryScreen.Get(
 		context.TODO(),
-		"id",
+		"screen_id",
 		boltzcompute.SmallMoleculeLibraryScreenGetParams{
 			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
@@ -83,7 +83,7 @@ func TestSmallMoleculeLibraryScreenDeleteData(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.LibraryScreen.DeleteData(context.TODO(), "id")
+	_, err := client.SmallMolecule.LibraryScreen.DeleteData(context.TODO(), "screen_id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
@@ -191,7 +191,7 @@ func TestSmallMoleculeLibraryScreenListResultsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.SmallMolecule.LibraryScreen.ListResults(
 		context.TODO(),
-		"id",
+		"screen_id",
 		boltzcompute.SmallMoleculeLibraryScreenListResultsParams{
 			AfterID:     boltzcompute.String("after_id"),
 			BeforeID:    boltzcompute.String("before_id"),
@@ -304,7 +304,7 @@ func TestSmallMoleculeLibraryScreenStop(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.LibraryScreen.Stop(context.TODO(), "id")
+	_, err := client.SmallMolecule.LibraryScreen.Stop(context.TODO(), "screen_id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {

@@ -47,13 +47,13 @@ func NewSmallMoleculeLibraryScreenService(opts ...option.RequestOption) (r Small
 }
 
 // Retrieve a library screen by ID, including progress and status
-func (r *SmallMoleculeLibraryScreenService) Get(ctx context.Context, id string, query SmallMoleculeLibraryScreenGetParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenGetResponse, err error) {
+func (r *SmallMoleculeLibraryScreenService) Get(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenGetParams, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return res, err
 }
@@ -84,13 +84,13 @@ func (r *SmallMoleculeLibraryScreenService) ListAutoPaging(ctx context.Context, 
 // Permanently delete the input, output, and result data associated with this
 // library screen. The library screen record itself is retained with a
 // `data_deleted_at` timestamp. This action is irreversible.
-func (r *SmallMoleculeLibraryScreenService) DeleteData(ctx context.Context, id string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenDeleteDataResponse, err error) {
+func (r *SmallMoleculeLibraryScreenService) DeleteData(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenDeleteDataResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/delete-data", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/delete-data", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
@@ -105,15 +105,15 @@ func (r *SmallMoleculeLibraryScreenService) EstimateCost(ctx context.Context, bo
 }
 
 // Retrieve paginated results from a library screen
-func (r *SmallMoleculeLibraryScreenService) ListResults(ctx context.Context, id string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResultsResponse], err error) {
+func (r *SmallMoleculeLibraryScreenService) ListResults(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeLibraryScreenListResultsResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/results", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/results", url.PathEscape(screenID))
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
 		return nil, err
@@ -127,8 +127,8 @@ func (r *SmallMoleculeLibraryScreenService) ListResults(ctx context.Context, id 
 }
 
 // Retrieve paginated results from a library screen
-func (r *SmallMoleculeLibraryScreenService) ListResultsAutoPaging(ctx context.Context, id string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeLibraryScreenListResultsResponse] {
-	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, id, query, opts...))
+func (r *SmallMoleculeLibraryScreenService) ListResultsAutoPaging(ctx context.Context, screenID string, query SmallMoleculeLibraryScreenListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeLibraryScreenListResultsResponse] {
+	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, screenID, query, opts...))
 }
 
 // Screen a set of small molecule candidates against a protein target
@@ -140,13 +140,13 @@ func (r *SmallMoleculeLibraryScreenService) Start(ctx context.Context, body Smal
 }
 
 // Stop an in-progress library screen early
-func (r *SmallMoleculeLibraryScreenService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStopResponse, err error) {
+func (r *SmallMoleculeLibraryScreenService) Stop(ctx context.Context, screenID string, opts ...option.RequestOption) (res *SmallMoleculeLibraryScreenStopResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if screenID == "" {
+		err = errors.New("missing required screen_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/stop", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/library-screen/%s/stop", url.PathEscape(screenID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }

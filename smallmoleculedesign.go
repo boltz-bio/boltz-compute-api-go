@@ -47,13 +47,13 @@ func NewSmallMoleculeDesignService(opts ...option.RequestOption) (r SmallMolecul
 }
 
 // Retrieve a design run by ID, including progress and status
-func (r *SmallMoleculeDesignService) Get(ctx context.Context, id string, query SmallMoleculeDesignGetParams, opts ...option.RequestOption) (res *SmallMoleculeDesignGetResponse, err error) {
+func (r *SmallMoleculeDesignService) Get(ctx context.Context, runID string, query SmallMoleculeDesignGetParams, opts ...option.RequestOption) (res *SmallMoleculeDesignGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/design/%s", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/design/%s", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, query, &res, opts...)
 	return res, err
 }
@@ -84,13 +84,13 @@ func (r *SmallMoleculeDesignService) ListAutoPaging(ctx context.Context, query S
 // Permanently delete the input, output, and result data associated with this
 // design run. The design run record itself is retained with a `data_deleted_at`
 // timestamp. This action is irreversible.
-func (r *SmallMoleculeDesignService) DeleteData(ctx context.Context, id string, opts ...option.RequestOption) (res *SmallMoleculeDesignDeleteDataResponse, err error) {
+func (r *SmallMoleculeDesignService) DeleteData(ctx context.Context, runID string, opts ...option.RequestOption) (res *SmallMoleculeDesignDeleteDataResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/delete-data", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/delete-data", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
@@ -106,15 +106,15 @@ func (r *SmallMoleculeDesignService) EstimateCost(ctx context.Context, body Smal
 }
 
 // Retrieve paginated results from a design run
-func (r *SmallMoleculeDesignService) ListResults(ctx context.Context, id string, query SmallMoleculeDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeDesignListResultsResponse], err error) {
+func (r *SmallMoleculeDesignService) ListResults(ctx context.Context, runID string, query SmallMoleculeDesignListResultsParams, opts ...option.RequestOption) (res *pagination.CursorPage[SmallMoleculeDesignListResultsResponse], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/results", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/results", url.PathEscape(runID))
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
 	if err != nil {
 		return nil, err
@@ -128,8 +128,8 @@ func (r *SmallMoleculeDesignService) ListResults(ctx context.Context, id string,
 }
 
 // Retrieve paginated results from a design run
-func (r *SmallMoleculeDesignService) ListResultsAutoPaging(ctx context.Context, id string, query SmallMoleculeDesignListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeDesignListResultsResponse] {
-	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, id, query, opts...))
+func (r *SmallMoleculeDesignService) ListResultsAutoPaging(ctx context.Context, runID string, query SmallMoleculeDesignListResultsParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SmallMoleculeDesignListResultsResponse] {
+	return pagination.NewCursorPageAutoPager(r.ListResults(ctx, runID, query, opts...))
 }
 
 // Create a new design run that generates novel small molecule candidates for a
@@ -142,13 +142,13 @@ func (r *SmallMoleculeDesignService) Start(ctx context.Context, body SmallMolecu
 }
 
 // Stop an in-progress design run early
-func (r *SmallMoleculeDesignService) Stop(ctx context.Context, id string, opts ...option.RequestOption) (res *SmallMoleculeDesignStopResponse, err error) {
+func (r *SmallMoleculeDesignService) Stop(ctx context.Context, runID string, opts ...option.RequestOption) (res *SmallMoleculeDesignStopResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	if id == "" {
-		err = errors.New("missing required id parameter")
+	if runID == "" {
+		err = errors.New("missing required run_id parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/stop", url.PathEscape(id))
+	path := fmt.Sprintf("compute/v1/small-molecule/design/%s/stop", url.PathEscape(runID))
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
