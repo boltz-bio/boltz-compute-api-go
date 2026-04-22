@@ -28,7 +28,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/boltz-bio/boltz-compute-api-go@v0.3.0'
+go get -u 'github.com/boltz-bio/boltz-compute-api-go@v0.3.1'
 ```
 
 <!-- x-release-please-end -->
@@ -61,13 +61,7 @@ func main() {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -343,13 +337,7 @@ _, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzcomp
 		Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 			OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 				ChainIDs: []string{"string"},
-				Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-					OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-						ResidueIndex: 0,
-						Value:        "value",
-					},
-				}},
-				Value: "value",
+				Value:    "value",
 			},
 		}},
 	},
@@ -386,13 +374,7 @@ client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -438,13 +420,7 @@ client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -469,13 +445,7 @@ response, err := client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},

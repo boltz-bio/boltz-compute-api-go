@@ -111,14 +111,14 @@ func TestSmallMoleculeDesignEstimateCostWithOptionalParams(t *testing.T) {
 		Target: boltzcompute.SmallMoleculeDesignEstimateCostParamsTarget{
 			Entities: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntity{{
 				ChainIDs: []string{"string"},
+				Value:    "value",
+				Cyclic:   boltzcompute.Bool(true),
 				Modifications: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion{{
 					OfSmallMoleculeDesignEstimateCostsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
-				Value:  "value",
-				Cyclic: boltzcompute.Bool(true),
 			}},
 			Bonds: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBond{{
 				Atom1: boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union{
@@ -224,14 +224,14 @@ func TestSmallMoleculeDesignStartWithOptionalParams(t *testing.T) {
 		Target: boltzcompute.SmallMoleculeDesignStartParamsTarget{
 			Entities: []boltzcompute.SmallMoleculeDesignStartParamsTargetEntity{{
 				ChainIDs: []string{"string"},
+				Value:    "value",
+				Cyclic:   boltzcompute.Bool(true),
 				Modifications: []boltzcompute.SmallMoleculeDesignStartParamsTargetEntityModificationUnion{{
 					OfSmallMoleculeDesignStartsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeDesignStartParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
-				Value:  "value",
-				Cyclic: boltzcompute.Bool(true),
 			}},
 			Bonds: []boltzcompute.SmallMoleculeDesignStartParamsTargetBond{{
 				Atom1: boltzcompute.SmallMoleculeDesignStartParamsTargetBondAtom1Union{

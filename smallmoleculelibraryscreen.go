@@ -211,7 +211,7 @@ type SmallMoleculeLibraryScreenGetResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -315,21 +315,22 @@ func (r *SmallMoleculeLibraryScreenGetResponseInputTarget) UnmarshalJSON(data []
 
 type SmallMoleculeLibraryScreenGetResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                          `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeLibraryScreenGetResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -1666,7 +1667,7 @@ type SmallMoleculeLibraryScreenListResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -2032,7 +2033,7 @@ type SmallMoleculeLibraryScreenStartResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -2136,21 +2137,22 @@ func (r *SmallMoleculeLibraryScreenStartResponseInputTarget) UnmarshalJSON(data 
 
 type SmallMoleculeLibraryScreenStartResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                            `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeLibraryScreenStartResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3490,7 +3492,7 @@ type SmallMoleculeLibraryScreenStopResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -3594,21 +3596,22 @@ func (r *SmallMoleculeLibraryScreenStopResponseInputTarget) UnmarshalJSON(data [
 
 type SmallMoleculeLibraryScreenStopResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                           `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeLibraryScreenStopResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -5004,16 +5007,17 @@ func (r *SmallMoleculeLibraryScreenEstimateCostParamsTarget) UnmarshalJSON(data 
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -5905,16 +5909,17 @@ func (r *SmallMoleculeLibraryScreenStartParamsTarget) UnmarshalJSON(data []byte)
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type SmallMoleculeLibraryScreenStartParamsTargetEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj

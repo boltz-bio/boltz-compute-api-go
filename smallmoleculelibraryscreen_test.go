@@ -114,14 +114,14 @@ func TestSmallMoleculeLibraryScreenEstimateCostWithOptionalParams(t *testing.T) 
 		Target: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTarget{
 			Entities: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntity{{
 				ChainIDs: []string{"string"},
+				Value:    "value",
+				Cyclic:   boltzcompute.Bool(true),
 				Modifications: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationUnion{{
 					OfSmallMoleculeLibraryScreenEstimateCostsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
-				Value:  "value",
-				Cyclic: boltzcompute.Bool(true),
 			}},
 			Bonds: []boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBond{{
 				Atom1: boltzcompute.SmallMoleculeLibraryScreenEstimateCostParamsTargetBondAtom1Union{
@@ -229,14 +229,14 @@ func TestSmallMoleculeLibraryScreenStartWithOptionalParams(t *testing.T) {
 		Target: boltzcompute.SmallMoleculeLibraryScreenStartParamsTarget{
 			Entities: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntity{{
 				ChainIDs: []string{"string"},
+				Value:    "value",
+				Cyclic:   boltzcompute.Bool(true),
 				Modifications: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationUnion{{
 					OfSmallMoleculeLibraryScreenStartsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
-				Value:  "value",
-				Cyclic: boltzcompute.Bool(true),
 			}},
 			Bonds: []boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBond{{
 				Atom1: boltzcompute.SmallMoleculeLibraryScreenStartParamsTargetBondAtom1Union{

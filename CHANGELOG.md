@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 (2026-04-22)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.3.0...v0.3.1)
+
+### Bug Fixes
+
+* **compute-api:** default omitted polymer modifications ([994bfd2](https://github.com/boltz-bio/boltz-compute-api-go/commit/994bfd2bfcaa7d0e3cba20ba183d022a6f849e04))
+
 ## 0.3.0 (2026-04-21)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.2.0...v0.3.0)

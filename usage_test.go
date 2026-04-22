@@ -30,13 +30,7 @@ func TestUsage(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
