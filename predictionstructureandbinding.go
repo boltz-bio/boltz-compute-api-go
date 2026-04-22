@@ -174,7 +174,7 @@ type PredictionStructureAndBindingGetResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -237,20 +237,20 @@ func (r *PredictionStructureAndBindingGetResponseInput) UnmarshalJSON(data []byt
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type PredictionStructureAndBindingGetResponseInputEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]PredictionStructureAndBindingGetResponseInputEntityProteinEntityResponseModificationUnion],
 	// [[]PredictionStructureAndBindingGetResponseInputEntityRnaEntityResponseModificationUnion],
 	// [[]PredictionStructureAndBindingGetResponseInputEntityDnaEntityResponseModificationUnion]
 	Modifications PredictionStructureAndBindingGetResponseInputEntityUnionModifications `json:"modifications"`
-	Type          string                                                                `json:"type"`
-	Value         string                                                                `json:"value"`
-	Cyclic        bool                                                                  `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -327,21 +327,22 @@ func (r *PredictionStructureAndBindingGetResponseInputEntityUnionModifications) 
 
 type PredictionStructureAndBindingGetResponseInputEntityProteinEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []PredictionStructureAndBindingGetResponseInputEntityProteinEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                                            `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []PredictionStructureAndBindingGetResponseInputEntityProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -443,21 +444,21 @@ func (r *PredictionStructureAndBindingGetResponseInputEntityProteinEntityRespons
 
 type PredictionStructureAndBindingGetResponseInputEntityRnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingGetResponseInputEntityRnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                                            `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingGetResponseInputEntityRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -559,21 +560,21 @@ func (r *PredictionStructureAndBindingGetResponseInputEntityRnaEntityResponseMod
 
 type PredictionStructureAndBindingGetResponseInputEntityDnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingGetResponseInputEntityDnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                                            `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingGetResponseInputEntityDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -1717,7 +1718,7 @@ type PredictionStructureAndBindingListResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1879,7 +1880,7 @@ type PredictionStructureAndBindingStartResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1942,20 +1943,20 @@ func (r *PredictionStructureAndBindingStartResponseInput) UnmarshalJSON(data []b
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type PredictionStructureAndBindingStartResponseInputEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]PredictionStructureAndBindingStartResponseInputEntityProteinEntityResponseModificationUnion],
 	// [[]PredictionStructureAndBindingStartResponseInputEntityRnaEntityResponseModificationUnion],
 	// [[]PredictionStructureAndBindingStartResponseInputEntityDnaEntityResponseModificationUnion]
 	Modifications PredictionStructureAndBindingStartResponseInputEntityUnionModifications `json:"modifications"`
-	Type          string                                                                  `json:"type"`
-	Value         string                                                                  `json:"value"`
-	Cyclic        bool                                                                    `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -2035,21 +2036,22 @@ func (r *PredictionStructureAndBindingStartResponseInputEntityUnionModifications
 
 type PredictionStructureAndBindingStartResponseInputEntityProteinEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []PredictionStructureAndBindingStartResponseInputEntityProteinEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                                              `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []PredictionStructureAndBindingStartResponseInputEntityProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -2151,21 +2153,21 @@ func (r *PredictionStructureAndBindingStartResponseInputEntityProteinEntityRespo
 
 type PredictionStructureAndBindingStartResponseInputEntityRnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingStartResponseInputEntityRnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                                              `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingStartResponseInputEntityRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -2267,21 +2269,21 @@ func (r *PredictionStructureAndBindingStartResponseInputEntityRnaEntityResponseM
 
 type PredictionStructureAndBindingStartResponseInputEntityDnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingStartResponseInputEntityDnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                                              `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingStartResponseInputEntityDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3479,16 +3481,17 @@ func (u *PredictionStructureAndBindingEstimateCostParamsInputEntityUnion) Unmars
 	return apijson.UnmarshalRoot(data, u)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -3557,16 +3560,16 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingEstimateCostParamsInputEntityRnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityRnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
 	paramObj
@@ -3635,16 +3638,16 @@ func (r *PredictionStructureAndBindingEstimateCostParamsInputEntityRnaEntityModi
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingEstimateCostParamsInputEntityDnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityDnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingEstimateCostParamsInputEntityDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
 	paramObj
@@ -4224,16 +4227,17 @@ func (u *PredictionStructureAndBindingStartParamsInputEntityUnion) UnmarshalJSON
 	return apijson.UnmarshalRoot(data, u)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingStartParamsInputEntityProteinEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -4302,16 +4306,16 @@ func (r *PredictionStructureAndBindingStartParamsInputEntityProteinEntityModific
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingStartParamsInputEntityRnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingStartParamsInputEntityRnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingStartParamsInputEntityRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
 	paramObj
@@ -4380,16 +4384,16 @@ func (r *PredictionStructureAndBindingStartParamsInputEntityRnaEntityModificatio
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type PredictionStructureAndBindingStartParamsInputEntityDnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []PredictionStructureAndBindingStartParamsInputEntityDnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []PredictionStructureAndBindingStartParamsInputEntityDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
 	paramObj

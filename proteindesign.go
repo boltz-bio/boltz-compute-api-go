@@ -210,7 +210,7 @@ type ProteinDesignGetResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -235,7 +235,7 @@ type ProteinDesignGetResponseInput struct {
 	// regions to redesign. Only chains included in chain_selection are part of the
 	// engine run.
 	BinderSpecification ProteinDesignGetResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
-	// Number of protein designs to generate
+	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
 	// Target specification (structure template or template-free)
 	Target ProteinDesignGetResponseInputTargetUnion `json:"target" api:"required"`
@@ -903,7 +903,8 @@ type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRespons
 	// residues. "ACDE8GHI" means fixed ACDE, then 8 designed residues, then fixed GHI.
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                               `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityDesignedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1019,7 +1020,8 @@ type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRespons
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                            `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1134,7 +1136,8 @@ type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRespons
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                        `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1249,7 +1252,8 @@ type ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecRespons
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                        `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1965,20 +1969,20 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponse) UnmarshalJ
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion],
 	// [[]ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion],
 	// [[]ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion]
 	Modifications ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityUnionModifications `json:"modifications"`
-	Type          string                                                                              `json:"type"`
-	Value         string                                                                              `json:"value"`
-	Cyclic        bool                                                                                `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -2058,21 +2062,22 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityUnionM
 
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                                                          `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -2174,21 +2179,21 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityProtei
 
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                                                          `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -2290,21 +2295,21 @@ func (r *ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityRnaEnt
 
 type ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                                                          `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignGetResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3067,7 +3072,7 @@ type ProteinDesignListResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -3288,20 +3293,20 @@ func (r *ProteinDesignListResultsResponseArtifactsStructure) UnmarshalJSON(data 
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignListResultsResponseEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]ProteinDesignListResultsResponseEntityProteinEntityModificationUnion],
 	// [[]ProteinDesignListResultsResponseEntityRnaEntityModificationUnion],
 	// [[]ProteinDesignListResultsResponseEntityDnaEntityModificationUnion]
 	Modifications ProteinDesignListResultsResponseEntityUnionModifications `json:"modifications"`
-	Type          string                                                   `json:"type"`
-	Value         string                                                   `json:"value"`
-	Cyclic        bool                                                     `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -3378,21 +3383,22 @@ func (r *ProteinDesignListResultsResponseEntityUnionModifications) UnmarshalJSON
 
 type ProteinDesignListResultsResponseEntityProteinEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignListResultsResponseEntityProteinEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                       `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignListResultsResponseEntityProteinEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3492,21 +3498,21 @@ func (r *ProteinDesignListResultsResponseEntityProteinEntityModificationSmilesMo
 
 type ProteinDesignListResultsResponseEntityRnaEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignListResultsResponseEntityRnaEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                       `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignListResultsResponseEntityRnaEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3606,21 +3612,21 @@ func (r *ProteinDesignListResultsResponseEntityRnaEntityModificationSmilesModifi
 
 type ProteinDesignListResultsResponseEntityDnaEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignListResultsResponseEntityDnaEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                       `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignListResultsResponseEntityDnaEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3881,7 +3887,7 @@ type ProteinDesignStartResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -3906,7 +3912,7 @@ type ProteinDesignStartResponseInput struct {
 	// regions to redesign. Only chains included in chain_selection are part of the
 	// engine run.
 	BinderSpecification ProteinDesignStartResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
-	// Number of protein designs to generate
+	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
 	// Target specification (structure template or template-free)
 	Target ProteinDesignStartResponseInputTargetUnion `json:"target" api:"required"`
@@ -4574,7 +4580,8 @@ type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecRespo
 	// residues. "ACDE8GHI" means fixed ACDE, then 8 designed residues, then fixed GHI.
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                                 `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityDesignedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -4690,7 +4697,8 @@ type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecRespo
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                              `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -4805,7 +4813,8 @@ type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecRespo
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                          `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -4920,7 +4929,8 @@ type ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecRespo
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                          `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -5636,20 +5646,20 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponse) Unmarsha
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion],
 	// [[]ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion],
 	// [[]ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion]
 	Modifications ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityUnionModifications `json:"modifications"`
-	Type          string                                                                                `json:"type"`
-	Value         string                                                                                `json:"value"`
-	Cyclic        bool                                                                                  `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -5729,21 +5739,22 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityUnio
 
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                                                            `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -5845,21 +5856,21 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityProt
 
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                                                            `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -5961,21 +5972,21 @@ func (r *ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityRnaE
 
 type ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                                                            `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStartResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -6741,7 +6752,7 @@ type ProteinDesignStopResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -6766,7 +6777,7 @@ type ProteinDesignStopResponseInput struct {
 	// regions to redesign. Only chains included in chain_selection are part of the
 	// engine run.
 	BinderSpecification ProteinDesignStopResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
-	// Number of protein designs to generate
+	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
 	// Target specification (structure template or template-free)
 	Target ProteinDesignStopResponseInputTargetUnion `json:"target" api:"required"`
@@ -7434,7 +7445,8 @@ type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRespon
 	// residues. "ACDE8GHI" means fixed ACDE, then 8 designed residues, then fixed GHI.
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                                `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityDesignedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -7550,7 +7562,8 @@ type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRespon
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                             `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -7665,7 +7678,8 @@ type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRespon
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                         `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -7780,7 +7794,8 @@ type ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRespon
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        bool                                                                                                                         `json:"cyclic"`
+	Cyclic bool `json:"cyclic"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseEntityFixedDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -8496,20 +8511,20 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponse) Unmarshal
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityUnion struct {
 	ChainIDs []string `json:"chain_ids"`
+	Type     string   `json:"type"`
+	Value    string   `json:"value"`
+	Cyclic   bool     `json:"cyclic"`
 	// This field is a union of
 	// [[]ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion],
 	// [[]ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion],
 	// [[]ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion]
 	Modifications ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityUnionModifications `json:"modifications"`
-	Type          string                                                                               `json:"type"`
-	Value         string                                                                               `json:"value"`
-	Cyclic        bool                                                                                 `json:"cyclic"`
 	JSON          struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		raw           string
 	} `json:"-"`
 }
@@ -8589,21 +8604,22 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityUnion
 
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                                                           `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityProteinEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -8705,21 +8721,21 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityProte
 
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Rna                                                                                           `json:"type" default:"rna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Rna `json:"type" default:"rna"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityRnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -8821,21 +8837,21 @@ func (r *ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityRnaEn
 
 type ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponse struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Dna                                                                                           `json:"type" default:"dna"`
+	ChainIDs []string     `json:"chain_ids" api:"required"`
+	Type     constant.Dna `json:"type" default:"dna"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStopResponseInputTargetNoTemplateTargetResponseEntityDnaEntityResponseModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -9585,7 +9601,7 @@ type ProteinDesignEstimateCostParams struct {
 	// regions to redesign. Only chains included in chain_selection are part of the
 	// engine run.
 	BinderSpecification ProteinDesignEstimateCostParamsBinderSpecificationUnion `json:"binder_specification,omitzero" api:"required"`
-	// Number of protein designs to generate
+	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
 	// Target specification (structure template or template-free)
 	Target ProteinDesignEstimateCostParamsTargetUnion `json:"target,omitzero" api:"required"`
@@ -9991,7 +10007,8 @@ type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntit
 	// residues. "ACDE8GHI" means fixed ACDE, then 8 designed residues, then fixed GHI.
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                                      `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntityDesignedProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "designed_protein".
 	Type constant.DesignedProtein `json:"type" default:"designed_protein"`
@@ -10070,7 +10087,8 @@ type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntit
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                                   `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntityFixedProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
@@ -10147,7 +10165,8 @@ type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntit
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                               `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntityFixedRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
@@ -10224,7 +10243,8 @@ type ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntit
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                               `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecEntityFixedDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
@@ -10742,16 +10762,17 @@ func (u *ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityUnion) Unmar
 	return apijson.UnmarshalRoot(data, u)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityProteinEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityProteinEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -10820,16 +10841,16 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityProteinEntit
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityRnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityRnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
 	paramObj
@@ -10898,16 +10919,16 @@ func (r *ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityRnaEntityMod
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityDnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityDnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignEstimateCostParamsTargetNoTemplateTargetEntityDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
 	paramObj
@@ -11373,7 +11394,7 @@ type ProteinDesignStartParams struct {
 	// regions to redesign. Only chains included in chain_selection are part of the
 	// engine run.
 	BinderSpecification ProteinDesignStartParamsBinderSpecificationUnion `json:"binder_specification,omitzero" api:"required"`
-	// Number of protein designs to generate
+	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
 	// Target specification (structure template or template-free)
 	Target ProteinDesignStartParamsTargetUnion `json:"target,omitzero" api:"required"`
@@ -11779,7 +11800,8 @@ type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityDesign
 	// residues. "ACDE8GHI" means fixed ACDE, then 8 designed residues, then fixed GHI.
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                               `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityDesignedProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "designed_protein".
 	Type constant.DesignedProtein `json:"type" default:"designed_protein"`
@@ -11858,7 +11880,8 @@ type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedP
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                            `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
@@ -11935,7 +11958,8 @@ type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedR
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                        `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
@@ -12012,7 +12036,8 @@ type ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedD
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
-	Cyclic        param.Opt[bool]                                                                                        `json:"cyclic,omitzero"`
+	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Optional polymer modifications. Defaults to [] when omitted.
 	Modifications []ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecEntityFixedDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
@@ -12530,16 +12555,17 @@ func (u *ProteinDesignStartParamsTargetNoTemplateTargetEntityUnion) UnmarshalJSO
 	return apijson.UnmarshalRoot(data, u)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetEntityProteinEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityProteinEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityProteinEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -12608,16 +12634,16 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetEntityProteinEntityModifi
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetEntityRnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityRnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// RNA nucleotide sequence (A, C, G, U, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityRnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "rna".
 	Type constant.Rna `json:"type" default:"rna"`
 	paramObj
@@ -12686,16 +12712,16 @@ func (r *ProteinDesignStartParamsTargetNoTemplateTargetEntityRnaEntityModificati
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type ProteinDesignStartParamsTargetNoTemplateTargetEntityDnaEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Chemical modifications
-	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityDnaEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// DNA nucleotide sequence (A, C, G, T, N)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Chemical modifications. Optional; defaults to an empty list when omitted.
+	Modifications []ProteinDesignStartParamsTargetNoTemplateTargetEntityDnaEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "dna".
 	Type constant.Dna `json:"type" default:"dna"`
 	paramObj
