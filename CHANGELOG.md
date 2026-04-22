@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 (2026-04-22)
+
+Full Changelog: [v0.3.2...v0.4.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.3.2...v0.4.0)
+
+### Features
+
+* [codex] Add Baseten ADME model and public prediction API ([09b2516](https://github.com/boltz-bio/boltz-compute-api-go/commit/09b251663c6ed1181dee6ab651f17f8529b50528))
+
 ## 0.3.2 (2026-04-22)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.3.1...v0.3.2)
