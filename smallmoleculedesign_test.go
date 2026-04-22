@@ -28,7 +28,7 @@ func TestSmallMoleculeDesignGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.SmallMolecule.Design.Get(
 		context.TODO(),
-		"run_id",
+		"id",
 		boltzcompute.SmallMoleculeDesignGetParams{
 			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
@@ -83,7 +83,7 @@ func TestSmallMoleculeDesignDeleteData(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.DeleteData(context.TODO(), "run_id")
+	_, err := client.SmallMolecule.Design.DeleteData(context.TODO(), "id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
@@ -189,7 +189,7 @@ func TestSmallMoleculeDesignListResultsWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.SmallMolecule.Design.ListResults(
 		context.TODO(),
-		"run_id",
+		"id",
 		boltzcompute.SmallMoleculeDesignListResultsParams{
 			AfterID:     boltzcompute.String("after_id"),
 			BeforeID:    boltzcompute.String("before_id"),
@@ -300,7 +300,7 @@ func TestSmallMoleculeDesignStop(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.Stop(context.TODO(), "run_id")
+	_, err := client.SmallMolecule.Design.Stop(context.TODO(), "id")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {

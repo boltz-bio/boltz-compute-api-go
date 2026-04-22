@@ -150,20 +150,31 @@ const (
 //
 // Use [param.IsOmitted] to confirm if a field is set.
 type AdminUsageListParamsApplicationsUnion struct {
-	// Check if union is this variant with !param.IsOmitted(union.OfApplication)
-	OfApplication                               param.Opt[string] `query:",omitzero,inline"`
-	OfAdminUsageListsApplicationsArrayItemArray []string          `query:",omitzero,inline"`
+	// Check if union is this variant with
+	// !param.IsOmitted(union.OfAdminUsageListsApplicationsString)
+	OfAdminUsageListsApplicationsString         param.Opt[AdminUsageListParamsApplicationsString] `query:",omitzero,inline"`
+	OfAdminUsageListsApplicationsArrayItemArray []AdminUsageListParamsApplicationsArrayItem       `query:",omitzero,inline"`
 	paramUnion
 }
 
-type AdminUsageListParamsApplicationsApplication string
+type AdminUsageListParamsApplicationsString string
 
 const (
-	AdminUsageListParamsApplicationsApplicationStructureAndBinding        AdminUsageListParamsApplicationsApplication = "structure_and_binding"
-	AdminUsageListParamsApplicationsApplicationSmallMoleculeDesign        AdminUsageListParamsApplicationsApplication = "small_molecule_design"
-	AdminUsageListParamsApplicationsApplicationSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsApplication = "small_molecule_library_screen"
-	AdminUsageListParamsApplicationsApplicationProteinDesign              AdminUsageListParamsApplicationsApplication = "protein_design"
-	AdminUsageListParamsApplicationsApplicationProteinLibraryScreen       AdminUsageListParamsApplicationsApplication = "protein_library_screen"
+	AdminUsageListParamsApplicationsStringStructureAndBinding        AdminUsageListParamsApplicationsString = "structure_and_binding"
+	AdminUsageListParamsApplicationsStringSmallMoleculeDesign        AdminUsageListParamsApplicationsString = "small_molecule_design"
+	AdminUsageListParamsApplicationsStringSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsString = "small_molecule_library_screen"
+	AdminUsageListParamsApplicationsStringProteinDesign              AdminUsageListParamsApplicationsString = "protein_design"
+	AdminUsageListParamsApplicationsStringProteinLibraryScreen       AdminUsageListParamsApplicationsString = "protein_library_screen"
+)
+
+type AdminUsageListParamsApplicationsArrayItem string
+
+const (
+	AdminUsageListParamsApplicationsArrayItemStructureAndBinding        AdminUsageListParamsApplicationsArrayItem = "structure_and_binding"
+	AdminUsageListParamsApplicationsArrayItemSmallMoleculeDesign        AdminUsageListParamsApplicationsArrayItem = "small_molecule_design"
+	AdminUsageListParamsApplicationsArrayItemSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsArrayItem = "small_molecule_library_screen"
+	AdminUsageListParamsApplicationsArrayItemProteinDesign              AdminUsageListParamsApplicationsArrayItem = "protein_design"
+	AdminUsageListParamsApplicationsArrayItemProteinLibraryScreen       AdminUsageListParamsApplicationsArrayItem = "protein_library_screen"
 )
 
 // Only one field can be non-zero.
