@@ -1795,7 +1795,7 @@ func (r *PredictionStructureAndBindingEstimateCostResponse) UnmarshalJSON(data [
 type PredictionStructureAndBindingEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
-	Application string `json:"application" api:"required"`
+	Application PredictionStructureAndBindingEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
 	NumUnits       int64  `json:"num_units" api:"required"`
@@ -1816,6 +1816,16 @@ func (r PredictionStructureAndBindingEstimateCostResponseBreakdown) RawJSON() st
 func (r *PredictionStructureAndBindingEstimateCostResponseBreakdown) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+type PredictionStructureAndBindingEstimateCostResponseBreakdownApplication string
+
+const (
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationStructureAndBinding        PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "structure_and_binding"
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationSmallMoleculeDesign        PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "small_molecule_design"
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationProteinDesign              PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "protein_design"
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationProteinLibraryScreen       PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "protein_library_screen"
+)
 
 type PredictionStructureAndBindingStartResponse struct {
 	// Unique prediction identifier
