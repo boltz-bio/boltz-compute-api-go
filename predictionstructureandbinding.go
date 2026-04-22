@@ -1794,7 +1794,8 @@ func (r *PredictionStructureAndBindingEstimateCostResponse) UnmarshalJSON(data [
 // Cost breakdown for the billed application.
 type PredictionStructureAndBindingEstimateCostResponseBreakdown struct {
 	// Any of "structure_and_binding", "small_molecule_design",
-	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
+	// "small_molecule_library_screen", "protein_design", "protein_library_screen",
+	// "adme".
 	Application PredictionStructureAndBindingEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
 	// Cost per unit as a decimal string
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
@@ -1825,6 +1826,7 @@ const (
 	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationSmallMoleculeLibraryScreen PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "small_molecule_library_screen"
 	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationProteinDesign              PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "protein_design"
 	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationProteinLibraryScreen       PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "protein_library_screen"
+	PredictionStructureAndBindingEstimateCostResponseBreakdownApplicationAdme                       PredictionStructureAndBindingEstimateCostResponseBreakdownApplication = "adme"
 )
 
 type PredictionStructureAndBindingStartResponse struct {

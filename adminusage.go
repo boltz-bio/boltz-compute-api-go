@@ -72,7 +72,8 @@ type AdminUsageListResponse struct {
 	Quantity  int64     `json:"quantity" api:"required"`
 	StartTime time.Time `json:"start_time" api:"required" format:"date-time"`
 	// Any of "structure_and_binding", "small_molecule_design",
-	// "small_molecule_library_screen", "protein_design", "protein_library_screen".
+	// "small_molecule_library_screen", "protein_design", "protein_library_screen",
+	// "adme".
 	Application AdminUsageListResponseApplication `json:"application"`
 	// Present when grouped by workspace_id
 	WorkspaceID string `json:"workspace_id"`
@@ -102,6 +103,7 @@ const (
 	AdminUsageListResponseApplicationSmallMoleculeLibraryScreen AdminUsageListResponseApplication = "small_molecule_library_screen"
 	AdminUsageListResponseApplicationProteinDesign              AdminUsageListResponseApplication = "protein_design"
 	AdminUsageListResponseApplicationProteinLibraryScreen       AdminUsageListResponseApplication = "protein_library_screen"
+	AdminUsageListResponseApplicationAdme                       AdminUsageListResponseApplication = "adme"
 )
 
 type AdminUsageListParams struct {
@@ -165,6 +167,7 @@ const (
 	AdminUsageListParamsApplicationsStringSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsString = "small_molecule_library_screen"
 	AdminUsageListParamsApplicationsStringProteinDesign              AdminUsageListParamsApplicationsString = "protein_design"
 	AdminUsageListParamsApplicationsStringProteinLibraryScreen       AdminUsageListParamsApplicationsString = "protein_library_screen"
+	AdminUsageListParamsApplicationsStringAdme                       AdminUsageListParamsApplicationsString = "adme"
 )
 
 type AdminUsageListParamsApplicationsArrayItem string
@@ -175,6 +178,7 @@ const (
 	AdminUsageListParamsApplicationsArrayItemSmallMoleculeLibraryScreen AdminUsageListParamsApplicationsArrayItem = "small_molecule_library_screen"
 	AdminUsageListParamsApplicationsArrayItemProteinDesign              AdminUsageListParamsApplicationsArrayItem = "protein_design"
 	AdminUsageListParamsApplicationsArrayItemProteinLibraryScreen       AdminUsageListParamsApplicationsArrayItem = "protein_library_screen"
+	AdminUsageListParamsApplicationsArrayItemAdme                       AdminUsageListParamsApplicationsArrayItem = "adme"
 )
 
 // Only one field can be non-zero.
