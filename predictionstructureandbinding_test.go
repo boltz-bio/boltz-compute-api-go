@@ -28,7 +28,7 @@ func TestPredictionStructureAndBindingGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Predictions.StructureAndBinding.Get(
 		context.TODO(),
-		"id",
+		"sab_pred_2X7Ab9Cd3Ef6Gh1JkLmN",
 		boltzcompute.PredictionStructureAndBindingGetParams{
 			WorkspaceID: boltzcompute.String("workspace_id"),
 		},
@@ -83,7 +83,7 @@ func TestPredictionStructureAndBindingDeleteData(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.DeleteData(context.TODO(), "id")
+	_, err := client.Predictions.StructureAndBinding.DeleteData(context.TODO(), "sab_pred_2X7Ab9Cd3Ef6Gh1JkLmN")
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
