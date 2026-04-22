@@ -61,13 +61,7 @@ func main() {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -343,13 +337,7 @@ _, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzcomp
 		Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 			OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 				ChainIDs: []string{"string"},
-				Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-					OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-						ResidueIndex: 0,
-						Value:        "value",
-					},
-				}},
-				Value: "value",
+				Value:    "value",
 			},
 		}},
 	},
@@ -386,13 +374,7 @@ client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -438,13 +420,7 @@ client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -469,13 +445,7 @@ response, err := client.Predictions.StructureAndBinding.Start(
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},

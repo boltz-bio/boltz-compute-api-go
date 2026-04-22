@@ -213,7 +213,7 @@ type SmallMoleculeDesignGetResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -233,7 +233,7 @@ func (r *SmallMoleculeDesignGetResponseError) UnmarshalJSON(data []byte) error {
 
 // Pipeline input (null if data deleted)
 type SmallMoleculeDesignGetResponseInput struct {
-	// Number of molecules to generate
+	// Number of molecules to generate. Must be between 10 and 1,000,000.
 	NumMolecules int64 `json:"num_molecules" api:"required"`
 	// Target protein with binding pocket for small molecule design or screening
 	Target SmallMoleculeDesignGetResponseInputTarget `json:"target" api:"required"`
@@ -311,21 +311,22 @@ func (r *SmallMoleculeDesignGetResponseInputTarget) UnmarshalJSON(data []byte) e
 
 type SmallMoleculeDesignGetResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeDesignGetResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                   `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeDesignGetResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -1626,7 +1627,7 @@ type SmallMoleculeDesignListResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1957,7 +1958,7 @@ type SmallMoleculeDesignStartResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -1977,7 +1978,7 @@ func (r *SmallMoleculeDesignStartResponseError) UnmarshalJSON(data []byte) error
 
 // Pipeline input (null if data deleted)
 type SmallMoleculeDesignStartResponseInput struct {
-	// Number of molecules to generate
+	// Number of molecules to generate. Must be between 10 and 1,000,000.
 	NumMolecules int64 `json:"num_molecules" api:"required"`
 	// Target protein with binding pocket for small molecule design or screening
 	Target SmallMoleculeDesignStartResponseInputTarget `json:"target" api:"required"`
@@ -2055,21 +2056,22 @@ func (r *SmallMoleculeDesignStartResponseInputTarget) UnmarshalJSON(data []byte)
 
 type SmallMoleculeDesignStartResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeDesignStartResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                     `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeDesignStartResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -3379,7 +3381,7 @@ type SmallMoleculeDesignStopResponseError struct {
 	Code string `json:"code" api:"required"`
 	// Human-readable error message
 	Message string `json:"message" api:"required"`
-	// Additional error details
+	// Additional field-level error details keyed by input path, when available.
 	Details any `json:"details"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
@@ -3399,7 +3401,7 @@ func (r *SmallMoleculeDesignStopResponseError) UnmarshalJSON(data []byte) error 
 
 // Pipeline input (null if data deleted)
 type SmallMoleculeDesignStopResponseInput struct {
-	// Number of molecules to generate
+	// Number of molecules to generate. Must be between 10 and 1,000,000.
 	NumMolecules int64 `json:"num_molecules" api:"required"`
 	// Target protein with binding pocket for small molecule design or screening
 	Target SmallMoleculeDesignStopResponseInputTarget `json:"target" api:"required"`
@@ -3477,21 +3479,22 @@ func (r *SmallMoleculeDesignStopResponseInputTarget) UnmarshalJSON(data []byte) 
 
 type SmallMoleculeDesignStopResponseInputTargetEntity struct {
 	// Chain IDs for this entity
-	ChainIDs []string `json:"chain_ids" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeDesignStopResponseInputTargetEntityModificationUnion `json:"modifications" api:"required"`
-	Type          constant.Protein                                                    `json:"type" default:"protein"`
+	ChainIDs []string         `json:"chain_ids" api:"required"`
+	Type     constant.Protein `json:"type" default:"protein"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic bool `json:"cyclic"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeDesignStopResponseInputTargetEntityModificationUnion `json:"modifications"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainIDs      respjson.Field
-		Modifications respjson.Field
 		Type          respjson.Field
 		Value         respjson.Field
 		Cyclic        respjson.Field
+		Modifications respjson.Field
 		ExtraFields   map[string]respjson.Field
 		raw           string
 	} `json:"-"`
@@ -4777,7 +4780,7 @@ func (r SmallMoleculeDesignListParams) URLQuery() (v url.Values, err error) {
 }
 
 type SmallMoleculeDesignEstimateCostParams struct {
-	// Number of molecules to generate
+	// Number of molecules to generate. Must be between 10 and 1,000,000.
 	NumMolecules int64 `json:"num_molecules" api:"required"`
 	// Target protein with binding pocket for small molecule design or screening
 	Target SmallMoleculeDesignEstimateCostParamsTarget `json:"target,omitzero" api:"required"`
@@ -4840,16 +4843,17 @@ func (r *SmallMoleculeDesignEstimateCostParamsTarget) UnmarshalJSON(data []byte)
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type SmallMoleculeDesignEstimateCostParamsTargetEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj
@@ -5674,7 +5678,7 @@ func (r SmallMoleculeDesignListResultsParams) URLQuery() (v url.Values, err erro
 }
 
 type SmallMoleculeDesignStartParams struct {
-	// Number of molecules to generate
+	// Number of molecules to generate. Must be between 10 and 1,000,000.
 	NumMolecules int64 `json:"num_molecules" api:"required"`
 	// Target protein with binding pocket for small molecule design or screening
 	Target SmallMoleculeDesignStartParamsTarget `json:"target,omitzero" api:"required"`
@@ -5737,16 +5741,17 @@ func (r *SmallMoleculeDesignStartParamsTarget) UnmarshalJSON(data []byte) error 
 	return apijson.UnmarshalRoot(data, r)
 }
 
-// The properties ChainIDs, Modifications, Type, Value are required.
+// The properties ChainIDs, Type, Value are required.
 type SmallMoleculeDesignStartParamsTargetEntity struct {
 	// Chain IDs for this entity
 	ChainIDs []string `json:"chain_ids,omitzero" api:"required"`
-	// Post-translational modifications
-	Modifications []SmallMoleculeDesignStartParamsTargetEntityModificationUnion `json:"modifications,omitzero" api:"required"`
 	// Amino acid sequence (one-letter codes)
 	Value string `json:"value" api:"required"`
 	// Whether the sequence is cyclic
 	Cyclic param.Opt[bool] `json:"cyclic,omitzero"`
+	// Post-translational modifications. Optional; defaults to an empty list when
+	// omitted.
+	Modifications []SmallMoleculeDesignStartParamsTargetEntityModificationUnion `json:"modifications,omitzero"`
 	// This field can be elided, and will marshal its zero value as "protein".
 	Type constant.Protein `json:"type" default:"protein"`
 	paramObj

@@ -111,14 +111,14 @@ func TestProteinLibraryScreenEstimateCostWithOptionalParams(t *testing.T) {
 			Entities: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityUnion{{
 				OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
+					Value:    "value",
+					Cyclic:   boltzcompute.Bool(true),
 					Modifications: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationUnion{{
 						OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
-					Value:  "value",
-					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
 			ID: boltzcompute.String("id"),
@@ -205,14 +205,14 @@ func TestProteinLibraryScreenStartWithOptionalParams(t *testing.T) {
 			Entities: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityUnion{{
 				OfProteinLibraryScreenStartsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
+					Value:    "value",
+					Cyclic:   boltzcompute.Bool(true),
 					Modifications: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationUnion{{
 						OfProteinLibraryScreenStartsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
-					Value:  "value",
-					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
 			ID: boltzcompute.String("id"),

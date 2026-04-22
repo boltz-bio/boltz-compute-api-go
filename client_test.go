@@ -43,13 +43,7 @@ func TestUserAgentHeader(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -83,13 +77,7 @@ func TestRetryAfter(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -134,13 +122,7 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -180,13 +162,7 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -225,13 +201,7 @@ func TestRetryAfterMs(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -264,13 +234,7 @@ func TestContextCancel(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -300,13 +264,7 @@ func TestContextCancelDelay(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-							ResidueIndex: 0,
-							Value:        "value",
-						},
-					}},
-					Value: "value",
+					Value:    "value",
 				},
 			}},
 		},
@@ -342,13 +300,7 @@ func TestContextDeadline(t *testing.T) {
 				Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 					OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 						ChainIDs: []string{"string"},
-						Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-							OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
-								ResidueIndex: 0,
-								Value:        "value",
-							},
-						}},
-						Value: "value",
+						Value:    "value",
 					},
 				}},
 			},

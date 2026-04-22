@@ -111,14 +111,14 @@ func TestPredictionStructureAndBindingEstimateCostWithOptionalParams(t *testing.
 			Entities: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
+					Value:    "value",
+					Cyclic:   boltzcompute.Bool(true),
 					Modifications: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion{{
 						OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
-					Value:  "value",
-					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
 			Binding: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBindingUnion{
@@ -188,14 +188,14 @@ func TestPredictionStructureAndBindingStartWithOptionalParams(t *testing.T) {
 			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
 				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
+					Value:    "value",
+					Cyclic:   boltzcompute.Bool(true),
 					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
 						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
-					Value:  "value",
-					Cyclic: boltzcompute.Bool(true),
 				},
 			}},
 			Binding: boltzcompute.PredictionStructureAndBindingStartParamsInputBindingUnion{
