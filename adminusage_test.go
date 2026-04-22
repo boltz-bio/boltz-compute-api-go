@@ -32,7 +32,7 @@ func TestAdminUsageListWithOptionalParams(t *testing.T) {
 		StartingAt: time.Now(),
 		WindowSize: boltzcompute.AdminUsageListParamsWindowSizeHour,
 		Applications: boltzcompute.AdminUsageListParamsApplicationsUnion{
-			OfApplication: boltzcompute.String("structure_and_binding"),
+			OfAdminUsageListsApplicationsString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsApplicationsStringStructureAndBinding),
 		},
 		GroupBy: boltzcompute.AdminUsageListParamsGroupByUnion{
 			OfAdminUsageListsGroupByString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsGroupByStringWorkspaceID),
