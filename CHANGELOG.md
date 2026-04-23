@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1 (2026-04-23)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.0...v0.5.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([b0260a6](https://github.com/boltz-bio/boltz-compute-api-go/commit/b0260a685a2eefb186ca242282f9a2eef12f1774))
+
 ## 0.5.0 (2026-04-23)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.4.0...v0.5.0)
