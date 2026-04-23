@@ -1838,8 +1838,6 @@ type SmallMoleculeLibraryScreenListResultsResponse struct {
 	Metrics SmallMoleculeLibraryScreenListResultsResponseMetrics `json:"metrics" api:"required"`
 	// SMILES string of the screened molecule
 	Smiles string `json:"smiles" api:"required"`
-	// Compact ADME summary for a screened small molecule.
-	Adme SmallMoleculeLibraryScreenListResultsResponseAdme `json:"adme"`
 	// Client-provided identifier for this molecule, if provided
 	ExternalID string `json:"external_id"`
 	// Warnings about potential quality issues with this result.
@@ -1851,7 +1849,6 @@ type SmallMoleculeLibraryScreenListResultsResponse struct {
 		CreatedAt   respjson.Field
 		Metrics     respjson.Field
 		Smiles      respjson.Field
-		Adme        respjson.Field
 		ExternalID  respjson.Field
 		Warnings    respjson.Field
 		ExtraFields map[string]respjson.Field
@@ -1964,51 +1961,6 @@ type SmallMoleculeLibraryScreenListResultsResponseMetrics struct {
 // Returns the unmodified JSON received from the API
 func (r SmallMoleculeLibraryScreenListResultsResponseMetrics) RawJSON() string { return r.JSON.raw }
 func (r *SmallMoleculeLibraryScreenListResultsResponseMetrics) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-// Compact ADME summary for a screened small molecule.
-type SmallMoleculeLibraryScreenListResultsResponseAdme struct {
-	// ADME prediction outputs keyed by the bundled task name.
-	Predictions map[string]float64                                           `json:"predictions" api:"required"`
-	ResultsFile SmallMoleculeLibraryScreenListResultsResponseAdmeResultsFile `json:"results_file" api:"required"`
-	// Per-microstate free-energy estimates returned by the ADME runtime.
-	IonizationStateEnergies map[string]float64 `json:"ionization_state_energies"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		Predictions             respjson.Field
-		ResultsFile             respjson.Field
-		IonizationStateEnergies respjson.Field
-		ExtraFields             map[string]respjson.Field
-		raw                     string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r SmallMoleculeLibraryScreenListResultsResponseAdme) RawJSON() string { return r.JSON.raw }
-func (r *SmallMoleculeLibraryScreenListResultsResponseAdme) UnmarshalJSON(data []byte) error {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-type SmallMoleculeLibraryScreenListResultsResponseAdmeResultsFile struct {
-	// URL to download the file
-	URL string `json:"url" api:"required" format:"uri"`
-	// When the presigned URL expires
-	URLExpiresAt time.Time `json:"url_expires_at" api:"required" format:"date-time"`
-	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
-	JSON struct {
-		URL          respjson.Field
-		URLExpiresAt respjson.Field
-		ExtraFields  map[string]respjson.Field
-		raw          string
-	} `json:"-"`
-}
-
-// Returns the unmodified JSON received from the API
-func (r SmallMoleculeLibraryScreenListResultsResponseAdmeResultsFile) RawJSON() string {
-	return r.JSON.raw
-}
-func (r *SmallMoleculeLibraryScreenListResultsResponseAdmeResultsFile) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
