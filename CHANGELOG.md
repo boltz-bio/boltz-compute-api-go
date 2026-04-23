@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 (2026-04-23)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **compute-api:** prefix structure-binding ids with sab_pred ([65e677f](https://github.com/boltz-bio/boltz-compute-api-go/commit/65e677f3c7dd88ff5d25d83ae3fbbfb89848d344))
+
+
+### Bug Fixes
+
+* **compute-api:** hide ADME from small-molecule results ([fc35230](https://github.com/boltz-bio/boltz-compute-api-go/commit/fc35230fd3b2274b692012320b657c6008db75ca))
+
 ## 0.4.0 (2026-04-22)
 
 Full Changelog: [v0.3.2...v0.4.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.3.2...v0.4.0)
