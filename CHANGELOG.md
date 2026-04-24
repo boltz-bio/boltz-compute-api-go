@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.2 (2026-04-24)
+
+Full Changelog: [v0.5.1...v0.5.2](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.1...v0.5.2)
+
+### Bug Fixes
+
+* **backend:** narrow hydrophobic set to "very hydrophobic" residues ([0ef6acd](https://github.com/boltz-bio/boltz-compute-api-go/commit/0ef6acdd204391bfe971ee5c5d2f205581a6390c))
+
 ## 0.5.1 (2026-04-23)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.0...v0.5.1)
