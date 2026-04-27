@@ -17,6 +17,11 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
+	// Inspect the authentication context for the current credential, including the
+	// organization or workspace scope for API keys and the available organization
+	// memberships for OAuth bearer tokens. OAuth callers can use this information to
+	// choose which organization to send with future requests.
+	AuthContext AuthContextService
 	// Run prediction models on molecular inputs. Each application is available as its
 	// own endpoint with application-specific inputs and outputs.
 	Predictions PredictionService
@@ -55,6 +60,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
+	r.AuthContext = NewAuthContextService(opts...)
 	r.Predictions = NewPredictionService(opts...)
 	r.SmallMolecule = NewSmallMoleculeService(opts...)
 	r.Protein = NewProteinService(opts...)
