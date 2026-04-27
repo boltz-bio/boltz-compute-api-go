@@ -345,8 +345,8 @@ func (r *ProteinDesignGetResponseInputBinderSpecificationUnionRules) UnmarshalJS
 type ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponse struct {
 	// Chains selected from the uploaded binder structure, keyed by chain ID. Only
 	// chains listed here are included in the engine run — any chains omitted from this
-	// mapping are ignored. Each value defines which residues to keep (crop_residues)
-	// and which regions to redesign (design_motifs).
+	// mapping are ignored. Each value defines which residues to keep (crop_residues).
+	// Omit design_motifs to include the chain as fixed scaffold context.
 	ChainSelection map[string]ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionUnion `json:"chain_selection" api:"required"`
 	// Any of "peptide", "antibody", "nanobody", "custom_protein".
 	Modality  ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseModality  `json:"modality" api:"required"`
@@ -422,9 +422,9 @@ type ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpec
 	// 0-indexed residue indices to retain from this chain, or 'all' to keep all
 	// residues. Residues not listed are removed before design.
 	CropResidues ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion `json:"crop_residues" api:"required"`
-	// Motifs (replacement or insertion) defining which regions to redesign on this
-	// chain.
-	DesignMotifs []ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs" api:"required"`
+	// Optional motifs (replacement or insertion) defining which regions to redesign on
+	// this chain. Omit this field to include the chain as fixed scaffold context.
+	DesignMotifs []ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainType    respjson.Field
@@ -4034,8 +4034,8 @@ func (r *ProteinDesignStartResponseInputBinderSpecificationUnionRules) Unmarshal
 type ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponse struct {
 	// Chains selected from the uploaded binder structure, keyed by chain ID. Only
 	// chains listed here are included in the engine run — any chains omitted from this
-	// mapping are ignored. Each value defines which residues to keep (crop_residues)
-	// and which regions to redesign (design_motifs).
+	// mapping are ignored. Each value defines which residues to keep (crop_residues).
+	// Omit design_motifs to include the chain as fixed scaffold context.
 	ChainSelection map[string]ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionUnion `json:"chain_selection" api:"required"`
 	// Any of "peptide", "antibody", "nanobody", "custom_protein".
 	Modality  ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseModality  `json:"modality" api:"required"`
@@ -4111,9 +4111,9 @@ type ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSp
 	// 0-indexed residue indices to retain from this chain, or 'all' to keep all
 	// residues. Residues not listed are removed before design.
 	CropResidues ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion `json:"crop_residues" api:"required"`
-	// Motifs (replacement or insertion) defining which regions to redesign on this
-	// chain.
-	DesignMotifs []ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs" api:"required"`
+	// Optional motifs (replacement or insertion) defining which regions to redesign on
+	// this chain. Omit this field to include the chain as fixed scaffold context.
+	DesignMotifs []ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainType    respjson.Field
@@ -6899,8 +6899,8 @@ func (r *ProteinDesignStopResponseInputBinderSpecificationUnionRules) UnmarshalJ
 type ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponse struct {
 	// Chains selected from the uploaded binder structure, keyed by chain ID. Only
 	// chains listed here are included in the engine run — any chains omitted from this
-	// mapping are ignored. Each value defines which residues to keep (crop_residues)
-	// and which regions to redesign (design_motifs).
+	// mapping are ignored. Each value defines which residues to keep (crop_residues).
+	// Omit design_motifs to include the chain as fixed scaffold context.
 	ChainSelection map[string]ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionUnion `json:"chain_selection" api:"required"`
 	// Any of "peptide", "antibody", "nanobody", "custom_protein".
 	Modality  ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseModality  `json:"modality" api:"required"`
@@ -6976,9 +6976,9 @@ type ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpe
 	// 0-indexed residue indices to retain from this chain, or 'all' to keep all
 	// residues. Residues not listed are removed before design.
 	CropResidues ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion `json:"crop_residues" api:"required"`
-	// Motifs (replacement or insertion) defining which regions to redesign on this
-	// chain.
-	DesignMotifs []ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs" api:"required"`
+	// Optional motifs (replacement or insertion) defining which regions to redesign on
+	// this chain. Omit this field to include the chain as fixed scaffold context.
+	DesignMotifs []ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ChainType    respjson.Field
@@ -9657,8 +9657,8 @@ func (u *ProteinDesignEstimateCostParamsBinderSpecificationUnion) UnmarshalJSON(
 type ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpec struct {
 	// Chains selected from the uploaded binder structure, keyed by chain ID. Only
 	// chains listed here are included in the engine run — any chains omitted from this
-	// mapping are ignored. Each value defines which residues to keep (crop_residues)
-	// and which regions to redesign (design_motifs).
+	// mapping are ignored. Each value defines which residues to keep (crop_residues).
+	// Omit design_motifs to include the chain as fixed scaffold context.
 	ChainSelection map[string]ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion `json:"chain_selection,omitzero" api:"required"`
 	// Any of "peptide", "antibody", "nanobody", "custom_protein".
 	Modality ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecModality `json:"modality,omitzero" api:"required"`
@@ -9700,14 +9700,14 @@ func (u *ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBind
 // Per-chain crop and design specification for a polymer chain in
 // structure_template mode.
 //
-// The properties ChainType, CropResidues, DesignMotifs are required.
+// The properties ChainType, CropResidues are required.
 type ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec struct {
 	// 0-indexed residue indices to retain from this chain, or 'all' to keep all
 	// residues. Residues not listed are removed before design.
 	CropResidues ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion `json:"crop_residues,omitzero" api:"required"`
-	// Motifs (replacement or insertion) defining which regions to redesign on this
-	// chain.
-	DesignMotifs []ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs,omitzero" api:"required"`
+	// Optional motifs (replacement or insertion) defining which regions to redesign on
+	// this chain. Omit this field to include the chain as fixed scaffold context.
+	DesignMotifs []ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs,omitzero"`
 	// This field can be elided, and will marshal its zero value as "polymer".
 	ChainType constant.Polymer `json:"chain_type" default:"polymer"`
 	paramObj
@@ -11450,8 +11450,8 @@ func (u *ProteinDesignStartParamsBinderSpecificationUnion) UnmarshalJSON(data []
 type ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpec struct {
 	// Chains selected from the uploaded binder structure, keyed by chain ID. Only
 	// chains listed here are included in the engine run — any chains omitted from this
-	// mapping are ignored. Each value defines which residues to keep (crop_residues)
-	// and which regions to redesign (design_motifs).
+	// mapping are ignored. Each value defines which residues to keep (crop_residues).
+	// Omit design_motifs to include the chain as fixed scaffold context.
 	ChainSelection map[string]ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionUnion `json:"chain_selection,omitzero" api:"required"`
 	// Any of "peptide", "antibody", "nanobody", "custom_protein".
 	Modality ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecModality `json:"modality,omitzero" api:"required"`
@@ -11493,14 +11493,14 @@ func (u *ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecC
 // Per-chain crop and design specification for a polymer chain in
 // structure_template mode.
 //
-// The properties ChainType, CropResidues, DesignMotifs are required.
+// The properties ChainType, CropResidues are required.
 type ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpec struct {
 	// 0-indexed residue indices to retain from this chain, or 'all' to keep all
 	// residues. Residues not listed are removed before design.
 	CropResidues ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecCropResiduesUnion `json:"crop_residues,omitzero" api:"required"`
-	// Motifs (replacement or insertion) defining which regions to redesign on this
-	// chain.
-	DesignMotifs []ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs,omitzero" api:"required"`
+	// Optional motifs (replacement or insertion) defining which regions to redesign on
+	// this chain. Omit this field to include the chain as fixed scaffold context.
+	DesignMotifs []ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpecChainSelectionStructureTemplatePolymerChainSpecDesignMotifUnion `json:"design_motifs,omitzero"`
 	// This field can be elided, and will marshal its zero value as "polymer".
 	ChainType constant.Polymer `json:"chain_type" default:"polymer"`
 	paramObj
