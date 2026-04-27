@@ -19,6 +19,7 @@ func ValueOf[T Constant[T]]() T {
 }
 
 type All string                          // Always "all"
+type APIKey string                       // Always "api_key"
 type Base64 string                       // Always "base64"
 type Boltz2_1 string                     // Always "boltz-2.1"
 type BoltzProteinDesign string           // Always "boltz-protein-design"
@@ -56,9 +57,11 @@ type Smiles string                       // Always "smiles"
 type SmilesRegexFilter string            // Always "smiles_regex_filter"
 type StructureTemplate string            // Always "structure_template"
 type URL string                          // Always "url"
+type User string                         // Always "user"
 type Workspace string                    // Always "workspace"
 
 func (c All) Default() All                                   { return "all" }
+func (c APIKey) Default() APIKey                             { return "api_key" }
 func (c Base64) Default() Base64                             { return "base64" }
 func (c Boltz2_1) Default() Boltz2_1                         { return "boltz-2.1" }
 func (c BoltzProteinDesign) Default() BoltzProteinDesign     { return "boltz-protein-design" }
@@ -100,9 +103,11 @@ func (c Smiles) Default() Smiles                               { return "smiles"
 func (c SmilesRegexFilter) Default() SmilesRegexFilter         { return "smiles_regex_filter" }
 func (c StructureTemplate) Default() StructureTemplate         { return "structure_template" }
 func (c URL) Default() URL                                     { return "url" }
+func (c User) Default() User                                   { return "user" }
 func (c Workspace) Default() Workspace                         { return "workspace" }
 
 func (c All) MarshalJSON() ([]byte, error)                          { return marshalString(c) }
+func (c APIKey) MarshalJSON() ([]byte, error)                       { return marshalString(c) }
 func (c Base64) MarshalJSON() ([]byte, error)                       { return marshalString(c) }
 func (c Boltz2_1) MarshalJSON() ([]byte, error)                     { return marshalString(c) }
 func (c BoltzProteinDesign) MarshalJSON() ([]byte, error)           { return marshalString(c) }
@@ -140,6 +145,7 @@ func (c Smiles) MarshalJSON() ([]byte, error)                       { return mar
 func (c SmilesRegexFilter) MarshalJSON() ([]byte, error)            { return marshalString(c) }
 func (c StructureTemplate) MarshalJSON() ([]byte, error)            { return marshalString(c) }
 func (c URL) MarshalJSON() ([]byte, error)                          { return marshalString(c) }
+func (c User) MarshalJSON() ([]byte, error)                         { return marshalString(c) }
 func (c Workspace) MarshalJSON() ([]byte, error)                    { return marshalString(c) }
 
 type constant[T any] interface {
