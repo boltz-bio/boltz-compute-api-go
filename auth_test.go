@@ -13,7 +13,7 @@ import (
 	"github.com/boltz-bio/boltz-compute-api-go/option"
 )
 
-func TestAuthContextMe(t *testing.T) {
+func TestAuthMe(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -26,7 +26,7 @@ func TestAuthContextMe(t *testing.T) {
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.AuthContext.Me(context.TODO())
+	_, err := client.Auth.Me(context.TODO())
 	if err != nil {
 		var apierr *boltzcompute.Error
 		if errors.As(err, &apierr) {
