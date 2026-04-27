@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 (2026-04-27)
+
+Full Changelog: [v0.5.2...v0.6.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.2...v0.6.0)
+
+### Features
+
+* **compute-api:** add auth context endpoint ([9dedfa5](https://github.com/boltz-bio/boltz-compute-api-go/commit/9dedfa5b38425d603bd3471d0379a7b20e3e2b28))
+
+
+### Bug Fixes
+
+* **compute-api:** make design motifs optional ([8c7a79e](https://github.com/boltz-bio/boltz-compute-api-go/commit/8c7a79e5b81c80ab65d29d5ababf883c1348d43b))
+
 ## 0.5.2 (2026-04-24)
 
 Full Changelog: [v0.5.1...v0.5.2](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.1...v0.5.2)
