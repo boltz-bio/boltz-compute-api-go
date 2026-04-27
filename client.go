@@ -21,7 +21,7 @@ type Client struct {
 	// organization or workspace scope for API keys and the available organization
 	// memberships for OAuth bearer tokens. OAuth callers can use this information to
 	// choose which organization to send with future requests.
-	AuthContext AuthContextService
+	Auth AuthService
 	// Run prediction models on molecular inputs. Each application is available as its
 	// own endpoint with application-specific inputs and outputs.
 	Predictions PredictionService
@@ -60,7 +60,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.AuthContext = NewAuthContextService(opts...)
+	r.Auth = NewAuthService(opts...)
 	r.Predictions = NewPredictionService(opts...)
 	r.SmallMolecule = NewSmallMoleculeService(opts...)
 	r.Protein = NewProteinService(opts...)

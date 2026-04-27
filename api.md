@@ -1,12 +1,12 @@
-# AuthContext
+# Auth
 
 Response Types:
 
-- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthContextMeResponseUnion">AuthContextMeResponseUnion</a>
+- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>
 
 Methods:
 
-- <code title="get /compute/v1/auth/me">client.AuthContext.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthContextService.Me">Me</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthContextMeResponseUnion">AuthContextMeResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /compute/v1/auth/me">client.Auth.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthService.Me">Me</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # Predictions
 

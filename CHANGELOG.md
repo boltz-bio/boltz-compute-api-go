@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 (2026-04-27)
+
+Full Changelog: [v0.6.0...v0.6.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.6.0...v0.6.1)
+
+### Bug Fixes
+
+* **stainless:** expose auth context as auth me ([1354d93](https://github.com/boltz-bio/boltz-compute-api-go/commit/1354d93aa9840c38637dd96b18e092f517ed773c))
+
 ## 0.6.0 (2026-04-27)
 
 Full Changelog: [v0.5.2...v0.6.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.5.2...v0.6.0)
