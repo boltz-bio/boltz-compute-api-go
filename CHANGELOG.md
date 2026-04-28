@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 (2026-04-28)
+
+Full Changelog: [v0.6.1...v0.7.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.6.1...v0.7.0)
+
+### Features
+
+* **compute-api:** add CLI version metadata endpoint ([ac8b4f7](https://github.com/boltz-bio/boltz-compute-api-go/commit/ac8b4f735a3f09cdc0fbe36b6f74e3f66837eb03))
+
 ## 0.6.1 (2026-04-27)
 
 Full Changelog: [v0.6.0...v0.6.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.6.0...v0.6.1)
