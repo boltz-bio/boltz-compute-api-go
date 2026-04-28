@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0 (2026-04-28)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **go:** add default http client with timeout ([1c3b90e](https://github.com/boltz-bio/boltz-compute-api-go/commit/1c3b90edee209ec69ea6e0994916b40a98d8dc59))
+* support setting headers via env ([db9a09c](https://github.com/boltz-bio/boltz-compute-api-go/commit/db9a09cd268a3e790fc6473adeadde3364548361))
+
 ## 0.7.0 (2026-04-28)
 
 Full Changelog: [v0.6.1...v0.7.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.6.1...v0.7.0)
