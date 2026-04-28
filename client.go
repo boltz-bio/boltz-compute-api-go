@@ -17,6 +17,9 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
+	// Check the installed boltz-api CLI version against the currently published CLI
+	// release and the minimum version supported by the Compute API.
+	Cli CliService
 	// Inspect the authentication context for the current credential, including the
 	// organization or workspace scope for API keys and the available organization
 	// memberships for OAuth bearer tokens. OAuth callers can use this information to
@@ -60,6 +63,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
+	r.Cli = NewCliService(opts...)
 	r.Auth = NewAuthService(opts...)
 	r.Predictions = NewPredictionService(opts...)
 	r.SmallMolecule = NewSmallMoleculeService(opts...)
