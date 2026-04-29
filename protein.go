@@ -18,8 +18,10 @@ import (
 type ProteinService struct {
 	Options []option.RequestOption
 	// Generate novel protein binders optimized for binding to a target structure.
-	// Results are scored by binding confidence (likelihood of protein-protein
-	// interaction) and structure confidence.
+	// Binder specifications can be provided directly, uploaded as structure templates,
+	// or selected from Boltz-managed curated nanobody and antibody defaults. Results
+	// are scored by binding confidence (likelihood of protein-protein interaction) and
+	// structure confidence.
 	Design ProteinDesignService
 	// Screen an existing library of proteins against a target structure. Results are
 	// scored by binding confidence (likelihood of protein-protein interaction) and
