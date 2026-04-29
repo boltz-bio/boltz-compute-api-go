@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 (2026-04-29)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* **compute:** support curated binder specs ([2e23387](https://github.com/boltz-bio/boltz-compute-api-go/commit/2e23387a4a3a5722ca47aedfa8f90034f21d8de9))
+
 ## 0.8.0 (2026-04-28)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.7.0...v0.8.0)
