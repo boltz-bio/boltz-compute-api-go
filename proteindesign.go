@@ -23,8 +23,10 @@ import (
 )
 
 // Generate novel protein binders optimized for binding to a target structure.
-// Results are scored by binding confidence (likelihood of protein-protein
-// interaction) and structure confidence.
+// Binder specifications can be provided directly, uploaded as structure templates,
+// or selected from Boltz-managed curated nanobody and antibody defaults. Results
+// are scored by binding confidence (likelihood of protein-protein interaction) and
+// structure confidence.
 //
 // ProteinDesignService contains methods and other services that help with
 // interacting with the boltz-compute API.
@@ -230,10 +232,9 @@ func (r *ProteinDesignGetResponseError) UnmarshalJSON(data []byte) error {
 
 // Pipeline input (null if data deleted)
 type ProteinDesignGetResponseInput struct {
-	// Binder specification starting from an existing 3D structure. Upload a CIF/PDB
-	// file and select which chains to include, which residues to keep, and which
-	// regions to redesign. Only chains included in chain_selection are part of the
-	// engine run.
+	// Binder specification for protein design. Use no_template for sequence-defined
+	// binders, structure_template for uploaded binder structures, or boltz_curated for
+	// Boltz-managed nanobody and antibody defaults.
 	BinderSpecification ProteinDesignGetResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
 	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
@@ -264,7 +265,8 @@ func (r *ProteinDesignGetResponseInput) UnmarshalJSON(data []byte) error {
 // ProteinDesignGetResponseInputBinderSpecificationUnion contains all possible
 // properties and values from
 // [ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponse],
-// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
+// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse],
+// [ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignGetResponseInputBinderSpecificationUnion struct {
@@ -278,7 +280,8 @@ type ProteinDesignGetResponseInputBinderSpecificationUnion struct {
 	Type      string                                                                                       `json:"type"`
 	// This field is a union of
 	// [ProteinDesignGetResponseInputBinderSpecificationStructureTemplateBinderSpecResponseRules],
-	// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules]
+	// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules],
+	// [ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules]
 	Rules ProteinDesignGetResponseInputBinderSpecificationUnionRules `json:"rules"`
 	// This field is from variant
 	// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
@@ -286,7 +289,10 @@ type ProteinDesignGetResponseInputBinderSpecificationUnion struct {
 	// This field is from variant
 	// [ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
 	Bonds []ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond `json:"bonds"`
-	JSON  struct {
+	// This field is from variant
+	// [ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
+	Binder ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder"`
+	JSON   struct {
 		ChainSelection respjson.Field
 		Modality       respjson.Field
 		Structure      respjson.Field
@@ -294,6 +300,7 @@ type ProteinDesignGetResponseInputBinderSpecificationUnion struct {
 		Rules          respjson.Field
 		Entities       respjson.Field
 		Bonds          respjson.Field
+		Binder         respjson.Field
 		raw            string
 	} `json:"-"`
 }
@@ -304,6 +311,11 @@ func (u ProteinDesignGetResponseInputBinderSpecificationUnion) AsProteinDesignGe
 }
 
 func (u ProteinDesignGetResponseInputBinderSpecificationUnion) AsProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse() (v ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ProteinDesignGetResponseInputBinderSpecificationUnion) AsProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse() (v ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -1664,6 +1676,86 @@ func (r ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResp
 func (r *ProteinDesignGetResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Boltz-managed curated binder specification. Choose a curated nanobody or
+// antibody family and Boltz will select from maintained template lists during
+// design. The curated lists are managed by Boltz and may be updated over time to
+// improve quality and coverage.
+type ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse struct {
+	// Boltz-managed curated binder family. Boltz maintains and may update the
+	// underlying template lists on behalf of customers.
+	//
+	// Any of "boltz_nanobody", "boltz_antibody".
+	Binder ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder" api:"required"`
+	Type   constant.BoltzCurated                                                                `json:"type" default:"boltz_curated"`
+	// Constraints applied during sequence design
+	Rules ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules `json:"rules"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Binder      respjson.Field
+		Type        respjson.Field
+		Rules       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder string
+
+const (
+	ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzNanobody ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_nanobody"
+	ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzAntibody ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_antibody"
+)
+
+// Constraints applied during sequence design
+type ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules struct {
+	// Single-letter amino acid codes to exclude from design (e.g. ['C', 'P'] to
+	// exclude cysteine and proline)
+	ExcludedAminoAcids []string `json:"excluded_amino_acids"`
+	// Sequence motifs to exclude from designed regions. Designs containing any of
+	// these motifs are filtered out before scoring. Use X as a single-residue wildcard
+	// (e.g. "NGS", "NXS").
+	ExcludedSequenceMotifs []string `json:"excluded_sequence_motifs"`
+	// Maximum allowed fraction of hydrophobic residues (I, L, V, M, F, W) in designed
+	// regions. Designs exceeding this threshold are filtered out before scoring. Leave
+	// empty to disable.
+	MaxHydrophobicFraction float64 `json:"max_hydrophobic_fraction"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ExcludedAminoAcids     respjson.Field
+		ExcludedSequenceMotifs respjson.Field
+		MaxHydrophobicFraction respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignGetResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignGetResponseInputBinderSpecificationBinder string
+
+const (
+	ProteinDesignGetResponseInputBinderSpecificationBinderBoltzNanobody ProteinDesignGetResponseInputBinderSpecificationBinder = "boltz_nanobody"
+	ProteinDesignGetResponseInputBinderSpecificationBinderBoltzAntibody ProteinDesignGetResponseInputBinderSpecificationBinder = "boltz_antibody"
+)
 
 type ProteinDesignGetResponseInputBinderSpecificationModality string
 
@@ -3919,10 +4011,9 @@ func (r *ProteinDesignStartResponseError) UnmarshalJSON(data []byte) error {
 
 // Pipeline input (null if data deleted)
 type ProteinDesignStartResponseInput struct {
-	// Binder specification starting from an existing 3D structure. Upload a CIF/PDB
-	// file and select which chains to include, which residues to keep, and which
-	// regions to redesign. Only chains included in chain_selection are part of the
-	// engine run.
+	// Binder specification for protein design. Use no_template for sequence-defined
+	// binders, structure_template for uploaded binder structures, or boltz_curated for
+	// Boltz-managed nanobody and antibody defaults.
 	BinderSpecification ProteinDesignStartResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
 	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
@@ -3953,7 +4044,8 @@ func (r *ProteinDesignStartResponseInput) UnmarshalJSON(data []byte) error {
 // ProteinDesignStartResponseInputBinderSpecificationUnion contains all possible
 // properties and values from
 // [ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponse],
-// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
+// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse],
+// [ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignStartResponseInputBinderSpecificationUnion struct {
@@ -3967,7 +4059,8 @@ type ProteinDesignStartResponseInputBinderSpecificationUnion struct {
 	Type      string                                                                                         `json:"type"`
 	// This field is a union of
 	// [ProteinDesignStartResponseInputBinderSpecificationStructureTemplateBinderSpecResponseRules],
-	// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules]
+	// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules],
+	// [ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules]
 	Rules ProteinDesignStartResponseInputBinderSpecificationUnionRules `json:"rules"`
 	// This field is from variant
 	// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
@@ -3975,7 +4068,10 @@ type ProteinDesignStartResponseInputBinderSpecificationUnion struct {
 	// This field is from variant
 	// [ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
 	Bonds []ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond `json:"bonds"`
-	JSON  struct {
+	// This field is from variant
+	// [ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
+	Binder ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder"`
+	JSON   struct {
 		ChainSelection respjson.Field
 		Modality       respjson.Field
 		Structure      respjson.Field
@@ -3983,6 +4079,7 @@ type ProteinDesignStartResponseInputBinderSpecificationUnion struct {
 		Rules          respjson.Field
 		Entities       respjson.Field
 		Bonds          respjson.Field
+		Binder         respjson.Field
 		raw            string
 	} `json:"-"`
 }
@@ -3993,6 +4090,11 @@ func (u ProteinDesignStartResponseInputBinderSpecificationUnion) AsProteinDesign
 }
 
 func (u ProteinDesignStartResponseInputBinderSpecificationUnion) AsProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse() (v ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ProteinDesignStartResponseInputBinderSpecificationUnion) AsProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse() (v ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -5353,6 +5455,86 @@ func (r ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecRe
 func (r *ProteinDesignStartResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Boltz-managed curated binder specification. Choose a curated nanobody or
+// antibody family and Boltz will select from maintained template lists during
+// design. The curated lists are managed by Boltz and may be updated over time to
+// improve quality and coverage.
+type ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse struct {
+	// Boltz-managed curated binder family. Boltz maintains and may update the
+	// underlying template lists on behalf of customers.
+	//
+	// Any of "boltz_nanobody", "boltz_antibody".
+	Binder ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder" api:"required"`
+	Type   constant.BoltzCurated                                                                  `json:"type" default:"boltz_curated"`
+	// Constraints applied during sequence design
+	Rules ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules `json:"rules"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Binder      respjson.Field
+		Type        respjson.Field
+		Rules       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder string
+
+const (
+	ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzNanobody ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_nanobody"
+	ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzAntibody ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_antibody"
+)
+
+// Constraints applied during sequence design
+type ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules struct {
+	// Single-letter amino acid codes to exclude from design (e.g. ['C', 'P'] to
+	// exclude cysteine and proline)
+	ExcludedAminoAcids []string `json:"excluded_amino_acids"`
+	// Sequence motifs to exclude from designed regions. Designs containing any of
+	// these motifs are filtered out before scoring. Use X as a single-residue wildcard
+	// (e.g. "NGS", "NXS").
+	ExcludedSequenceMotifs []string `json:"excluded_sequence_motifs"`
+	// Maximum allowed fraction of hydrophobic residues (I, L, V, M, F, W) in designed
+	// regions. Designs exceeding this threshold are filtered out before scoring. Leave
+	// empty to disable.
+	MaxHydrophobicFraction float64 `json:"max_hydrophobic_fraction"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ExcludedAminoAcids     respjson.Field
+		ExcludedSequenceMotifs respjson.Field
+		MaxHydrophobicFraction respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignStartResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignStartResponseInputBinderSpecificationBinder string
+
+const (
+	ProteinDesignStartResponseInputBinderSpecificationBinderBoltzNanobody ProteinDesignStartResponseInputBinderSpecificationBinder = "boltz_nanobody"
+	ProteinDesignStartResponseInputBinderSpecificationBinderBoltzAntibody ProteinDesignStartResponseInputBinderSpecificationBinder = "boltz_antibody"
+)
 
 type ProteinDesignStartResponseInputBinderSpecificationModality string
 
@@ -6784,10 +6966,9 @@ func (r *ProteinDesignStopResponseError) UnmarshalJSON(data []byte) error {
 
 // Pipeline input (null if data deleted)
 type ProteinDesignStopResponseInput struct {
-	// Binder specification starting from an existing 3D structure. Upload a CIF/PDB
-	// file and select which chains to include, which residues to keep, and which
-	// regions to redesign. Only chains included in chain_selection are part of the
-	// engine run.
+	// Binder specification for protein design. Use no_template for sequence-defined
+	// binders, structure_template for uploaded binder structures, or boltz_curated for
+	// Boltz-managed nanobody and antibody defaults.
 	BinderSpecification ProteinDesignStopResponseInputBinderSpecificationUnion `json:"binder_specification" api:"required"`
 	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
@@ -6818,7 +6999,8 @@ func (r *ProteinDesignStopResponseInput) UnmarshalJSON(data []byte) error {
 // ProteinDesignStopResponseInputBinderSpecificationUnion contains all possible
 // properties and values from
 // [ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponse],
-// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
+// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse],
+// [ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
 //
 // Use the methods beginning with 'As' to cast the union to one of its variants.
 type ProteinDesignStopResponseInputBinderSpecificationUnion struct {
@@ -6832,7 +7014,8 @@ type ProteinDesignStopResponseInputBinderSpecificationUnion struct {
 	Type      string                                                                                        `json:"type"`
 	// This field is a union of
 	// [ProteinDesignStopResponseInputBinderSpecificationStructureTemplateBinderSpecResponseRules],
-	// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules]
+	// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules],
+	// [ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules]
 	Rules ProteinDesignStopResponseInputBinderSpecificationUnionRules `json:"rules"`
 	// This field is from variant
 	// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
@@ -6840,7 +7023,10 @@ type ProteinDesignStopResponseInputBinderSpecificationUnion struct {
 	// This field is from variant
 	// [ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse].
 	Bonds []ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseBond `json:"bonds"`
-	JSON  struct {
+	// This field is from variant
+	// [ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse].
+	Binder ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder"`
+	JSON   struct {
 		ChainSelection respjson.Field
 		Modality       respjson.Field
 		Structure      respjson.Field
@@ -6848,6 +7034,7 @@ type ProteinDesignStopResponseInputBinderSpecificationUnion struct {
 		Rules          respjson.Field
 		Entities       respjson.Field
 		Bonds          respjson.Field
+		Binder         respjson.Field
 		raw            string
 	} `json:"-"`
 }
@@ -6858,6 +7045,11 @@ func (u ProteinDesignStopResponseInputBinderSpecificationUnion) AsProteinDesignS
 }
 
 func (u ProteinDesignStopResponseInputBinderSpecificationUnion) AsProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse() (v ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponse) {
+	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
+	return
+}
+
+func (u ProteinDesignStopResponseInputBinderSpecificationUnion) AsProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse() (v ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) {
 	apijson.UnmarshalRoot(json.RawMessage(u.JSON.raw), &v)
 	return
 }
@@ -8218,6 +8410,86 @@ func (r ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecRes
 func (r *ProteinDesignStopResponseInputBinderSpecificationNoTemplateBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// Boltz-managed curated binder specification. Choose a curated nanobody or
+// antibody family and Boltz will select from maintained template lists during
+// design. The curated lists are managed by Boltz and may be updated over time to
+// improve quality and coverage.
+type ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse struct {
+	// Boltz-managed curated binder family. Boltz maintains and may update the
+	// underlying template lists on behalf of customers.
+	//
+	// Any of "boltz_nanobody", "boltz_antibody".
+	Binder ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder `json:"binder" api:"required"`
+	Type   constant.BoltzCurated                                                                 `json:"type" default:"boltz_curated"`
+	// Constraints applied during sequence design
+	Rules ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules `json:"rules"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		Binder      respjson.Field
+		Type        respjson.Field
+		Rules       respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponse) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder string
+
+const (
+	ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzNanobody ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_nanobody"
+	ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinderBoltzAntibody ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseBinder = "boltz_antibody"
+)
+
+// Constraints applied during sequence design
+type ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules struct {
+	// Single-letter amino acid codes to exclude from design (e.g. ['C', 'P'] to
+	// exclude cysteine and proline)
+	ExcludedAminoAcids []string `json:"excluded_amino_acids"`
+	// Sequence motifs to exclude from designed regions. Designs containing any of
+	// these motifs are filtered out before scoring. Use X as a single-residue wildcard
+	// (e.g. "NGS", "NXS").
+	ExcludedSequenceMotifs []string `json:"excluded_sequence_motifs"`
+	// Maximum allowed fraction of hydrophobic residues (I, L, V, M, F, W) in designed
+	// regions. Designs exceeding this threshold are filtered out before scoring. Leave
+	// empty to disable.
+	MaxHydrophobicFraction float64 `json:"max_hydrophobic_fraction"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		ExcludedAminoAcids     respjson.Field
+		ExcludedSequenceMotifs respjson.Field
+		MaxHydrophobicFraction respjson.Field
+		ExtraFields            map[string]respjson.Field
+		raw                    string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) RawJSON() string {
+	return r.JSON.raw
+}
+func (r *ProteinDesignStopResponseInputBinderSpecificationBoltzCuratedBinderSpecResponseRules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignStopResponseInputBinderSpecificationBinder string
+
+const (
+	ProteinDesignStopResponseInputBinderSpecificationBinderBoltzNanobody ProteinDesignStopResponseInputBinderSpecificationBinder = "boltz_nanobody"
+	ProteinDesignStopResponseInputBinderSpecificationBinderBoltzAntibody ProteinDesignStopResponseInputBinderSpecificationBinder = "boltz_antibody"
+)
 
 type ProteinDesignStopResponseInputBinderSpecificationModality string
 
@@ -9608,10 +9880,9 @@ func (r ProteinDesignListParams) URLQuery() (v url.Values, err error) {
 }
 
 type ProteinDesignEstimateCostParams struct {
-	// Binder specification starting from an existing 3D structure. Upload a CIF/PDB
-	// file and select which chains to include, which residues to keep, and which
-	// regions to redesign. Only chains included in chain_selection are part of the
-	// engine run.
+	// Binder specification for protein design. Use no_template for sequence-defined
+	// binders, structure_template for uploaded binder structures, or boltz_curated for
+	// Boltz-managed nanobody and antibody defaults.
 	BinderSpecification ProteinDesignEstimateCostParamsBinderSpecificationUnion `json:"binder_specification,omitzero" api:"required"`
 	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
@@ -9638,11 +9909,12 @@ func (r *ProteinDesignEstimateCostParams) UnmarshalJSON(data []byte) error {
 type ProteinDesignEstimateCostParamsBinderSpecificationUnion struct {
 	OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpec *ProteinDesignEstimateCostParamsBinderSpecificationStructureTemplateBinderSpec `json:",omitzero,inline"`
 	OfProteinDesignEstimateCostsBinderSpecificationNoTemplateBinderSpec        *ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpec        `json:",omitzero,inline"`
+	OfProteinDesignEstimateCostsBinderSpecificationBoltzCuratedBinderSpec      *ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpec      `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ProteinDesignEstimateCostParamsBinderSpecificationUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpec, u.OfProteinDesignEstimateCostsBinderSpecificationNoTemplateBinderSpec)
+	return param.MarshalUnion(u, u.OfProteinDesignEstimateCostsBinderSpecificationStructureTemplateBinderSpec, u.OfProteinDesignEstimateCostsBinderSpecificationNoTemplateBinderSpec, u.OfProteinDesignEstimateCostsBinderSpecificationBoltzCuratedBinderSpec)
 }
 func (u *ProteinDesignEstimateCostParamsBinderSpecificationUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -10539,6 +10811,66 @@ func (r *ProteinDesignEstimateCostParamsBinderSpecificationNoTemplateBinderSpecR
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// Boltz-managed curated binder specification. Choose a curated nanobody or
+// antibody family and Boltz will select from maintained template lists during
+// design. The curated lists are managed by Boltz and may be updated over time to
+// improve quality and coverage.
+//
+// The properties Binder, Type are required.
+type ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpec struct {
+	// Boltz-managed curated binder family. Boltz maintains and may update the
+	// underlying template lists on behalf of customers.
+	//
+	// Any of "boltz_nanobody", "boltz_antibody".
+	Binder ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinder `json:"binder,omitzero" api:"required"`
+	// Constraints applied during sequence design
+	Rules ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecRules `json:"rules,omitzero"`
+	// This field can be elided, and will marshal its zero value as "boltz_curated".
+	Type constant.BoltzCurated `json:"type" default:"boltz_curated"`
+	paramObj
+}
+
+func (r ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpec) MarshalJSON() (data []byte, err error) {
+	type shadow ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpec
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpec) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinder string
+
+const (
+	ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinderBoltzNanobody ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinder = "boltz_nanobody"
+	ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinderBoltzAntibody ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecBinder = "boltz_antibody"
+)
+
+// Constraints applied during sequence design
+type ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecRules struct {
+	// Maximum allowed fraction of hydrophobic residues (I, L, V, M, F, W) in designed
+	// regions. Designs exceeding this threshold are filtered out before scoring. Leave
+	// empty to disable.
+	MaxHydrophobicFraction param.Opt[float64] `json:"max_hydrophobic_fraction,omitzero"`
+	// Single-letter amino acid codes to exclude from design (e.g. ['C', 'P'] to
+	// exclude cysteine and proline)
+	ExcludedAminoAcids []string `json:"excluded_amino_acids,omitzero"`
+	// Sequence motifs to exclude from designed regions. Designs containing any of
+	// these motifs are filtered out before scoring. Use X as a single-residue wildcard
+	// (e.g. "NGS", "NXS").
+	ExcludedSequenceMotifs []string `json:"excluded_sequence_motifs,omitzero"`
+	paramObj
+}
+
+func (r ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecRules) MarshalJSON() (data []byte, err error) {
+	type shadow ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecRules
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ProteinDesignEstimateCostParamsBinderSpecificationBoltzCuratedBinderSpecRules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
 // Only one field can be non-zero.
 //
 // Use [param.IsOmitted] to confirm if a field is set.
@@ -11401,10 +11733,9 @@ func (r ProteinDesignListResultsParams) URLQuery() (v url.Values, err error) {
 }
 
 type ProteinDesignStartParams struct {
-	// Binder specification starting from an existing 3D structure. Upload a CIF/PDB
-	// file and select which chains to include, which residues to keep, and which
-	// regions to redesign. Only chains included in chain_selection are part of the
-	// engine run.
+	// Binder specification for protein design. Use no_template for sequence-defined
+	// binders, structure_template for uploaded binder structures, or boltz_curated for
+	// Boltz-managed nanobody and antibody defaults.
 	BinderSpecification ProteinDesignStartParamsBinderSpecificationUnion `json:"binder_specification,omitzero" api:"required"`
 	// Number of protein designs to generate. Must be between 10 and 1,000,000.
 	NumProteins int64 `json:"num_proteins" api:"required"`
@@ -11431,11 +11762,12 @@ func (r *ProteinDesignStartParams) UnmarshalJSON(data []byte) error {
 type ProteinDesignStartParamsBinderSpecificationUnion struct {
 	OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpec *ProteinDesignStartParamsBinderSpecificationStructureTemplateBinderSpec `json:",omitzero,inline"`
 	OfProteinDesignStartsBinderSpecificationNoTemplateBinderSpec        *ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpec        `json:",omitzero,inline"`
+	OfProteinDesignStartsBinderSpecificationBoltzCuratedBinderSpec      *ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpec      `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ProteinDesignStartParamsBinderSpecificationUnion) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpec, u.OfProteinDesignStartsBinderSpecificationNoTemplateBinderSpec)
+	return param.MarshalUnion(u, u.OfProteinDesignStartsBinderSpecificationStructureTemplateBinderSpec, u.OfProteinDesignStartsBinderSpecificationNoTemplateBinderSpec, u.OfProteinDesignStartsBinderSpecificationBoltzCuratedBinderSpec)
 }
 func (u *ProteinDesignStartParamsBinderSpecificationUnion) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -12329,6 +12661,66 @@ func (r ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecRules) Ma
 	return param.MarshalObject(r, (*shadow)(&r))
 }
 func (r *ProteinDesignStartParamsBinderSpecificationNoTemplateBinderSpecRules) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder specification. Choose a curated nanobody or
+// antibody family and Boltz will select from maintained template lists during
+// design. The curated lists are managed by Boltz and may be updated over time to
+// improve quality and coverage.
+//
+// The properties Binder, Type are required.
+type ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpec struct {
+	// Boltz-managed curated binder family. Boltz maintains and may update the
+	// underlying template lists on behalf of customers.
+	//
+	// Any of "boltz_nanobody", "boltz_antibody".
+	Binder ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinder `json:"binder,omitzero" api:"required"`
+	// Constraints applied during sequence design
+	Rules ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecRules `json:"rules,omitzero"`
+	// This field can be elided, and will marshal its zero value as "boltz_curated".
+	Type constant.BoltzCurated `json:"type" default:"boltz_curated"`
+	paramObj
+}
+
+func (r ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpec) MarshalJSON() (data []byte, err error) {
+	type shadow ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpec
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpec) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Boltz-managed curated binder family. Boltz maintains and may update the
+// underlying template lists on behalf of customers.
+type ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinder string
+
+const (
+	ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinderBoltzNanobody ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinder = "boltz_nanobody"
+	ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinderBoltzAntibody ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecBinder = "boltz_antibody"
+)
+
+// Constraints applied during sequence design
+type ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecRules struct {
+	// Maximum allowed fraction of hydrophobic residues (I, L, V, M, F, W) in designed
+	// regions. Designs exceeding this threshold are filtered out before scoring. Leave
+	// empty to disable.
+	MaxHydrophobicFraction param.Opt[float64] `json:"max_hydrophobic_fraction,omitzero"`
+	// Single-letter amino acid codes to exclude from design (e.g. ['C', 'P'] to
+	// exclude cysteine and proline)
+	ExcludedAminoAcids []string `json:"excluded_amino_acids,omitzero"`
+	// Sequence motifs to exclude from designed regions. Designs containing any of
+	// these motifs are filtered out before scoring. Use X as a single-residue wildcard
+	// (e.g. "NGS", "NXS").
+	ExcludedSequenceMotifs []string `json:"excluded_sequence_motifs,omitzero"`
+	paramObj
+}
+
+func (r ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecRules) MarshalJSON() (data []byte, err error) {
+	type shadow ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecRules
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ProteinDesignStartParamsBinderSpecificationBoltzCuratedBinderSpecRules) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 

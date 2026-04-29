@@ -21,6 +21,7 @@ func ValueOf[T Constant[T]]() T {
 type All string                          // Always "all"
 type APIKey string                       // Always "api_key"
 type Base64 string                       // Always "base64"
+type BoltzCurated string                 // Always "boltz_curated"
 type Boltz2_1 string                     // Always "boltz-2.1"
 type BoltzProteinDesign string           // Always "boltz-protein-design"
 type BoltzProteinScreen string           // Always "boltz-protein-screen"
@@ -63,6 +64,7 @@ type Workspace string                    // Always "workspace"
 func (c All) Default() All                                   { return "all" }
 func (c APIKey) Default() APIKey                             { return "api_key" }
 func (c Base64) Default() Base64                             { return "base64" }
+func (c BoltzCurated) Default() BoltzCurated                 { return "boltz_curated" }
 func (c Boltz2_1) Default() Boltz2_1                         { return "boltz-2.1" }
 func (c BoltzProteinDesign) Default() BoltzProteinDesign     { return "boltz-protein-design" }
 func (c BoltzProteinScreen) Default() BoltzProteinScreen     { return "boltz-protein-screen" }
@@ -109,6 +111,7 @@ func (c Workspace) Default() Workspace                         { return "workspa
 func (c All) MarshalJSON() ([]byte, error)                          { return marshalString(c) }
 func (c APIKey) MarshalJSON() ([]byte, error)                       { return marshalString(c) }
 func (c Base64) MarshalJSON() ([]byte, error)                       { return marshalString(c) }
+func (c BoltzCurated) MarshalJSON() ([]byte, error)                 { return marshalString(c) }
 func (c Boltz2_1) MarshalJSON() ([]byte, error)                     { return marshalString(c) }
 func (c BoltzProteinDesign) MarshalJSON() ([]byte, error)           { return marshalString(c) }
 func (c BoltzProteinScreen) MarshalJSON() ([]byte, error)           { return marshalString(c) }
