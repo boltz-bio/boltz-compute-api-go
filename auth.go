@@ -173,13 +173,13 @@ func (r *AuthMeResponseAuthMeUserResponse) UnmarshalJSON(data []byte) error {
 }
 
 type AuthMeResponseAuthMeUserResponseOrganizationMembership struct {
-	OrganizationID string `json:"organization_id" api:"required"`
-	// Any of "Admin", "Scientist", "Viewer".
-	Role AuthMeResponseAuthMeUserResponseOrganizationMembershipRole `json:"role" api:"required"`
+	// Any of "admin", "member".
+	ComputeRole    AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRole `json:"compute_role" api:"required"`
+	OrganizationID string                                                            `json:"organization_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		ComputeRole    respjson.Field
 		OrganizationID respjson.Field
-		Role           respjson.Field
 		ExtraFields    map[string]respjson.Field
 		raw            string
 	} `json:"-"`
@@ -191,12 +191,11 @@ func (r *AuthMeResponseAuthMeUserResponseOrganizationMembership) UnmarshalJSON(d
 	return apijson.UnmarshalRoot(data, r)
 }
 
-type AuthMeResponseAuthMeUserResponseOrganizationMembershipRole string
+type AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRole string
 
 const (
-	AuthMeResponseAuthMeUserResponseOrganizationMembershipRoleAdmin     AuthMeResponseAuthMeUserResponseOrganizationMembershipRole = "Admin"
-	AuthMeResponseAuthMeUserResponseOrganizationMembershipRoleScientist AuthMeResponseAuthMeUserResponseOrganizationMembershipRole = "Scientist"
-	AuthMeResponseAuthMeUserResponseOrganizationMembershipRoleViewer    AuthMeResponseAuthMeUserResponseOrganizationMembershipRole = "Viewer"
+	AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRoleAdmin  AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRole = "admin"
+	AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRoleMember AuthMeResponseAuthMeUserResponseOrganizationMembershipComputeRole = "member"
 )
 
 type AuthMeResponseKeyType string
