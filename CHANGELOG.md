@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.1 (2026-04-30)
+
+Full Changelog: [v0.9.0...v0.9.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.9.0...v0.9.1)
+
+### Bug Fixes
+
+* **compute-api:** display requested estimate units ([ae8169a](https://github.com/boltz-bio/boltz-compute-api-go/commit/ae8169a183802ccd39894bd5605bd2b616d220de))
+* **sdk:** serialize usage arrays as repeated params ([6ebd332](https://github.com/boltz-bio/boltz-compute-api-go/commit/6ebd332f02e728488e0582eb21320f3b369cb027))
+
 ## 0.9.0 (2026-04-29)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.8.0...v0.9.0)
