@@ -4919,7 +4919,7 @@ type SmallMoleculeLibraryScreenGetParams struct {
 // `url.Values`.
 func (r SmallMoleculeLibraryScreenGetParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -4942,7 +4942,7 @@ type SmallMoleculeLibraryScreenListParams struct {
 // `url.Values`.
 func (r SmallMoleculeLibraryScreenListParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
@@ -5844,7 +5844,7 @@ type SmallMoleculeLibraryScreenListResultsParams struct {
 // parameters as `url.Values`.
 func (r SmallMoleculeLibraryScreenListResultsParams) URLQuery() (v url.Values, err error) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
-		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		ArrayFormat:  apiquery.ArrayQueryFormatRepeat,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
 }
