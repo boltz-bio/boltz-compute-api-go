@@ -1797,9 +1797,14 @@ type PredictionStructureAndBindingEstimateCostResponseBreakdown struct {
 	// "small_molecule_library_screen", "protein_design", "protein_library_screen",
 	// "adme".
 	Application PredictionStructureAndBindingEstimateCostResponseBreakdownApplication `json:"application" api:"required"`
-	// Cost per unit as a decimal string
+	// Estimated cost per displayed unit as a decimal string, rounded up to 4 decimal
+	// places. This may include token-size multipliers or generation overhead;
+	// estimated_cost_usd is the authoritative total.
 	CostPerUnitUsd string `json:"cost_per_unit_usd" api:"required"`
-	NumUnits       int64  `json:"num_units" api:"required"`
+	// Number of units shown for the estimate. For structure-and-binding, this is the
+	// requested number of samples. For protein and small-molecule design/screen
+	// endpoints, this is the requested number of proteins or molecules.
+	NumUnits int64 `json:"num_units" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Application    respjson.Field
