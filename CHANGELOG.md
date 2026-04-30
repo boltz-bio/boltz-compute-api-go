@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.0 (2026-04-30)
+
+Full Changelog: [v0.9.1...v0.10.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.9.1...v0.10.0)
+
+### Features
+
+* **compute:** gate console backend by compute roles ([a6d97b2](https://github.com/boltz-bio/boltz-compute-api-go/commit/a6d97b242127f7009d17122bc30867954931ac02))
+
 ## 0.9.1 (2026-04-30)
 
 Full Changelog: [v0.9.0...v0.9.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.9.0...v0.9.1)
