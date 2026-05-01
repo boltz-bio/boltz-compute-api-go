@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.1 (2026-05-01)
+
+Full Changelog: [v0.10.0...v0.10.1](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.10.0...v0.10.1)
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([e1f9b86](https://github.com/boltz-bio/boltz-compute-api-go/commit/e1f9b860cc167f586c1bdfb0d32fcac66044bfb9))
+
 ## 0.10.0 (2026-04-30)
 
 Full Changelog: [v0.9.1...v0.10.0](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.9.1...v0.10.0)
