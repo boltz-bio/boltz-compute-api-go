@@ -1,23 +1,3 @@
-# Cli
-
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionResponse">CliVersionResponse</a>
-
-Methods:
-
-- <code title="get /compute/v1/cli/version">client.Cli.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliService.Version">Version</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionParams">CliVersionParams</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionResponse">CliVersionResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-
-# Auth
-
-Response Types:
-
-- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>
-
-Methods:
-
-- <code title="get /compute/v1/auth/me">client.Auth.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthService.Me">Me</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
-
 # Predictions
 
 ## StructureAndBinding
@@ -173,3 +153,23 @@ Response Types:
 Methods:
 
 - <code title="get /compute/v1/admin/usage">client.Admin.Usage.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AdminUsageService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AdminUsageListParams">AdminUsageListParams</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go/packages/pagination#OpaqueCursorPage">OpaqueCursorPage</a>[<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AdminUsageListResponse">AdminUsageListResponse</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+# Cli
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionResponse">CliVersionResponse</a>
+
+Methods:
+
+- <code title="get /compute/v1/cli/version">client.Cli.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliService.Version">Version</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, query <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionParams">CliVersionParams</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#CliVersionResponse">CliVersionResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+# Auth
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>
+
+Methods:
+
+- <code title="get /compute/v1/auth/me">client.Auth.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthService.Me">Me</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>) (\*<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go">boltzcompute</a>.<a href="https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#AuthMeResponseUnion">AuthMeResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>

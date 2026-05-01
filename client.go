@@ -18,14 +18,6 @@ import (
 // directly, and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
-	// Check the installed boltz-api CLI version against the currently published CLI
-	// release and the minimum version supported by the Compute API.
-	Cli CliService
-	// Inspect the authentication context for the current credential, including the
-	// organization or workspace scope for API keys and the available organization
-	// memberships for OAuth bearer tokens. OAuth callers can use this information to
-	// choose which organization to send with future requests.
-	Auth AuthService
 	// Run prediction models on molecular inputs. Each application is available as its
 	// own endpoint with application-specific inputs and outputs.
 	Predictions PredictionService
@@ -40,6 +32,14 @@ type Client struct {
 	// access to all management and compute operations across all workspaces in the
 	// organization.
 	Admin AdminService
+	// Check the installed boltz-api CLI version against the currently published CLI
+	// release and the minimum version supported by the Compute API.
+	Cli CliService
+	// Inspect the authentication context for the current credential, including the
+	// organization or workspace scope for API keys and the available organization
+	// memberships for OAuth bearer tokens. OAuth callers can use this information to
+	// choose which organization to send with future requests.
+	Auth AuthService
 }
 
 // DefaultClientOptions read from the environment (BOLTZ_COMPUTE_API_KEY,
@@ -72,12 +72,12 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 
 	r = Client{Options: opts}
 
-	r.Cli = NewCliService(opts...)
-	r.Auth = NewAuthService(opts...)
 	r.Predictions = NewPredictionService(opts...)
 	r.SmallMolecule = NewSmallMoleculeService(opts...)
 	r.Protein = NewProteinService(opts...)
 	r.Admin = NewAdminService(opts...)
+	r.Cli = NewCliService(opts...)
+	r.Auth = NewAuthService(opts...)
 
 	return
 }
