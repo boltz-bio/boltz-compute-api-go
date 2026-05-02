@@ -1,16 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 // Run prediction models on molecular inputs. Each application is available as its
 // own endpoint with application-specific inputs and outputs.
 //
 // PredictionService contains methods and other services that help with interacting
-// with the boltz-compute API.
+// with the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use

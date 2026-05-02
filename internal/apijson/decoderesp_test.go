@@ -2,8 +2,8 @@ package apijson_test
 
 import (
 	"encoding/json"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
 	"testing"
 )
 

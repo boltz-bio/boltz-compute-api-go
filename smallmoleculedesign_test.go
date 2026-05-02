@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestSmallMoleculeDesignGetWithOptionalParams(t *testing.T) {
@@ -22,19 +22,19 @@ func TestSmallMoleculeDesignGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.Get(
 		context.TODO(),
 		"id",
-		boltzcompute.SmallMoleculeDesignGetParams{
-			WorkspaceID: boltzcompute.String("workspace_id"),
+		boltzapi.SmallMoleculeDesignGetParams{
+			WorkspaceID: boltzapi.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestSmallMoleculeDesignListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.List(context.TODO(), boltzcompute.SmallMoleculeDesignListParams{
-		AfterID:     boltzcompute.String("after_id"),
-		BeforeID:    boltzcompute.String("before_id"),
-		Limit:       boltzcompute.Int(1),
-		WorkspaceID: boltzcompute.String("workspace_id"),
+	_, err := client.SmallMolecule.Design.List(context.TODO(), boltzapi.SmallMoleculeDesignListParams{
+		AfterID:     boltzapi.String("after_id"),
+		BeforeID:    boltzapi.String("before_id"),
+		Limit:       boltzapi.Int(1),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestSmallMoleculeDesignDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.DeleteData(context.TODO(), "id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,46 +102,46 @@ func TestSmallMoleculeDesignEstimateCostWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.EstimateCost(context.TODO(), boltzcompute.SmallMoleculeDesignEstimateCostParams{
+	_, err := client.SmallMolecule.Design.EstimateCost(context.TODO(), boltzapi.SmallMoleculeDesignEstimateCostParams{
 		NumMolecules: 10,
-		Target: boltzcompute.SmallMoleculeDesignEstimateCostParamsTarget{
-			Entities: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntity{{
+		Target: boltzapi.SmallMoleculeDesignEstimateCostParamsTarget{
+			Entities: []boltzapi.SmallMoleculeDesignEstimateCostParamsTargetEntity{{
 				ChainIDs: []string{"string"},
 				Value:    "value",
-				Cyclic:   boltzcompute.Bool(true),
-				Modifications: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeDesignEstimateCostsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationCcdModification{
+				Cyclic:   boltzapi.Bool(true),
+				Modifications: []boltzapi.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeDesignEstimateCostsTargetEntityModificationCcdModification: &boltzapi.SmallMoleculeDesignEstimateCostParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 			}},
-			Bonds: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBond{{
-				Atom1: boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union{
-					OfSmallMoleculeDesignEstimateCostsTargetBondAtom1LigandAtom: &boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom{
+			Bonds: []boltzapi.SmallMoleculeDesignEstimateCostParamsTargetBond{{
+				Atom1: boltzapi.SmallMoleculeDesignEstimateCostParamsTargetBondAtom1Union{
+					OfSmallMoleculeDesignEstimateCostsTargetBondAtom1LigandAtom: &boltzapi.SmallMoleculeDesignEstimateCostParamsTargetBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union{
-					OfSmallMoleculeDesignEstimateCostsTargetBondAtom2LigandAtom: &boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom{
+				Atom2: boltzapi.SmallMoleculeDesignEstimateCostParamsTargetBondAtom2Union{
+					OfSmallMoleculeDesignEstimateCostsTargetBondAtom2LigandAtom: &boltzapi.SmallMoleculeDesignEstimateCostParamsTargetBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion{{
-				OfSmallMoleculeDesignEstimateCostsTargetConstraintPocketConstraint: &boltzcompute.SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint{
+			Constraints: []boltzapi.SmallMoleculeDesignEstimateCostParamsTargetConstraintUnion{{
+				OfSmallMoleculeDesignEstimateCostsTargetConstraintPocketConstraint: &boltzapi.SmallMoleculeDesignEstimateCostParamsTargetConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               boltzcompute.Bool(true),
+					Force:               boltzapi.Bool(true),
 				},
 			}},
 			PocketResidues: map[string][]int64{
@@ -149,24 +149,24 @@ func TestSmallMoleculeDesignEstimateCostWithOptionalParams(t *testing.T) {
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		ChemicalSpace:  boltzcompute.SmallMoleculeDesignEstimateCostParamsChemicalSpaceEnamineReal,
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		MoleculeFilters: boltzcompute.SmallMoleculeDesignEstimateCostParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: boltzcompute.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []boltzcompute.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeDesignEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcompute.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		ChemicalSpace:  boltzapi.SmallMoleculeDesignEstimateCostParamsChemicalSpaceEnamineReal,
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		MoleculeFilters: boltzapi.SmallMoleculeDesignEstimateCostParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: boltzapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []boltzapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeDesignEstimateCostsMoleculeFiltersCustomFilterLipinskiFilter: &boltzapi.SmallMoleculeDesignEstimateCostParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: boltzcompute.Bool(true),
+					AllowSingleViolation: boltzapi.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: boltzcompute.String("workspace_id"),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -183,22 +183,22 @@ func TestSmallMoleculeDesignListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.ListResults(
 		context.TODO(),
 		"id",
-		boltzcompute.SmallMoleculeDesignListResultsParams{
-			AfterID:     boltzcompute.String("after_id"),
-			BeforeID:    boltzcompute.String("before_id"),
-			Limit:       boltzcompute.Int(1),
-			WorkspaceID: boltzcompute.String("workspace_id"),
+		boltzapi.SmallMoleculeDesignListResultsParams{
+			AfterID:     boltzapi.String("after_id"),
+			BeforeID:    boltzapi.String("before_id"),
+			Limit:       boltzapi.Int(1),
+			WorkspaceID: boltzapi.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -215,46 +215,46 @@ func TestSmallMoleculeDesignStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.SmallMolecule.Design.Start(context.TODO(), boltzcompute.SmallMoleculeDesignStartParams{
+	_, err := client.SmallMolecule.Design.Start(context.TODO(), boltzapi.SmallMoleculeDesignStartParams{
 		NumMolecules: 10,
-		Target: boltzcompute.SmallMoleculeDesignStartParamsTarget{
-			Entities: []boltzcompute.SmallMoleculeDesignStartParamsTargetEntity{{
+		Target: boltzapi.SmallMoleculeDesignStartParamsTarget{
+			Entities: []boltzapi.SmallMoleculeDesignStartParamsTargetEntity{{
 				ChainIDs: []string{"string"},
 				Value:    "value",
-				Cyclic:   boltzcompute.Bool(true),
-				Modifications: []boltzcompute.SmallMoleculeDesignStartParamsTargetEntityModificationUnion{{
-					OfSmallMoleculeDesignStartsTargetEntityModificationCcdModification: &boltzcompute.SmallMoleculeDesignStartParamsTargetEntityModificationCcdModification{
+				Cyclic:   boltzapi.Bool(true),
+				Modifications: []boltzapi.SmallMoleculeDesignStartParamsTargetEntityModificationUnion{{
+					OfSmallMoleculeDesignStartsTargetEntityModificationCcdModification: &boltzapi.SmallMoleculeDesignStartParamsTargetEntityModificationCcdModification{
 						ResidueIndex: 0,
 						Value:        "value",
 					},
 				}},
 			}},
-			Bonds: []boltzcompute.SmallMoleculeDesignStartParamsTargetBond{{
-				Atom1: boltzcompute.SmallMoleculeDesignStartParamsTargetBondAtom1Union{
-					OfSmallMoleculeDesignStartsTargetBondAtom1LigandAtom: &boltzcompute.SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom{
+			Bonds: []boltzapi.SmallMoleculeDesignStartParamsTargetBond{{
+				Atom1: boltzapi.SmallMoleculeDesignStartParamsTargetBondAtom1Union{
+					OfSmallMoleculeDesignStartsTargetBondAtom1LigandAtom: &boltzapi.SmallMoleculeDesignStartParamsTargetBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: boltzcompute.SmallMoleculeDesignStartParamsTargetBondAtom2Union{
-					OfSmallMoleculeDesignStartsTargetBondAtom2LigandAtom: &boltzcompute.SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom{
+				Atom2: boltzapi.SmallMoleculeDesignStartParamsTargetBondAtom2Union{
+					OfSmallMoleculeDesignStartsTargetBondAtom2LigandAtom: &boltzapi.SmallMoleculeDesignStartParamsTargetBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []boltzcompute.SmallMoleculeDesignStartParamsTargetConstraintUnion{{
-				OfSmallMoleculeDesignStartsTargetConstraintPocketConstraint: &boltzcompute.SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint{
+			Constraints: []boltzapi.SmallMoleculeDesignStartParamsTargetConstraintUnion{{
+				OfSmallMoleculeDesignStartsTargetConstraintPocketConstraint: &boltzapi.SmallMoleculeDesignStartParamsTargetConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               boltzcompute.Bool(true),
+					Force:               boltzapi.Bool(true),
 				},
 			}},
 			PocketResidues: map[string][]int64{
@@ -262,24 +262,24 @@ func TestSmallMoleculeDesignStartWithOptionalParams(t *testing.T) {
 			},
 			ReferenceLigands: []string{"string"},
 		},
-		ChemicalSpace:  boltzcompute.SmallMoleculeDesignStartParamsChemicalSpaceEnamineReal,
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		MoleculeFilters: boltzcompute.SmallMoleculeDesignStartParamsMoleculeFilters{
-			BoltzSmartsCatalogFilterLevel: boltzcompute.SmallMoleculeDesignStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
-			CustomFilters: []boltzcompute.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterUnion{{
-				OfSmallMoleculeDesignStartsMoleculeFiltersCustomFilterLipinskiFilter: &boltzcompute.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
+		ChemicalSpace:  boltzapi.SmallMoleculeDesignStartParamsChemicalSpaceEnamineReal,
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		MoleculeFilters: boltzapi.SmallMoleculeDesignStartParamsMoleculeFilters{
+			BoltzSmartsCatalogFilterLevel: boltzapi.SmallMoleculeDesignStartParamsMoleculeFiltersBoltzSmartsCatalogFilterLevelRecommended,
+			CustomFilters: []boltzapi.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterUnion{{
+				OfSmallMoleculeDesignStartsMoleculeFiltersCustomFilterLipinskiFilter: &boltzapi.SmallMoleculeDesignStartParamsMoleculeFiltersCustomFilterLipinskiFilter{
 					MaxHba:               0,
 					MaxHbd:               0,
 					MaxLogp:              0,
 					MaxMw:                0,
-					AllowSingleViolation: boltzcompute.Bool(true),
+					AllowSingleViolation: boltzapi.Bool(true),
 				},
 			}},
 		},
-		WorkspaceID: boltzcompute.String("workspace_id"),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -296,13 +296,13 @@ func TestSmallMoleculeDesignStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.SmallMolecule.Design.Stop(context.TODO(), "id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

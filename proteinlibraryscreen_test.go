@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestProteinLibraryScreenGetWithOptionalParams(t *testing.T) {
@@ -22,19 +22,19 @@ func TestProteinLibraryScreenGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.Get(
 		context.TODO(),
 		"id",
-		boltzcompute.ProteinLibraryScreenGetParams{
-			WorkspaceID: boltzcompute.String("workspace_id"),
+		boltzapi.ProteinLibraryScreenGetParams{
+			WorkspaceID: boltzapi.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestProteinLibraryScreenListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.List(context.TODO(), boltzcompute.ProteinLibraryScreenListParams{
-		AfterID:     boltzcompute.String("after_id"),
-		BeforeID:    boltzcompute.String("before_id"),
-		Limit:       boltzcompute.Int(1),
-		WorkspaceID: boltzcompute.String("workspace_id"),
+	_, err := client.Protein.LibraryScreen.List(context.TODO(), boltzapi.ProteinLibraryScreenListParams{
+		AfterID:     boltzapi.String("after_id"),
+		BeforeID:    boltzapi.String("before_id"),
+		Limit:       boltzapi.Int(1),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestProteinLibraryScreenDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.DeleteData(context.TODO(), "id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,33 +102,33 @@ func TestProteinLibraryScreenEstimateCostWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.EstimateCost(context.TODO(), boltzcompute.ProteinLibraryScreenEstimateCostParams{
-		Proteins: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProtein{{
-			Entities: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityUnion{{
-				OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntity{
+	_, err := client.Protein.LibraryScreen.EstimateCost(context.TODO(), boltzapi.ProteinLibraryScreenEstimateCostParams{
+		Proteins: []boltzapi.ProteinLibraryScreenEstimateCostParamsProtein{{
+			Entities: []boltzapi.ProteinLibraryScreenEstimateCostParamsProteinEntityUnion{{
+				OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntity: &boltzapi.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
 					Value:    "value",
-					Cyclic:   boltzcompute.Bool(true),
-					Modifications: []boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationUnion{{
-						OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationCcdModification{
+					Cyclic:   boltzapi.Bool(true),
+					Modifications: []boltzapi.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationUnion{{
+						OfProteinLibraryScreenEstimateCostsProteinEntityProteinEntityModificationCcdModification: &boltzapi.ProteinLibraryScreenEstimateCostParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 				},
 			}},
-			ID: boltzcompute.String("id"),
+			ID: boltzapi.String("id"),
 		}},
-		Target: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetUnion{
-			OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTarget: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: boltzapi.ProteinLibraryScreenEstimateCostParamsTargetUnion{
+			OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTarget: &boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -136,18 +136,18 @@ func TestProteinLibraryScreenEstimateCostWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetStructureURLSource: &boltzcompute.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinLibraryScreenEstimateCostsTargetStructureTemplateTargetStructureURLSource: &boltzapi.ProteinLibraryScreenEstimateCostParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		WorkspaceID:    boltzcompute.String("workspace_id"),
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		WorkspaceID:    boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -164,22 +164,22 @@ func TestProteinLibraryScreenListResultsWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.ListResults(
 		context.TODO(),
 		"id",
-		boltzcompute.ProteinLibraryScreenListResultsParams{
-			AfterID:     boltzcompute.String("after_id"),
-			BeforeID:    boltzcompute.String("before_id"),
-			Limit:       boltzcompute.Int(1),
-			WorkspaceID: boltzcompute.String("workspace_id"),
+		boltzapi.ProteinLibraryScreenListResultsParams{
+			AfterID:     boltzapi.String("after_id"),
+			BeforeID:    boltzapi.String("before_id"),
+			Limit:       boltzapi.Int(1),
+			WorkspaceID: boltzapi.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -196,33 +196,33 @@ func TestProteinLibraryScreenStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Protein.LibraryScreen.Start(context.TODO(), boltzcompute.ProteinLibraryScreenStartParams{
-		Proteins: []boltzcompute.ProteinLibraryScreenStartParamsProtein{{
-			Entities: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityUnion{{
-				OfProteinLibraryScreenStartsProteinEntityProteinEntity: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntity{
+	_, err := client.Protein.LibraryScreen.Start(context.TODO(), boltzapi.ProteinLibraryScreenStartParams{
+		Proteins: []boltzapi.ProteinLibraryScreenStartParamsProtein{{
+			Entities: []boltzapi.ProteinLibraryScreenStartParamsProteinEntityUnion{{
+				OfProteinLibraryScreenStartsProteinEntityProteinEntity: &boltzapi.ProteinLibraryScreenStartParamsProteinEntityProteinEntity{
 					ChainIDs: []string{"string"},
 					Value:    "value",
-					Cyclic:   boltzcompute.Bool(true),
-					Modifications: []boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationUnion{{
-						OfProteinLibraryScreenStartsProteinEntityProteinEntityModificationCcdModification: &boltzcompute.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationCcdModification{
+					Cyclic:   boltzapi.Bool(true),
+					Modifications: []boltzapi.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationUnion{{
+						OfProteinLibraryScreenStartsProteinEntityProteinEntityModificationCcdModification: &boltzapi.ProteinLibraryScreenStartParamsProteinEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 				},
 			}},
-			ID: boltzcompute.String("id"),
+			ID: boltzapi.String("id"),
 		}},
-		Target: boltzcompute.ProteinLibraryScreenStartParamsTargetUnion{
-			OfProteinLibraryScreenStartsTargetStructureTemplateTarget: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTarget{
-				ChainSelection: map[string]boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionUnion{
+		Target: boltzapi.ProteinLibraryScreenStartParamsTargetUnion{
+			OfProteinLibraryScreenStartsTargetStructureTemplateTarget: &boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTarget{
+				ChainSelection: map[string]boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionUnion{
 					"A": {
-						OfProteinLibraryScreenStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
-							CropResidues: boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
+						OfProteinLibraryScreenStartsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec: &boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpec{
+							CropResidues: boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetChainSelectionStructureTemplateTargetPolymerChainSpecCropResiduesUnion{
 								OfIntArray: []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12},
 							},
 							EpitopeResidues:  []int64{10, 11, 12},
@@ -230,18 +230,18 @@ func TestProteinLibraryScreenStartWithOptionalParams(t *testing.T) {
 						},
 					},
 				},
-				Structure: boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureUnion{
-					OfProteinLibraryScreenStartsTargetStructureTemplateTargetStructureURLSource: &boltzcompute.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureURLSource{
+				Structure: boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureUnion{
+					OfProteinLibraryScreenStartsTargetStructureTemplateTargetStructureURLSource: &boltzapi.ProteinLibraryScreenStartParamsTargetStructureTemplateTargetStructureURLSource{
 						URL: "https://example.com",
 					},
 				},
 			},
 		},
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		WorkspaceID:    boltzcompute.String("workspace_id"),
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		WorkspaceID:    boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -258,13 +258,13 @@ func TestProteinLibraryScreenStop(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Protein.LibraryScreen.Stop(context.TODO(), "id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

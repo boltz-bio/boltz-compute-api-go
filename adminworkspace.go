@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"context"
@@ -11,13 +11,13 @@ import (
 	"slices"
 	"time"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apiquery"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/pagination"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/internal/apiquery"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/packages/pagination"
+	"github.com/boltz-bio/boltz-api-go/packages/param"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
 )
 
 // Workspaces provide isolated environments for organizing predictions and engine
@@ -25,7 +25,7 @@ import (
 // retention settings and can be associated with workspace API keys.
 //
 // AdminWorkspaceService contains methods and other services that help with
-// interacting with the boltz-compute API.
+// interacting with the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use

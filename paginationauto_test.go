@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestAutoPagination(t *testing.T) {
@@ -21,11 +21,11 @@ func TestAutoPagination(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	iter := client.Predictions.StructureAndBinding.ListAutoPaging(context.TODO(), boltzcompute.PredictionStructureAndBindingListParams{})
+	iter := client.Predictions.StructureAndBinding.ListAutoPaging(context.TODO(), boltzapi.PredictionStructureAndBindingListParams{})
 	// The mock server isn't going to give us real pagination
 	for i := 0; i < 3 && iter.Next(); i++ {
 		structureAndBinding := iter.Current()

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"context"
@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
-	"github.com/boltz-bio/boltz-compute-api-go/shared/constant"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/shared/constant"
 )
 
 // Inspect the authentication context for the current credential, including the
@@ -21,7 +21,7 @@ import (
 // choose which organization to send with future requests.
 //
 // AuthService contains methods and other services that help with interacting with
-// the boltz-compute API.
+// the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use

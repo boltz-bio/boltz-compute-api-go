@@ -1,15 +1,15 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestManualPagination(t *testing.T) {
@@ -21,11 +21,11 @@ func TestManualPagination(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	page, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzcompute.PredictionStructureAndBindingListParams{})
+	page, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzapi.PredictionStructureAndBindingListParams{})
 	if err != nil {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}

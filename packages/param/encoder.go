@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	shimjson "github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json"
+	shimjson "github.com/boltz-bio/boltz-api-go/internal/encoding/json"
 
 	"github.com/tidwall/sjson"
 )

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"context"
@@ -9,13 +9,13 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with
-// interacting with the boltz-compute API. You should not instantiate this client
-// directly, and instead use the [NewClient] method instead.
+// interacting with the boltz API. You should not instantiate this client directly,
+// and instead use the [NewClient] method instead.
 type Client struct {
 	Options []option.RequestOption
 	// Run prediction models on molecular inputs. Each application is available as its
@@ -33,7 +33,7 @@ type Client struct {
 	// organization.
 	Admin AdminService
 	// Check the installed boltz-api CLI version against the currently published CLI
-	// release and the minimum version supported by the Compute API.
+	// release and the minimum version supported by the Boltz API.
 	Cli CliService
 	// Inspect the authentication context for the current credential, including the
 	// organization or workspace scope for API keys and the available organization
@@ -42,17 +42,17 @@ type Client struct {
 	Auth AuthService
 }
 
-// DefaultClientOptions read from the environment (BOLTZ_COMPUTE_API_KEY,
-// BOLTZ_COMPUTE_BASE_URL). This should be used to initialize new clients.
+// DefaultClientOptions read from the environment (BOLTZ_API_KEY, BOLTZ_BASE_URL).
+// This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
 	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentProduction()}
-	if o, ok := os.LookupEnv("BOLTZ_COMPUTE_BASE_URL"); ok {
+	if o, ok := os.LookupEnv("BOLTZ_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}
-	if o, ok := os.LookupEnv("BOLTZ_COMPUTE_API_KEY"); ok {
+	if o, ok := os.LookupEnv("BOLTZ_API_KEY"); ok {
 		defaults = append(defaults, option.WithAPIKey(o))
 	}
-	if o, ok := os.LookupEnv("BOLTZ_COMPUTE_CUSTOM_HEADERS"); ok {
+	if o, ok := os.LookupEnv("BOLTZ_CUSTOM_HEADERS"); ok {
 		for _, line := range strings.Split(o, "\n") {
 			colon := strings.Index(line, ":")
 			if colon >= 0 {
@@ -64,9 +64,9 @@ func DefaultClientOptions() []option.RequestOption {
 }
 
 // NewClient generates a new client with the default option read from the
-// environment (BOLTZ_COMPUTE_API_KEY, BOLTZ_COMPUTE_BASE_URL). The option passed
-// in as arguments are applied after these default arguments, and all option will
-// be passed down to the services and requests that this client makes.
+// environment (BOLTZ_API_KEY, BOLTZ_BASE_URL). The option passed in as arguments
+// are applied after these default arguments, and all option will be passed down to
+// the services and requests that this client makes.
 func NewClient(opts ...option.RequestOption) (r Client) {
 	opts = append(DefaultClientOptions(), opts...)
 

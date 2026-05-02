@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.3 (2026-05-02)
+
+Full Changelog: [v0.10.2...v0.10.3](https://github.com/boltz-bio/boltz-api-go/compare/v0.10.2...v0.10.3)
+
+### Bug Fixes
+
+* stainless changes ([efde456](https://github.com/boltz-bio/boltz-api-go/commit/efde456a842a9989d0b587821fa0019c347ec3a5))
+
+
+### Chores
+
+* update SDK settings ([b7d10e6](https://github.com/boltz-bio/boltz-api-go/commit/b7d10e621a02df387122c5f69f6e0975bcc88d4f))
+
 ## 0.10.2 (2026-05-01)
 
 Full Changelog: [v0.10.1...v0.10.2](https://github.com/boltz-bio/boltz-compute-api-go/compare/v0.10.1...v0.10.2)

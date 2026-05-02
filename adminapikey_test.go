@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestAdminAPIKeyNewWithOptionalParams(t *testing.T) {
@@ -22,19 +22,19 @@ func TestAdminAPIKeyNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.APIKeys.New(context.TODO(), boltzcompute.AdminAPIKeyNewParams{
+	_, err := client.Admin.APIKeys.New(context.TODO(), boltzapi.AdminAPIKeyNewParams{
 		Name:          "x",
 		AllowedIPs:    []string{"string"},
-		ExpiresInDays: boltzcompute.Int(1),
-		Mode:          boltzcompute.AdminAPIKeyNewParamsModeLive,
-		WorkspaceID:   boltzcompute.String("workspace_id"),
+		ExpiresInDays: boltzapi.Int(1),
+		Mode:          boltzapi.AdminAPIKeyNewParamsModeLive,
+		WorkspaceID:   boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestAdminAPIKeyListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.APIKeys.List(context.TODO(), boltzcompute.AdminAPIKeyListParams{
-		AfterID:     boltzcompute.String("after_id"),
-		BeforeID:    boltzcompute.String("before_id"),
-		Limit:       boltzcompute.Int(1),
-		WorkspaceID: boltzcompute.String("workspace_id"),
+	_, err := client.Admin.APIKeys.List(context.TODO(), boltzapi.AdminAPIKeyListParams{
+		AfterID:     boltzapi.String("after_id"),
+		BeforeID:    boltzapi.String("before_id"),
+		Limit:       boltzapi.Int(1),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestAdminAPIKeyRevoke(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.APIKeys.Revoke(context.TODO(), "api_key_id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestAdminUsageListWithOptionalParams(t *testing.T) {
@@ -23,28 +23,28 @@ func TestAdminUsageListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Usage.List(context.TODO(), boltzcompute.AdminUsageListParams{
+	_, err := client.Admin.Usage.List(context.TODO(), boltzapi.AdminUsageListParams{
 		EndingAt:   time.Now(),
 		StartingAt: time.Now(),
-		WindowSize: boltzcompute.AdminUsageListParamsWindowSizeHour,
-		Applications: boltzcompute.AdminUsageListParamsApplicationsUnion{
-			OfAdminUsageListsApplicationsString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsApplicationsStringStructureAndBinding),
+		WindowSize: boltzapi.AdminUsageListParamsWindowSizeHour,
+		Applications: boltzapi.AdminUsageListParamsApplicationsUnion{
+			OfAdminUsageListsApplicationsString: boltzapi.Opt(boltzapi.AdminUsageListParamsApplicationsStringStructureAndBinding),
 		},
-		GroupBy: boltzcompute.AdminUsageListParamsGroupByUnion{
-			OfAdminUsageListsGroupByString: boltzcompute.Opt(boltzcompute.AdminUsageListParamsGroupByStringWorkspaceID),
+		GroupBy: boltzapi.AdminUsageListParamsGroupByUnion{
+			OfAdminUsageListsGroupByString: boltzapi.Opt(boltzapi.AdminUsageListParamsGroupByStringWorkspaceID),
 		},
-		Limit: boltzcompute.Int(1),
-		Page:  boltzcompute.String("page"),
-		WorkspaceIDs: boltzcompute.AdminUsageListParamsWorkspaceIDsUnion{
-			OfString: boltzcompute.String("string"),
+		Limit: boltzapi.Int(1),
+		Page:  boltzapi.String("page"),
+		WorkspaceIDs: boltzapi.AdminUsageListParamsWorkspaceIDsUnion{
+			OfString: boltzapi.String("string"),
 		},
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

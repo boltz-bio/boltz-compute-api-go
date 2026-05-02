@@ -11,15 +11,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
 	"github.com/tidwall/sjson"
 )
 
-// RequestOption is an option for the requests made by the boltz-compute API Client
+// RequestOption is an option for the requests made by the boltz API Client
 // which can be supplied to clients, services, and methods. You can read more about this functional
 // options pattern in our [README].
 //
-// [README]: https://pkg.go.dev/github.com/boltz-bio/boltz-compute-api-go#readme-requestoptions
+// [README]: https://pkg.go.dev/github.com/boltz-bio/boltz-api-go#readme-requestoptions
 type RequestOption = requestconfig.RequestOption
 
 // WithBaseURL returns a RequestOption that sets the BaseURL for the client.

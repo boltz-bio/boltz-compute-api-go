@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestPredictionStructureAndBindingGetWithOptionalParams(t *testing.T) {
@@ -22,19 +22,19 @@ func TestPredictionStructureAndBindingGetWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Predictions.StructureAndBinding.Get(
 		context.TODO(),
 		"sab_pred_2X7Ab9Cd3Ef6Gh1JkLmN",
-		boltzcompute.PredictionStructureAndBindingGetParams{
-			WorkspaceID: boltzcompute.String("workspace_id"),
+		boltzapi.PredictionStructureAndBindingGetParams{
+			WorkspaceID: boltzapi.String("workspace_id"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,18 +51,18 @@ func TestPredictionStructureAndBindingListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzcompute.PredictionStructureAndBindingListParams{
-		AfterID:     boltzcompute.String("after_id"),
-		BeforeID:    boltzcompute.String("before_id"),
-		Limit:       boltzcompute.Int(1),
-		WorkspaceID: boltzcompute.String("workspace_id"),
+	_, err := client.Predictions.StructureAndBinding.List(context.TODO(), boltzapi.PredictionStructureAndBindingListParams{
+		AfterID:     boltzapi.String("after_id"),
+		BeforeID:    boltzapi.String("before_id"),
+		Limit:       boltzapi.Int(1),
+		WorkspaceID: boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -79,13 +79,13 @@ func TestPredictionStructureAndBindingDeleteData(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Predictions.StructureAndBinding.DeleteData(context.TODO(), "sab_pred_2X7Ab9Cd3Ef6Gh1JkLmN")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -102,67 +102,67 @@ func TestPredictionStructureAndBindingEstimateCostWithOptionalParams(t *testing.
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.EstimateCost(context.TODO(), boltzcompute.PredictionStructureAndBindingEstimateCostParams{
-		Input: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInput{
-			Entities: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.EstimateCost(context.TODO(), boltzapi.PredictionStructureAndBindingEstimateCostParams{
+		Input: boltzapi.PredictionStructureAndBindingEstimateCostParamsInput{
+			Entities: []boltzapi.PredictionStructureAndBindingEstimateCostParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntity: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
 					Value:    "value",
-					Cyclic:   boltzcompute.Bool(true),
-					Modifications: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationCcdModification{
+					Cyclic:   boltzapi.Bool(true),
+					Modifications: []boltzapi.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingEstimateCostsInputEntityProteinEntityModificationCcdModification: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 				},
 			}},
-			Binding: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBindingUnion{
-				OfPredictionStructureAndBindingEstimateCostsInputBindingLigandProteinBinding: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBindingLigandProteinBinding{
+			Binding: boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBindingUnion{
+				OfPredictionStructureAndBindingEstimateCostsInputBindingLigandProteinBinding: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBindingLigandProteinBinding{
 					BinderChainID: "binder_chain_id",
 				},
 			},
-			Bonds: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBond{{
-				Atom1: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union{
-					OfPredictionStructureAndBindingEstimateCostsInputBondAtom1LigandAtom: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1LigandAtom{
+			Bonds: []boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBond{{
+				Atom1: boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1Union{
+					OfPredictionStructureAndBindingEstimateCostsInputBondAtom1LigandAtom: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union{
-					OfPredictionStructureAndBindingEstimateCostsInputBondAtom2LigandAtom: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2LigandAtom{
+				Atom2: boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2Union{
+					OfPredictionStructureAndBindingEstimateCostsInputBondAtom2LigandAtom: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputConstraintUnion{{
-				OfPredictionStructureAndBindingEstimateCostsInputConstraintPocketConstraint: &boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputConstraintPocketConstraint{
+			Constraints: []boltzapi.PredictionStructureAndBindingEstimateCostParamsInputConstraintUnion{{
+				OfPredictionStructureAndBindingEstimateCostsInputConstraintPocketConstraint: &boltzapi.PredictionStructureAndBindingEstimateCostParamsInputConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               boltzcompute.Bool(true),
+					Force:               boltzapi.Bool(true),
 				},
 			}},
-			ModelOptions: boltzcompute.PredictionStructureAndBindingEstimateCostParamsInputModelOptions{
-				RecyclingSteps: boltzcompute.Int(1),
-				SamplingSteps:  boltzcompute.Int(1),
-				StepScale:      boltzcompute.Float(1.3),
+			ModelOptions: boltzapi.PredictionStructureAndBindingEstimateCostParamsInputModelOptions{
+				RecyclingSteps: boltzapi.Int(1),
+				SamplingSteps:  boltzapi.Int(1),
+				StepScale:      boltzapi.Float(1.3),
 			},
-			NumSamples: boltzcompute.Int(1),
+			NumSamples: boltzapi.Int(1),
 		},
 		Model:          "boltz-2.1",
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		WorkspaceID:    boltzcompute.String("workspace_id"),
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		WorkspaceID:    boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -179,67 +179,67 @@ func TestPredictionStructureAndBindingStartWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzcompute.PredictionStructureAndBindingStartParams{
-		Input: boltzcompute.PredictionStructureAndBindingStartParamsInput{
-			Entities: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityUnion{{
-				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
+	_, err := client.Predictions.StructureAndBinding.Start(context.TODO(), boltzapi.PredictionStructureAndBindingStartParams{
+		Input: boltzapi.PredictionStructureAndBindingStartParamsInput{
+			Entities: []boltzapi.PredictionStructureAndBindingStartParamsInputEntityUnion{{
+				OfPredictionStructureAndBindingStartsInputEntityProteinEntity: &boltzapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntity{
 					ChainIDs: []string{"string"},
 					Value:    "value",
-					Cyclic:   boltzcompute.Bool(true),
-					Modifications: []boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
-						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzcompute.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
+					Cyclic:   boltzapi.Bool(true),
+					Modifications: []boltzapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationUnion{{
+						OfPredictionStructureAndBindingStartsInputEntityProteinEntityModificationCcdModification: &boltzapi.PredictionStructureAndBindingStartParamsInputEntityProteinEntityModificationCcdModification{
 							ResidueIndex: 0,
 							Value:        "value",
 						},
 					}},
 				},
 			}},
-			Binding: boltzcompute.PredictionStructureAndBindingStartParamsInputBindingUnion{
-				OfPredictionStructureAndBindingStartsInputBindingLigandProteinBinding: &boltzcompute.PredictionStructureAndBindingStartParamsInputBindingLigandProteinBinding{
+			Binding: boltzapi.PredictionStructureAndBindingStartParamsInputBindingUnion{
+				OfPredictionStructureAndBindingStartsInputBindingLigandProteinBinding: &boltzapi.PredictionStructureAndBindingStartParamsInputBindingLigandProteinBinding{
 					BinderChainID: "binder_chain_id",
 				},
 			},
-			Bonds: []boltzcompute.PredictionStructureAndBindingStartParamsInputBond{{
-				Atom1: boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom1Union{
-					OfPredictionStructureAndBindingStartsInputBondAtom1LigandAtom: &boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom1LigandAtom{
+			Bonds: []boltzapi.PredictionStructureAndBindingStartParamsInputBond{{
+				Atom1: boltzapi.PredictionStructureAndBindingStartParamsInputBondAtom1Union{
+					OfPredictionStructureAndBindingStartsInputBondAtom1LigandAtom: &boltzapi.PredictionStructureAndBindingStartParamsInputBondAtom1LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
-				Atom2: boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom2Union{
-					OfPredictionStructureAndBindingStartsInputBondAtom2LigandAtom: &boltzcompute.PredictionStructureAndBindingStartParamsInputBondAtom2LigandAtom{
+				Atom2: boltzapi.PredictionStructureAndBindingStartParamsInputBondAtom2Union{
+					OfPredictionStructureAndBindingStartsInputBondAtom2LigandAtom: &boltzapi.PredictionStructureAndBindingStartParamsInputBondAtom2LigandAtom{
 						AtomName: "atom_name",
 						ChainID:  "chain_id",
 					},
 				},
 			}},
-			Constraints: []boltzcompute.PredictionStructureAndBindingStartParamsInputConstraintUnion{{
-				OfPredictionStructureAndBindingStartsInputConstraintPocketConstraint: &boltzcompute.PredictionStructureAndBindingStartParamsInputConstraintPocketConstraint{
+			Constraints: []boltzapi.PredictionStructureAndBindingStartParamsInputConstraintUnion{{
+				OfPredictionStructureAndBindingStartsInputConstraintPocketConstraint: &boltzapi.PredictionStructureAndBindingStartParamsInputConstraintPocketConstraint{
 					BinderChainID: "binder_chain_id",
 					ContactResidues: map[string][]int64{
 						"A": {42, 43, 44, 67, 68, 69},
 					},
 					MaxDistanceAngstrom: 0,
-					Force:               boltzcompute.Bool(true),
+					Force:               boltzapi.Bool(true),
 				},
 			}},
-			ModelOptions: boltzcompute.PredictionStructureAndBindingStartParamsInputModelOptions{
-				RecyclingSteps: boltzcompute.Int(1),
-				SamplingSteps:  boltzcompute.Int(1),
-				StepScale:      boltzcompute.Float(1.3),
+			ModelOptions: boltzapi.PredictionStructureAndBindingStartParamsInputModelOptions{
+				RecyclingSteps: boltzapi.Int(1),
+				SamplingSteps:  boltzapi.Int(1),
+				StepScale:      boltzapi.Float(1.3),
 			},
-			NumSamples: boltzcompute.Int(1),
+			NumSamples: boltzapi.Int(1),
 		},
 		Model:          "boltz-2.1",
-		IdempotencyKey: boltzcompute.String("idempotency_key"),
-		WorkspaceID:    boltzcompute.String("workspace_id"),
+		IdempotencyKey: boltzapi.String("idempotency_key"),
+		WorkspaceID:    boltzapi.String("workspace_id"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
