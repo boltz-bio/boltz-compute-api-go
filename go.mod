@@ -1,4 +1,4 @@
-module github.com/boltz-bio/boltz-compute-api-go
+module github.com/boltz-bio/boltz-api-go
 
 go 1.22
 

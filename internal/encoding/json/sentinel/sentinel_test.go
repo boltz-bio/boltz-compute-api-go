@@ -1,8 +1,8 @@
 package sentinel_test
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json/sentinel"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
+	"github.com/boltz-bio/boltz-api-go/internal/encoding/json/sentinel"
+	"github.com/boltz-bio/boltz-api-go/packages/param"
 	"reflect"
 	"slices"
 	"testing"

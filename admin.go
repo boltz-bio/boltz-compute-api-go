@@ -3,7 +3,7 @@
 package boltzcompute
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 // Manage workspaces and API keys. Requires an admin API key. Admin keys have full

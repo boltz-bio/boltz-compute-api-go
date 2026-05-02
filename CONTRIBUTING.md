@@ -41,7 +41,7 @@ To use a local version of this library from source in another project, edit the 
 directive. This can be done through the CLI with the following:
 
 ```sh
-$ go mod edit -replace github.com/boltz-bio/boltz-compute-api-go=/path/to/boltz-compute-api-go
+$ go mod edit -replace github.com/boltz-bio/boltz-api-go=/path/to/boltz-api-go
 ```
 
 ## Running tests

@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/boltz-bio/boltz-compute-api-go"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/testutil"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go"
+	"github.com/boltz-bio/boltz-api-go/internal/testutil"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 func TestAdminWorkspaceNewWithOptionalParams(t *testing.T) {

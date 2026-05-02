@@ -13,7 +13,7 @@ import (
 
 	"github.com/tidwall/sjson"
 
-	shimjson "github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json"
+	shimjson "github.com/boltz-bio/boltz-api-go/internal/encoding/json"
 )
 
 var encoders sync.Map // map[encoderEntry]encoderFunc

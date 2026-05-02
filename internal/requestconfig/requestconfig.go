@@ -18,10 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apierror"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apiform"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apiquery"
+	"github.com/boltz-bio/boltz-api-go/internal"
+	"github.com/boltz-bio/boltz-api-go/internal/apierror"
+	"github.com/boltz-bio/boltz-api-go/internal/apiform"
+	"github.com/boltz-bio/boltz-api-go/internal/apiquery"
 )
 
 func getDefaultHeaders() map[string]string {

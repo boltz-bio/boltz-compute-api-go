@@ -12,14 +12,14 @@ import (
 	"slices"
 	"time"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apiquery"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/pagination"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/param"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
-	"github.com/boltz-bio/boltz-compute-api-go/shared/constant"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/internal/apiquery"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/packages/pagination"
+	"github.com/boltz-bio/boltz-api-go/packages/param"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/shared/constant"
 )
 
 // Predict 3D structure coordinates, per-residue confidence scores, and binding

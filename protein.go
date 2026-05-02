@@ -3,7 +3,7 @@
 package boltzcompute
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/option"
 )
 
 // Protein Engine — design novel protein binders and screen protein libraries

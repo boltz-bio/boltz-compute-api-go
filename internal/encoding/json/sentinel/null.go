@@ -1,7 +1,7 @@
 package sentinel
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/internal/encoding/json/shims"
+	"github.com/boltz-bio/boltz-api-go/internal/encoding/json/shims"
 	"reflect"
 	"sync"
 )

@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/requestconfig"
-	"github.com/boltz-bio/boltz-compute-api-go/option"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
-	"github.com/boltz-bio/boltz-compute-api-go/shared/constant"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/internal/requestconfig"
+	"github.com/boltz-bio/boltz-api-go/option"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/shared/constant"
 )
 
 // Inspect the authentication context for the current credential, including the
