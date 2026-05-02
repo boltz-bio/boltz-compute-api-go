@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -22,16 +22,16 @@ func TestCliVersionWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Cli.Version(context.TODO(), boltzcompute.CliVersionParams{
-		Current:  boltzcompute.String("current"),
-		Platform: boltzcompute.String("platform"),
+	_, err := client.Cli.Version(context.TODO(), boltzapi.CliVersionParams{
+		Current:  boltzapi.String("current"),
+		Platform: boltzapi.String("platform"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

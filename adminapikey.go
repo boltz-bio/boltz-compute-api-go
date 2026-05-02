@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"context"
@@ -21,8 +21,8 @@ import (
 	"github.com/boltz-bio/boltz-api-go/shared/constant"
 )
 
-// API keys authenticate requests to the Compute API. There are two key types:
-// admin keys have full access to all management and compute operations across the
+// API keys authenticate requests to the Boltz API. There are two key types: admin
+// keys have full access to all management and compute operations across the
 // organization, while workspace keys are scoped to a single workspace and can only
 // perform compute operations (predictions, protein design, small molecule design)
 // within that workspace. Keys can be created in live or test mode. Test keys
@@ -30,7 +30,7 @@ import (
 // GPU cost. Every resource includes a `livemode` field indicating its mode.
 //
 // AdminAPIKeyService contains methods and other services that help with
-// interacting with the boltz-compute API.
+// interacting with the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use

@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"github.com/boltz-bio/boltz-api-go/internal/apierror"

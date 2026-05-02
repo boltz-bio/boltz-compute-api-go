@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -22,13 +22,13 @@ func TestAuthMe(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Auth.Me(context.TODO())
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
