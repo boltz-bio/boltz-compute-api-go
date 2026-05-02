@@ -1,7 +1,7 @@
 package apijson
 
 import (
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
 	"reflect"
 )
 

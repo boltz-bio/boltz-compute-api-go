@@ -3,8 +3,8 @@ package respjson_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	rj "github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	rj "github.com/boltz-bio/boltz-api-go/packages/respjson"
 	"reflect"
 	"testing"
 )

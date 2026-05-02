@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 
-	"github.com/boltz-bio/boltz-compute-api-go/internal/apijson"
-	"github.com/boltz-bio/boltz-compute-api-go/packages/respjson"
+	"github.com/boltz-bio/boltz-api-go/internal/apijson"
+	"github.com/boltz-bio/boltz-api-go/packages/respjson"
 )
 
 // Error represents an error that originates from the API, i.e. when a request is
