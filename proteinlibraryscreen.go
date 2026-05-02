@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"context"
@@ -27,7 +27,7 @@ import (
 // structure confidence.
 //
 // ProteinLibraryScreenService contains methods and other services that help with
-// interacting with the boltz-compute API.
+// interacting with the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use

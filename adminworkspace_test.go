@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute_test
+package boltzapi_test
 
 import (
 	"context"
@@ -22,19 +22,19 @@ func TestAdminWorkspaceNewWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Workspaces.New(context.TODO(), boltzcompute.AdminWorkspaceNewParams{
-		DataRetention: boltzcompute.AdminWorkspaceNewParamsDataRetention{
-			Unit:  boltzcompute.AdminWorkspaceNewParamsDataRetentionUnitHours,
+	_, err := client.Admin.Workspaces.New(context.TODO(), boltzapi.AdminWorkspaceNewParams{
+		DataRetention: boltzapi.AdminWorkspaceNewParamsDataRetention{
+			Unit:  boltzapi.AdminWorkspaceNewParamsDataRetentionUnitHours,
 			Value: 1,
 		},
-		Name: boltzcompute.String("x"),
+		Name: boltzapi.String("x"),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -51,13 +51,13 @@ func TestAdminWorkspaceGet(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Get(context.TODO(), "workspace_id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -74,23 +74,23 @@ func TestAdminWorkspaceUpdateWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Update(
 		context.TODO(),
 		"workspace_id",
-		boltzcompute.AdminWorkspaceUpdateParams{
-			DataRetention: boltzcompute.AdminWorkspaceUpdateParamsDataRetention{
-				Unit:  boltzcompute.AdminWorkspaceUpdateParamsDataRetentionUnitHours,
+		boltzapi.AdminWorkspaceUpdateParams{
+			DataRetention: boltzapi.AdminWorkspaceUpdateParamsDataRetention{
+				Unit:  boltzapi.AdminWorkspaceUpdateParamsDataRetentionUnitHours,
 				Value: 1,
 			},
-			Name: boltzcompute.String("x"),
+			Name: boltzapi.String("x"),
 		},
 	)
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -107,17 +107,17 @@ func TestAdminWorkspaceListWithOptionalParams(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
-	_, err := client.Admin.Workspaces.List(context.TODO(), boltzcompute.AdminWorkspaceListParams{
-		AfterID:  boltzcompute.String("after_id"),
-		BeforeID: boltzcompute.String("before_id"),
-		Limit:    boltzcompute.Int(1),
+	_, err := client.Admin.Workspaces.List(context.TODO(), boltzapi.AdminWorkspaceListParams{
+		AfterID:  boltzapi.String("after_id"),
+		BeforeID: boltzapi.String("before_id"),
+		Limit:    boltzapi.Int(1),
 	})
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
@@ -134,13 +134,13 @@ func TestAdminWorkspaceArchive(t *testing.T) {
 	if !testutil.CheckTestServer(t, baseURL) {
 		return
 	}
-	client := boltzcompute.NewClient(
+	client := boltzapi.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
 	)
 	_, err := client.Admin.Workspaces.Archive(context.TODO(), "workspace_id")
 	if err != nil {
-		var apierr *boltzcompute.Error
+		var apierr *boltzapi.Error
 		if errors.As(err, &apierr) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}

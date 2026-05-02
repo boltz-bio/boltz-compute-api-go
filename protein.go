@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-package boltzcompute
+package boltzapi
 
 import (
 	"github.com/boltz-bio/boltz-api-go/option"
@@ -10,7 +10,7 @@ import (
 // against targets. Includes de novo protein design and library screening.
 //
 // ProteinService contains methods and other services that help with interacting
-// with the boltz-compute API.
+// with the boltz API.
 //
 // Note, unlike clients, this service does not read variables from the environment
 // automatically. You should not instantiate this service directly, and instead use
